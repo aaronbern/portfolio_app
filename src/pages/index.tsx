@@ -38,7 +38,7 @@ export default function Home() {
     scene.background = new THREE.Color(0x000000); // Set a dark background
 
     // Lights setup
-    const sphereGeometry = new THREE.SphereGeometry(0.02, 16, 8);
+    const sphereGeometry = new THREE.SphereGeometry(0.009, 16, 8);
     const addLight = (hexColor: number) => {
       const material = new THREE.MeshBasicMaterial({ color: hexColor });
       const mesh = new THREE.Mesh(sphereGeometry, material);
@@ -48,9 +48,9 @@ export default function Home() {
       return light;
     };
 
-    const light1 = addLight(0xffaa00); // Warm yellow
-    const light2 = addLight(0x0040ff); // Blue
-    const light3 = addLight(0x80ff80); // Greenish
+    const light1 = addLight(0xff6666); // Red
+    const light2 = addLight(0x66b3ff); // Blue
+    const light3 = addLight(0x80ff80); // Green
 
     // Points setup
     const points = [];
@@ -77,12 +77,12 @@ export default function Home() {
     const materialPoints = new THREE.ShaderMaterial({
       uniforms: {
         light1Position: { value: new THREE.Vector3() },
-        light1Color: { value: new THREE.Color(0xffcc33) },
+        light1Color: { value: new THREE.Color(0xff6666) },
         light2Position: { value: new THREE.Vector3() },
-        light2Color: { value: new THREE.Color(0x3399ff) },
+        light2Color: { value: new THREE.Color(0x66b3ff) },
         light3Position: { value: new THREE.Vector3() },
         light3Color: { value: new THREE.Color(0x80ff80) },
-        lightRadius: { value: 0.75 }, // Radius within which particles are illuminated
+        lightRadius: { value: 0.68 }, // Radius within which particles are illuminated
       },
       vertexShader: `
         varying vec3 vPosition;
@@ -145,8 +145,8 @@ export default function Home() {
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      1.0, // strength
-      0.3, // radius
+      0.8, // strength
+      0.1, // radius
       0.0 // threshold
     );
     composer.addPass(bloomPass);
@@ -181,17 +181,17 @@ export default function Home() {
       const scale = 0.5;
 
       // Light movements
-      light1.position.x = Math.sin(time * 0.7) * scale;
-      light1.position.y = Math.cos(time * 0.5) * scale;
-      light1.position.z = Math.cos(time * 0.3) * scale;
+      light1.position.x = Math.sin(time * 0.8) * scale;
+      light1.position.y = Math.cos(time * 0.6) * scale;
+      light1.position.z = Math.cos(time * 0.4) * scale;
 
-      light2.position.x = Math.cos(time * 0.3) * scale;
-      light2.position.y = Math.sin(time * 0.5) * scale;
-      light2.position.z = Math.sin(time * 0.7) * scale;
+      light2.position.x = Math.cos(time * 0.4) * scale;
+      light2.position.y = Math.sin(time * 0.6) * scale;
+      light2.position.z = Math.sin(time * 0.8) * scale;
 
-      light3.position.x = Math.sin(time * 0.7) * scale;
-      light3.position.y = Math.cos(time * 0.3) * scale;
-      light3.position.z = Math.sin(time * 0.5) * scale;
+      light3.position.x = Math.sin(time * 0.8) * scale;
+      light3.position.y = Math.cos(time * 0.4) * scale;
+      light3.position.z = Math.sin(time * 0.6) * scale;
 
       // Update shader uniforms for light positions
       materialPoints.uniforms.light1Position.value.copy(light1.position);

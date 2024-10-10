@@ -45,13 +45,20 @@ button:active {
   }
 }
 
+@font-face {
+  font-family: 'KIMM_Bold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
 /* General Style for Name */
 .name-title,
 .name-subtitle {
-  font-family: 'Orbitron', sans-serif; /* Space-themed font */
-  font-weight: 300; /* Thin text */
+  font-family: 'KIMM_Bold'; /* Space-themed font */
   text-align: center;
-  animation: fadeIn 2s ease-in-out, scaleUp 5s infinite alternate;
+  align-items: center;
+  animation: fadeIn 2s ease-in-out;
   margin-top: 0;
   margin-bottom: 1rem; /* Increase spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
@@ -63,7 +70,7 @@ button:active {
 /* Adjust font sizes */
 .name-title {
   font-size: 2.5rem; /* Main title font size */
-  margin-bottom: 1.5rem; /* Increase space below the title */
+  margin-bottom: 0.1rem; /* Increase space below the title */
   pointer-events: none;
   user-select: none;
 }
@@ -80,7 +87,7 @@ button:active {
 /* Name Container */
 .name-container {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -101,19 +108,20 @@ button:active {
 /* Styling for links */
 .links {
   display: flex;
+  align: center, bottom;
   justify-content: center; /* Center the links */
   align-items: center;
-  margin-top: 2rem; /* Increase space above links */
   width: 100%;
+  margin-top: 10rem;
   gap: 2.5rem; /* Space between links */
   user-select: none;
 }
 
 /* Styling for links */
 .link-item {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'KIMM_Bold';
   font-weight: 300;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-decoration: none;
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
@@ -127,8 +135,8 @@ button:active {
 
 .link-item:hover {
   color: #ffffff; /* Lighten color on hover */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-  transform: scale(1.05);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  transform: scale(1.15);
 }
 
 /* Animation delays for each link */
