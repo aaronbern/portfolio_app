@@ -1,39 +1,325 @@
 import '../styles/globals.css';
 import SEO from '../components/SEO';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ProjectCard from '../components/ProjectCard';
+import { useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+
+// Import for post-processing effects
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 export default function Home() {
+  const [showLinks, setShowLinks] = useState({
+    about: false,
+    contact: false,
+    projects: false,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  
+
+  useEffect(() => {
+    // Timed reveals of the links
+    setTimeout(() => setShowLinks((prev) => ({ ...prev, about: true })), 2000);
+    setTimeout(() => setShowLinks((prev) => ({ ...prev, contact: true })), 2500);
+    setTimeout(() => setShowLinks((prev) => ({ ...prev, projects: true })), 3000);
+
+    // Scene setup
+    const camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      10
+    );
+    camera.position.z = 0.2;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000); // Set a dark background
+
+    // Lights setup
+    const sphereGeometry = new THREE.SphereGeometry(0.02, 16, 8);
+    const addLight = (hexColor: number) => {
+      const material = new THREE.MeshBasicMaterial({ color: hexColor });
+      const mesh = new THREE.Mesh(sphereGeometry, material);
+      const light = new THREE.PointLight(hexColor, 2, 3); // Increase intensity for more noticeable effect
+      light.add(mesh);
+      scene.add(light);
+      return light;
+    };
+
+    const light1 = addLight(0xffaa00); // Warm yellow
+    const light2 = addLight(0x0040ff); // Blue
+    const light3 = addLight(0x80ff80); // Greenish
+
+    // Points setup
+    const points = [];
+    const colors = [];
+    for (let i = 0; i < 500000; i++) {
+      const point = new THREE.Vector3()
+        .random()
+        .subScalar(0.5)
+        .multiplyScalar(3);
+      points.push(point);
+
+      // Use random colors
+      const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+      colors.push(color.r, color.g, color.b);
+    }
+
+    const geometryPoints = new THREE.BufferGeometry().setFromPoints(points);
+    geometryPoints.setAttribute(
+      'color',
+      new THREE.Float32BufferAttribute(colors, 3)
+    );
+
+    // Custom ShaderMaterial to handle point lighting
+    const materialPoints = new THREE.ShaderMaterial({
+      uniforms: {
+        light1Position: { value: new THREE.Vector3() },
+        light1Color: { value: new THREE.Color(0xffaa00) },
+        light2Position: { value: new THREE.Vector3() },
+        light2Color: { value: new THREE.Color(0x0040ff) },
+        light3Position: { value: new THREE.Vector3() },
+        light3Color: { value: new THREE.Color(0x80ff80) },
+        lightRadius: { value: 0.75 }, // Radius within which particles are illuminated
+      },
+      vertexShader: `
+        varying vec3 vPosition;
+        void main() {
+          vPosition = position;
+          gl_PointSize = 1.5;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 light1Position;
+        uniform vec3 light1Color;
+        uniform vec3 light2Position;
+        uniform vec3 light2Color;
+        uniform vec3 light3Position;
+        uniform vec3 light3Color;
+        uniform float lightRadius;
+
+        varying vec3 vPosition;
+
+        void main() {
+          float intensity1 = max(0.0, 1.0 - length(light1Position - vPosition) / lightRadius);
+          float intensity2 = max(0.0, 1.0 - length(light2Position - vPosition) / lightRadius);
+          float intensity3 = max(0.0, 1.0 - length(light3Position - vPosition) / lightRadius);
+
+          vec3 color = light1Color * intensity1 + light2Color * intensity2 + light3Color * intensity3;
+          color = clamp(color, 0.0, 1.0);
+
+          if (intensity1 <= 0.0 && intensity2 <= 0.0 && intensity3 <= 0.0) {
+            discard;
+          }
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+      transparent: true,
+    });
+
+    const pointCloud = new THREE.Points(geometryPoints, materialPoints);
+    scene.add(pointCloud);
+
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    const container = document.getElementById('three-container');
+    if (!container) {
+      console.error("Couldn't find the container element for Three.js");
+      return;
+    }
+    container.appendChild(renderer.domElement);
+
+    // Post-processing for bloom effect
+    const composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      2.0, // strength
+      0.4, // radius
+      0.85 // threshold
+    );
+    composer.addPass(bloomPass);
+
+    // Controls setup
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.minDistance = 0.2;
+    controls.maxDistance = 0.2;
+    controls.enablePan = false;
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Text reference for illumination effect
+    const nameTitle = document.querySelector('.name-title') as HTMLHeadingElement;
+    const nameSubtitle = document.querySelector('.name-subtitle') as HTMLParagraphElement;
+    const linkItems = document.querySelectorAll('.link-item') as NodeListOf<HTMLAnchorElement>;
+
+    // Variables for smoothing
+    let smoothedIntensity = 0;
+    const smoothedColor = new THREE.Color(0.8, 0.8, 0.8); // Start with base grey color
+    const baseColor = new THREE.Color(0.8, 0.8, 0.8); // Base grey color
+
+    // Animation loop
+    const animate = () => {
+      const time = Date.now() * 0.001;
+      const scale = 0.5;
+
+      // Light movements
+      light1.position.x = Math.sin(time * 0.7) * scale;
+      light1.position.y = Math.cos(time * 0.5) * scale;
+      light1.position.z = Math.cos(time * 0.3) * scale;
+
+      light2.position.x = Math.cos(time * 0.3) * scale;
+      light2.position.y = Math.sin(time * 0.5) * scale;
+      light2.position.z = Math.sin(time * 0.7) * scale;
+
+      light3.position.x = Math.sin(time * 0.7) * scale;
+      light3.position.y = Math.cos(time * 0.3) * scale;
+      light3.position.z = Math.sin(time * 0.5) * scale;
+
+      // Update shader uniforms for light positions
+      materialPoints.uniforms.light1Position.value.copy(light1.position);
+      materialPoints.uniforms.light2Position.value.copy(light2.position);
+      materialPoints.uniforms.light3Position.value.copy(light3.position);
+
+      // Calculate the intensity based on distance of lights to the center of the scene
+      let totalIntensity = 0;
+      const accumulatedColor = new THREE.Color(0, 0, 0);
+      const center = new THREE.Vector3(0, 0, 0); // Center of the scene
+
+      const lights = [
+        { light: light1, color: light1.color },
+        { light: light2, color: light2.color },
+        { light: light3, color: light3.color },
+      ];
+
+      lights.forEach(({ light, color }) => {
+        const distance = light.position.distanceTo(center);
+        const maxDistance = 0.75; // Should match lightRadius
+        const intensity = Math.max(0, 1 - distance / maxDistance);
+
+        // Accumulate the intensity and color
+        totalIntensity += intensity;
+        const lightColor = color.clone().multiplyScalar(intensity);
+        accumulatedColor.add(lightColor);
+      });
+
+      // Average the intensity
+      totalIntensity /= lights.length;
+
+      // Manually clamp accumulated color components between 0 and 1
+      accumulatedColor.r = Math.min(1, Math.max(0, accumulatedColor.r));
+      accumulatedColor.g = Math.min(1, Math.max(0, accumulatedColor.g));
+      accumulatedColor.b = Math.min(1, Math.max(0, accumulatedColor.b));
+
+      // Smoothing factor
+      const alpha = 0.1; // Adjust this value for more or less smoothing
+
+      // Smooth the intensity and color
+      smoothedIntensity =
+        smoothedIntensity * (1 - alpha) + totalIntensity * alpha;
+      smoothedColor.lerp(accumulatedColor, alpha);
+
+      // Clamp smoothedIntensity between 0 and 1
+      smoothedIntensity = Math.min(1, Math.max(0, smoothedIntensity));
+
+      // Manually clamp smoothed color components
+      smoothedColor.r = Math.min(1, Math.max(0, smoothedColor.r));
+      smoothedColor.g = Math.min(1, Math.max(0, smoothedColor.g));
+      smoothedColor.b = Math.min(1, Math.max(0, smoothedColor.b));
+
+      // Blend base color with smoothed color based on intensity
+      const finalColor = baseColor.clone().lerp(smoothedColor, smoothedIntensity);
+
+      // Convert finalColor to RGB
+      const r = Math.floor(finalColor.r * 255);
+      const g = Math.floor(finalColor.g * 255);
+      const b = Math.floor(finalColor.b * 255);
+
+      // Update text styles
+      const rgbColor = `rgb(${r}, ${g}, ${b})`;
+
+      if (nameTitle && nameSubtitle) {
+        nameTitle.style.color = rgbColor;
+        nameTitle.style.opacity = '1'; // Keep opacity constant
+        nameTitle.style.textShadow = `0 0 ${
+          30 * smoothedIntensity
+        }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
+        nameSubtitle.style.color = rgbColor;
+        nameSubtitle.style.opacity = '1'; // Keep opacity constant
+        nameSubtitle.style.textShadow = `0 0 ${
+          15 * smoothedIntensity
+        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+      }
+
+      // Update link styles
+      linkItems.forEach((link) => {
+        link.style.color = rgbColor;
+        link.style.textShadow = `0 0 ${
+          15 * smoothedIntensity
+        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+      });
+
+      scene.rotation.y = time * 0.02;
+
+      // Render the scene with post-processing
+      composer.render();
+
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    // Cleanup on unmount
+    return () => {
+      renderer.dispose();
+      composer.dispose();
+      controls.dispose();
+    };
+  }, []);
+
   return (
     <>
-      <SEO title="My Portfolio" description="A showcase of my projects and experience" />
-      <div className='min-h-screen bg-gray-100'>
-        <Navbar />
-        <main className='container mx-auto py-8'>
-          <section className='mb-8'>
-            <h1 className='text-4xl font-bold'>Welcome to My Portfolio</h1>
-            <p className='mt-4 text-lg'>I'm an aspiring software developer passionate about creating innovative projects.</p>
-          </section>
-          <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-            <ProjectCard
-              title="AI Trajectory Predictor"
-              description="An AI-powered tool that predicts object trajectories in videos."
-              link="/projects/ai-trajectory-predictor"
-            />
-            <ProjectCard
-              title="MERN Chat App"
-              description="A real-time chat application built with the MERN stack."
-              link="/projects/mern-chat"
-            />
-            <ProjectCard
-              title="3D Graphics Engine"
-              description="A basic graphics engine to render 3D objects."
-              link="/projects/graphics-engine"
-            />
-          </section>
-        </main>
-        <Footer />
+      <SEO
+        title="AaronBernard.exe"
+        description="A showcase of my projects and experience"
+      />
+      <div id="three-container" className="w-full h-screen"></div>
+      <div className="name-container">
+        <h1 className="name-title">Aaron Bernard</h1>
+        <p className="name-subtitle">Aspiring Software Engineer</p>
+        <div className="links">
+          <a
+            href="/about"
+            className={`link-item ${showLinks.about ? 'visible' : ''}`}
+          >
+            About
+          </a>
+          <a
+            href="/contact"
+            className={`link-item ${showLinks.contact ? 'visible' : ''}`}
+          >
+            Contact
+          </a>
+          <a
+            href="/projects"
+            className={`link-item ${showLinks.projects ? 'visible' : ''}`}
+          >
+            Projects
+          </a>
+        </div>
       </div>
     </>
   );

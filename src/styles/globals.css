@@ -1,5 +1,144 @@
+/* globals.css */
+
+/* Tailwind base and utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import the "Orbitron" font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300&display=swap');
+
 /* Custom global styles here */
+button {
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #1e40af; /* Darker blue */
+}
+
+button:focus {
+  outline: 2px solid #2563eb; /* Adds a focus indicator for accessibility */
+}
+
+button:active {
+  background-color: #1e3a8a; /* Even darker blue */
+}
+
+/* Keyframe animation for fading in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Keyframes for scale-up animation */
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* General Style for Name */
+.name-title,
+.name-subtitle {
+  font-family: 'Orbitron', sans-serif; /* Space-themed font */
+  font-weight: 300; /* Thin text */
+  text-align: center;
+  animation: fadeIn 2s ease-in-out, scaleUp 5s infinite alternate;
+  margin-top: 0;
+  margin-bottom: 1rem; /* Increase spacing between title and subtitle */
+  transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
+  color: #cfcfcf; /* Default color */
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Adjust font sizes */
+.name-title {
+  font-size: 2.5rem; /* Main title font size */
+  margin-bottom: 1.5rem; /* Increase space below the title */
+  pointer-events: none;
+  user-select: none;
+}
+
+.name-subtitle {
+  font-size: 1.2rem; /* Smaller subtitle font size */
+  animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
+  transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
+  margin-bottom: 2rem; /* Increase space between the subtitle and links */
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Name Container */
+.name-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Keyframe animation for fading in with smooth movement */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  
+/* Styling for links */
+.links {
+  display: flex;
+  justify-content: center; /* Center the links */
+  align-items: center;
+  margin-top: 2rem; /* Increase space above links */
+  width: 100%;
+  gap: 2.5rem; /* Space between links */
+}
+
+/* Styling for links */
+.link-item {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+  text-decoration: none;
+  opacity: 0; /* Start hidden */
+  transform: translateY(20px); /* Start with a downward offset */
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+}
+
+.link-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.link-item:hover {
+  color: #ffffff; /* Lighten color on hover */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+/* Animation delays for each link */
+.link-item:nth-child(1) {
+  transition-delay: 1s; /* Delay for About link */
+}
+
+.link-item:nth-child(2) {
+  transition-delay: 1.5s; /* Delay for Contact link */
+}
+
+.link-item:nth-child(3) {
+  transition-delay: 2s; /* Delay for Projects link */
+}
