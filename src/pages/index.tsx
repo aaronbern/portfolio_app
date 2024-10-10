@@ -304,24 +304,24 @@ export default function Home() {
         <h1 className="name-title">Aaron Bernard</h1>
         <p className="name-subtitle">Aspiring Software Engineer</p>
         <div className="links">
-          <a
+          <link
             href="/about"
             className={`link-item ${showLinks.about ? 'visible' : ''}`}
           >
             About
-          </a>
-          <a
+          </link>
+          <link
             href="/contact"
             className={`link-item ${showLinks.contact ? 'visible' : ''}`}
           >
             Contact
-          </a>
-          <a
+          </link>
+          <link
             href="/projects"
             className={`link-item ${showLinks.projects ? 'visible' : ''}`}
           >
             Projects
-          </a>
+          </link>
         </div>
       </div>
     </>

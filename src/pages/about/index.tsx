@@ -13,7 +13,7 @@ export default function About() {
           <section className="mb-12 bg-gray-800 p-8 rounded-lg shadow-2xl transition transform hover:scale-105 duration-500 ease-in-out">
             <h2 className="text-4xl font-bold mb-4">Hello!</h2>
             <p className="text-lg leading-relaxed">
-              Hello, I'm Aaron Bernard, and this is my professional portfolio showcasing my work,
+              Hello, I&apos;m Aaron Bernard, and this is my professional portfolio showcasing my work,
               experience, and passion for technology. I am currently building projects using modern web
               technologies like React, Next.js, and AI tools to help predict and analyze data in real-time.
             </p>
@@ -40,7 +40,7 @@ export default function About() {
           <section className="mb-12 bg-gray-800 p-8 rounded-lg shadow-lg transition transform hover:scale-105 duration-300 ease-in-out">
             <h2 className="text-3xl font-semibold mb-4">Generative Security Applications</h2>
             <p className="text-lg leading-relaxed">
-              I'm currently taking a class on Generative Security Applications, and I absolutely love the ideas being presented.
+              I&apos;m currently taking a class on Generative Security Applications, and I absolutely love the ideas being presented.
               The topics range from language models and LangChain to vulnerabilities, social engineering, and advanced code generation.
               This course is deepening my understanding of how generative AI can be applied to cybersecurity in both defensive and offensive contexts,
               such as using AI for finding vulnerabilities or generating realistic social engineering scenarios for training.
