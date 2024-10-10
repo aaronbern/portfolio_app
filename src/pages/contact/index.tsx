@@ -13,7 +13,7 @@ interface ContactFormInputs {
 
 export default function Contact() {
   const { register, handleSubmit, formState: { errors } } = useForm<ContactFormInputs>();
-  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
+  const [submitStatus] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
     const emailData = {

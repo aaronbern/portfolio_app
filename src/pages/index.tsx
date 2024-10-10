@@ -3,6 +3,7 @@ import SEO from '../components/SEO';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Link from 'next/link';
 
 
 // Import for post-processing effects
@@ -303,24 +304,21 @@ export default function Home() {
         <h1 className="name-title">Aaron Bernard</h1>
         <p className="name-subtitle">Aspiring Software Engineer</p>
         <div className="links">
-          <link
-            href="/about"
-            className={`link-item ${showLinks.about ? 'visible' : ''}`}
-          >
-            About
-          </link>
-          <link
-            href="/contact"
-            className={`link-item ${showLinks.contact ? 'visible' : ''}`}
-          >
-            Contact
-          </link>
-          <link
-            href="/projects"
-            className={`link-item ${showLinks.projects ? 'visible' : ''}`}
-          >
-            Projects
-          </link>
+      <Link href="/about">
+        <a className={`link-item ${showLinks.about ? 'visible' : ''}`}>
+          About
+        </a>
+      </Link>
+      <Link href="/contact">
+        <a className={`link-item ${showLinks.contact ? 'visible' : ''}`}>
+          Contact
+        </a>
+      </Link>
+      <Link href="/projects">
+        <a className={`link-item ${showLinks.projects ? 'visible' : ''}`}>
+          Projects
+        </a>
+      </Link>
         </div>
       </div>
     </>
