@@ -28,12 +28,6 @@ export default function Contact() {
       emailData,
       'UEkOXZOgq5NDGXhU6'    // Replace with your actual user ID (public key)
     )
-      .then((result) => {
-        setSubmitStatus('Message sent successfully!');
-      })
-      .catch((error) => {
-        setSubmitStatus('Failed to send the message, please try again.');
-      });
   };
 
   return (

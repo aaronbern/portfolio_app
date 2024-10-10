@@ -16,7 +16,6 @@ export default function Home() {
     contact: false,
     projects: false,
   });
-  const [isLoading, setIsLoading] = useState(true);
   
 
   useEffect(() => {
