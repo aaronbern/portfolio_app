@@ -77,9 +77,9 @@ export default function Home() {
     const materialPoints = new THREE.ShaderMaterial({
       uniforms: {
         light1Position: { value: new THREE.Vector3() },
-        light1Color: { value: new THREE.Color(0xffaa00) },
+        light1Color: { value: new THREE.Color(0xffcc33) },
         light2Position: { value: new THREE.Vector3() },
-        light2Color: { value: new THREE.Color(0x0040ff) },
+        light2Color: { value: new THREE.Color(0x3399ff) },
         light3Position: { value: new THREE.Vector3() },
         light3Color: { value: new THREE.Color(0x80ff80) },
         lightRadius: { value: 0.75 }, // Radius within which particles are illuminated
@@ -125,9 +125,12 @@ export default function Home() {
     scene.add(pointCloud);
 
     // Renderer setup
+    
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = 1.0;
     const container = document.getElementById('three-container');
     if (!container) {
       console.error("Couldn't find the container element for Three.js");
@@ -142,9 +145,9 @@ export default function Home() {
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      2.0, // strength
-      0.4, // radius
-      0.85 // threshold
+      1.0, // strength
+      0.3, // radius
+      0.0 // threshold
     );
     composer.addPass(bloomPass);
 
