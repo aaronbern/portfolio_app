@@ -121,8 +121,14 @@ export default function Home() {
       transparent: true,
     });
 
-    const pointCloud = new THREE.Points(geometryPoints, materialPoints);
-    scene.add(pointCloud);
+    const sphereGeometryCloud = new THREE.SphereGeometry(0.005, 16, 16); // Adjust radius
+    const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+
+    points.forEach((point) => {
+      const sphere = new THREE.Mesh(sphereGeometryCloud, material.clone());
+      sphere.position.copy(point);
+      scene.add(sphere);
+    });
 
     // Renderer setup
     
