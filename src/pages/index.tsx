@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Link from 'next/link';
+import { Analytics } from "@vercel/analytics/react"
 
 
 // Import for post-processing effects
@@ -319,6 +320,7 @@ export default function Home() {
         </a>
       </Link>
         </div>
+        <Analytics />
       </div>
     </>
   );
