@@ -19,9 +19,6 @@ class MyDocument extends Document {
 
           {/* Web Manifest for PWA support */}
           <link rel="manifest" href="/site.webmanifest" />
-
-          {/* Page Title */}
-          <title>Aaron Bernard Portfolio</title>
         </Head>
         <body>
           <Main />
