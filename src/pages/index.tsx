@@ -23,7 +23,7 @@ export default function Home() {
   });
 
   // Reference to store requestAnimationFrame ID for cleanup
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0); // Initialized with 0 to ensure it's always a number
 
   useEffect(() => {
     // Timed reveals of the links
@@ -360,11 +360,12 @@ export default function Home() {
     const mainRenderPass = new RenderPass(scene, camera);
     composer.addPass(mainRenderPass);
 
+    // **Removed shaderRenderPass to fix the unused variable error**
+    // const shaderRenderPass = new RenderPass(shaderScene, shaderCamera); // Removed
+
     // ShaderRenderPass: Render the shader scene to a separate render target
     const shaderRenderTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
-    const shaderRenderPass = new RenderPass(shaderScene, shaderCamera);
-    // Note: RenderPass doesn't support setting a render target directly in the constructor.
-    // We'll render the shader scene manually to shaderRenderTarget.
+    // Removed shaderRenderPass since it's unused
 
     // Blending Shader
     const blendShader = {
@@ -468,7 +469,7 @@ export default function Home() {
       renderer.setRenderTarget(null); // Reset to default
 
       // Update blending uniform
-      blendMaterial.uniforms.tMain.value = (composer as any).readBuffer.texture; // TypeScript workaround
+      blendMaterial.uniforms.tMain.value = composer.readBuffer.texture; // Removed 'as any' casting
       blendMaterial.uniforms.tShader.value = shaderRenderTarget.texture;
       blendMaterial.uniforms.transitionFactor.value = transitionFactor;
 
@@ -586,7 +587,7 @@ export default function Home() {
 
     // Cleanup on unmount
     return () => {
-      cancelAnimationFrame(requestRef.current!);
+      cancelAnimationFrame(requestRef.current); // requestRef.current is always a number
       clearTimeout(aboutTimeout);
       clearTimeout(contactTimeout);
       clearTimeout(projectsTimeout);
