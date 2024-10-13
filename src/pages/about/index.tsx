@@ -3,7 +3,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SEO from '../../components/SEO';
 import * as THREE from 'three';
-import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls';
+
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
