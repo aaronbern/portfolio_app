@@ -1,15 +1,20 @@
 import '../styles/globals.css';
 import SEO from '../components/SEO';
 import { useEffect, useState } from 'react';
+// @ts-ignore
 import * as THREE from 'three';
+// @ts-ignore
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Link from 'next/link';
 import { Analytics } from "@vercel/analytics/react"
 
 
 // Import for post-processing effects
+// @ts-ignore
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+// @ts-ignore
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+// @ts-ignore
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 export default function Home() {

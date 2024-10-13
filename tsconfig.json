@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",  // This sets the base directory to the root of the project
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -18,7 +20,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "three": ["node_modules/three"],
+      "three/examples/jsm/*": ["node_modules/three/examples/jsm/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
