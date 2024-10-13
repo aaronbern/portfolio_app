@@ -9,7 +9,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showText, setShowText] = useState(false);
+  const [showText] = useState(false);
 
   useEffect(() => {
     const scene = new THREE.Scene();
