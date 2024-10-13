@@ -2,14 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SEO from '../../components/SEO';
-// @@ts-expect-error
 import * as THREE from 'three';
-// @@ts-expect-error
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-// @@ts-expect-error
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-// @@ts-expect-error
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { EffectComposer } from '../../../node_modules/@types/three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from '../../../node_modules/@types/three/examples/jsm/postprocessing/RenderPass';
+import { UnrealBloomPass } from '../../../node_modules/@types/three/examples/jsm/postprocessing/UnrealBloomPass';
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
