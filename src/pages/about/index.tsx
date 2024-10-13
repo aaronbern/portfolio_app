@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SEO from '../../components/SEO';
-// @ts-ignore
+// @@ts-expect-error
 import * as THREE from 'three';
-// @ts-ignore
+// @@ts-expect-error
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-// @ts-ignore
+// @@ts-expect-error
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-// @ts-ignore
+// @@ts-expect-error
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 export default function About() {
