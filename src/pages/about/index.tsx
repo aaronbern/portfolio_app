@@ -3,9 +3,9 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SEO from '../../components/SEO';
 import * as THREE from 'three';
-import { EffectComposer } from '../../../node_modules/@types/three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from '../../../node_modules/@types/three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from '../../../node_modules/@types/three/examples/jsm/postprocessing/UnrealBloomPass';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
