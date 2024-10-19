@@ -109,13 +109,16 @@ button:active {
 .links {
   display: flex;
   position: absolute;
-  bottom: 5%; /* Positions the links near the bottom of the screen */
+  bottom: 5%; /* Adjust bottom value if needed */
   left: 50%;
-  transform: translateX(-50%); /* Horizontally centers the links */
+  transform: translateX(-50%); /* Ensure the links are centered horizontally */
   justify-content: center;
   gap: 2.5rem; /* Space between links */
   user-select: none;
+  text-align: center; /* Add this for centering text in case links have different sizes */
+  width: auto; /* Ensure the width adjusts to the content */
 }
+
 
 /* Styling for links */
 .link-item {
