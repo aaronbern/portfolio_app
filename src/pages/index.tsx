@@ -375,12 +375,6 @@ export default function Home() {
         >
           Projects
         </button>
-        <button
-          className={`link-item ${activeContent === 'home' ? 'active' : ''}`}
-          onClick={() => handleLinkClick('home')}
-        >
-          Home
-        </button>
       </div>
       <Analytics />
     </>
