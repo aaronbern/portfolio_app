@@ -87,7 +87,7 @@ button:active {
 /* Name Container */
 .name-container {
   position: absolute;
-  top: 55%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -109,7 +109,7 @@ button:active {
 /* Links Container */
 .links {
   display: flex;
-  position: absolute;
+  position: fixed; /* Changed to fixed to keep links centered in the viewport */
   bottom: 5%; /* Positions the links relative to the bottom of the screen */
   left: 50%;
   transform: translateX(-50%); /* Ensures horizontal centering */
@@ -117,7 +117,6 @@ button:active {
   gap: 2.5rem; /* Space between links */
   user-select: none;
   text-align: center;
-  width: auto;
   background: none;
   padding: 0;
   margin: 0;
@@ -131,12 +130,13 @@ button:active {
   text-decoration: none;
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, box-shadow 0.3s ease-in-out;
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, transform 0.3s;
   border: none;
   outline: none;
   background: none;
   padding: 0;
   margin: 0;
+  color: #ffffff; /* Ensure the text has a base color */
 }
 
 .link-item.visible {
@@ -147,36 +147,54 @@ button:active {
 .link-item:hover,
 .link-item:focus,
 .link-item:active {
-  color: #ffffff; /* Lighten color on hover */
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glowing effect */
+  color: #ffffff; /* Maintain base color */
+  /* Enhanced text-shadow for a better glow effect */
+  text-shadow: 
+    0 0 5px rgba(255, 255, 255, 0.8),
+    0 0 10px rgba(255, 255, 255, 0.6),
+    0 0 20px rgba(255, 255, 255, 0.4),
+    0 0 40px rgba(255, 255, 255, 0.2);
   transform: scale(1.2); /* Slight scale increase on hover */
   outline: none;
-  box-shadow: none;
-  border: none;
-  background: none;
+  /* Removed box-shadow to prevent box-like glow */
 }
 
-/* Flash effect on click */
 .link-item:active {
   animation: flash 0.2s ease;
+  /* Maintain the text-shadow during active state */
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 30px rgba(255, 255, 255, 0.4),
+    0 0 50px rgba(255, 255, 255, 0.2);
 }
 
 /* Keyframe for a quick flash effect */
 @keyframes flash {
   0% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    /* Enhanced glow during flash */
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 30px rgba(255, 255, 255, 0.6),
+      0 0 40px rgba(255, 255, 255, 0.4),
+      0 0 60px rgba(255, 255, 255, 0.2);
   }
   100% {
-    box-shadow: none;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.4),
+      0 0 50px rgba(255, 255, 255, 0.2);
   }
 }
 
 /* Keep the glow when the content is active */
 .link-item.active {
-  color: #ffffff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 2); /* Stronger glow */
-  box-shadow: 0 0 30px rgba(255, 255, 255, 1); /* Persistent glow */
-}
+  /* Enhanced persistent glow */
+  text-shadow: 
+    0 0 15px rgba(255, 255, 255, 1),
+    0
+
 
 
 /* Animation delays for each link */
