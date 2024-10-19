@@ -110,8 +110,7 @@ button:active {
   display: flex;
   position: absolute;
   bottom: 10%; /* Adjust bottom value if needed */
-  left: 55%;
-  transform: translateX(-50%); /* Ensure the links are centered horizontally */
+  left: 50%;
   justify-content: center;
   gap: 2.5rem; /* Space between links */
   user-select: none;
@@ -146,6 +145,11 @@ button:active {
 /* Flash effect on click */
 .link-item:active {
   animation: flash 0.2s ease; /* Trigger flash effect on click */
+}
+
+.link-item:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Keyframe for a quick flash effect */
