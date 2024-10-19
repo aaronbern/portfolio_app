@@ -59,7 +59,6 @@ button:active {
   text-align: center;
   align-items: center;
   animation: fadeIn 2s ease-in-out;
-  top: 50%;
   margin-top: 0;
   margin-bottom: 25rem; /* Increase spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
@@ -87,9 +86,9 @@ button:active {
 /* Name Container */
 .name-container {
   position: absolute;
-  top: 52%;
+  top: 48%; /* Adjusted from 52% to 48% */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); /* Centers horizontally and vertically based on the new top */
   text-align: center;
 }
 
@@ -104,22 +103,23 @@ button:active {
     transform: translateY(0);
   }
 }
-  
+
 /* Styling for links */
 /* Links Container */
 .links {
   display: flex;
-  position: fixed; /* Changed to fixed to keep links centered in the viewport */
-  bottom: 5%; /* Positions the links relative to the bottom of the screen */
-  left: 50%;
-  transform: translateX(-50%); /* Ensures horizontal centering */
-  justify-content: center; /* Distributes the links evenly */
+  position: fixed; /* Keeps the links fixed relative to the viewport */
+  bottom: 10%; /* Positions the links 10% above the bottom */
+  left: 0; /* Start from the left */
+  right: 0; /* Stretch to the right */
+  justify-content: center; /* Centers the links horizontally */
   gap: 2.5rem; /* Space between links */
   user-select: none;
   text-align: center;
   background: none;
   padding: 0;
   margin: 0;
+  z-index: 1000; /* Ensures links appear above other elements */
 }
 
 /* Link items styling */
@@ -130,7 +130,7 @@ button:active {
   text-decoration: none;
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, transform 0.3s;
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s;
   border: none;
   outline: none;
   background: none;
@@ -198,7 +198,6 @@ button:active {
     0 0 60px rgba(255, 255, 255, 0.4);
 }
 
-
 /* Animation delays for each link */
 .link-item:nth-child(1) {
   transition-delay: 1s; /* Delay for About link */
@@ -210,4 +209,8 @@ button:active {
 
 .link-item:nth-child(3) {
   transition-delay: 2s; /* Delay for Projects link */
+}
+
+.link-item:nth-child(4) {
+  transition-delay: 2.5s; /* Delay for Home link */
 }
