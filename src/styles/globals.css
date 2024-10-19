@@ -61,7 +61,7 @@ button:active {
   top: 40%;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
-  margin-bottom: 5rem; /* Increase spacing between title and subtitle */
+  margin-bottom: 25rem; /* Increase spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   color: #cfcfcf; /* Default color */
   pointer-events: none;
@@ -80,7 +80,6 @@ button:active {
   font-size: 0.9rem; /* Smaller subtitle font size */
   animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
-  margin-bottom: 2rem; /* Increase space between the subtitle and links */
   pointer-events: none;
   user-select: none;
 }
@@ -114,6 +113,7 @@ button:active {
   left: 50%;
   transform: translateX(-50%); /* Center the links horizontally */
   justify-content: center;
+  align-items: center;
   gap: 2.5rem; /* Space between links */
   user-select: none;
   text-align: center; /* Center text */
