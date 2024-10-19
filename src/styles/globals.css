@@ -108,11 +108,11 @@ button:active {
 /* Styling for links */
 .links {
   display: flex;
-  align: center, bottom;
-  justify-content: center; /* Center the links */
-  align-items: center;
-  width: 100%;
-  margin-top: 10rem;
+  position: absolute;
+  bottom: 5%; /* Positions the links near the bottom of the screen */
+  left: 50%;
+  transform: translateX(-50%); /* Horizontally centers the links */
+  justify-content: center;
   gap: 2.5rem; /* Space between links */
   user-select: none;
 }
@@ -132,6 +132,7 @@ button:active {
   opacity: 1;
   transform: translateY(0);
 }
+
 
 .link-item:hover {
   color: #ffffff; /* Lighten color on hover */

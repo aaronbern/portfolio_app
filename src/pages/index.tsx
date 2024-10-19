@@ -337,42 +337,42 @@ export default function Home() {
             </ul>
           </div>
         )}
-
-        {/* Modified Links to Buttons */}
-        <div className="links">
-          <button
-            className={`link-item ${showLinks.about ? 'visible' : ''} ${
-              activeContent === 'about' ? 'active' : ''
-            }`}
-            onClick={() => setActiveContent('about')}
-          >
-            About
-          </button>
-          <button
-            className={`link-item ${showLinks.contact ? 'visible' : ''} ${
-              activeContent === 'contact' ? 'active' : ''
-            }`}
-            onClick={() => setActiveContent('contact')}
-          >
-            Contact
-          </button>
-          <button
-            className={`link-item ${showLinks.projects ? 'visible' : ''} ${
-              activeContent === 'projects' ? 'active' : ''
-            }`}
-            onClick={() => setActiveContent('projects')}
-          >
-            Projects
-          </button>
-          <button
-            className={`link-item ${activeContent === 'home' ? 'active' : ''}`}
-            onClick={() => setActiveContent('home')}
-          >
-            Home
-          </button>
-        </div>
-        <Analytics />
       </div>
+  
+      {/* Static Links Container */}
+      <div className="links">
+        <button
+          className={`link-item ${showLinks.about ? 'visible' : ''} ${
+            activeContent === 'about' ? 'active' : ''
+          }`}
+          onClick={() => setActiveContent('about')}
+        >
+          About
+        </button>
+        <button
+          className={`link-item ${showLinks.contact ? 'visible' : ''} ${
+            activeContent === 'contact' ? 'active' : ''
+          }`}
+          onClick={() => setActiveContent('contact')}
+        >
+          Contact
+        </button>
+        <button
+          className={`link-item ${showLinks.projects ? 'visible' : ''} ${
+            activeContent === 'projects' ? 'active' : ''
+          }`}
+          onClick={() => setActiveContent('projects')}
+        >
+          Projects
+        </button>
+        <button
+          className={`link-item ${activeContent === 'home' ? 'active' : ''}`}
+          onClick={() => setActiveContent('home')}
+        >
+          Home
+        </button>
+      </div>
+      <Analytics />
     </>
   );
 }
