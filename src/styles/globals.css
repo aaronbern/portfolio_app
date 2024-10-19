@@ -58,8 +58,8 @@ button:active {
   font-family: 'KIMM_Bold'; /* Space-themed font */
   text-align: center;
   align-items: center;
-  top: 47%;
   animation: fadeIn 2s ease-in-out;
+  top: 50%;
   margin-top: 0;
   margin-bottom: 25rem; /* Increase spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
@@ -106,20 +106,24 @@ button:active {
 }
   
 /* Styling for links */
+/* Links Container */
 .links {
   display: flex;
   position: absolute;
-  bottom: 10%; /* Adjust bottom value if needed */
-  left: 53%;
-  justify-content: center;
-  align-items: center;
+  bottom: 5%; /* Positions the links relative to the bottom of the screen */
+  left: 50%;
+  transform: translateX(-50%); /* Ensures horizontal centering */
+  justify-content: center; /* Distributes the links evenly */
   gap: 2.5rem; /* Space between links */
   user-select: none;
-  text-align: center; /* Center text */
-  width: auto; /* Ensure the width adjusts to the content */
+  text-align: center;
+  width: auto;
+  background: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Styling for links */
+/* Link items styling */
 .link-item {
   font-family: 'KIMM_Bold';
   font-weight: 300;
@@ -128,9 +132,11 @@ button:active {
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, box-shadow 0.3s ease-in-out;
-  border: none; /* Ensure no border */
-  outline: none; /* Ensure no outline */
-  background: none; /* Remove default background styling */
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
 }
 
 .link-item.visible {
@@ -138,33 +144,21 @@ button:active {
   transform: translateY(0);
 }
 
-
-.link-item:hover {
+.link-item:hover,
+.link-item:focus,
+.link-item:active {
   color: #ffffff; /* Lighten color on hover */
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glowing effect */
   transform: scale(1.2); /* Slight scale increase on hover */
-  outline: none; /* Ensure no outline on hover */
-  box-shadow: none; /* Ensure no extra box shadow */
-  border: none; /* Ensure no border */
-}
-
-.link-item:focus,
-.link-item:hover,
-.link-item:active {
   outline: none;
   box-shadow: none;
   border: none;
-  background: none; /* Make sure there's no default background color */
+  background: none;
 }
 
 /* Flash effect on click */
 .link-item:active {
-  animation: flash 0.2s ease; /* Trigger flash effect on click */
-}
-
-.link-item:focus {
-  outline: none;
-  box-shadow: none;
+  animation: flash 0.2s ease;
 }
 
 /* Keyframe for a quick flash effect */
@@ -177,13 +171,13 @@ button:active {
   }
 }
 
-
 /* Keep the glow when the content is active */
 .link-item.active {
   color: #ffffff;
   text-shadow: 0 0 20px rgba(255, 255, 255, 2); /* Stronger glow */
   box-shadow: 0 0 30px rgba(255, 255, 255, 1); /* Persistent glow */
 }
+
 
 /* Animation delays for each link */
 .link-item:nth-child(1) {
