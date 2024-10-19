@@ -20,6 +20,16 @@ export default function Home() {
   // State variable to manage active content
   const [activeContent, setActiveContent] = useState('home');
 
+  // Function to handle link clicks
+  const handleLinkClick = (content: string) => {
+    // If the clicked link is already active, return to home screen
+    if (activeContent === content) {
+      setActiveContent('home');
+    } else {
+      setActiveContent(content); // Show the clicked content
+    }
+  };
+
   useEffect(() => {
     // Timed reveals of the links
     setTimeout(() => setShowLinks((prev) => ({ ...prev, about: true })), 2000);
@@ -293,7 +303,7 @@ export default function Home() {
     };
   }, []);
 
-  return (
+    return (
     <>
       <SEO
         title="AaronBernard.exe"
@@ -338,14 +348,14 @@ export default function Home() {
           </div>
         )}
       </div>
-  
+
       {/* Static Links Container */}
       <div className="links">
         <button
           className={`link-item ${showLinks.about ? 'visible' : ''} ${
             activeContent === 'about' ? 'active' : ''
           }`}
-          onClick={() => setActiveContent('about')}
+          onClick={() => handleLinkClick('about')}
         >
           About
         </button>
@@ -353,7 +363,7 @@ export default function Home() {
           className={`link-item ${showLinks.contact ? 'visible' : ''} ${
             activeContent === 'contact' ? 'active' : ''
           }`}
-          onClick={() => setActiveContent('contact')}
+          onClick={() => handleLinkClick('contact')}
         >
           Contact
         </button>
@@ -361,13 +371,13 @@ export default function Home() {
           className={`link-item ${showLinks.projects ? 'visible' : ''} ${
             activeContent === 'projects' ? 'active' : ''
           }`}
-          onClick={() => setActiveContent('projects')}
+          onClick={() => handleLinkClick('projects')}
         >
           Projects
         </button>
         <button
           className={`link-item ${activeContent === 'home' ? 'active' : ''}`}
-          onClick={() => setActiveContent('home')}
+          onClick={() => handleLinkClick('home')}
         >
           Home
         </button>

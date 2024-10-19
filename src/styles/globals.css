@@ -109,8 +109,8 @@ button:active {
 .links {
   display: flex;
   position: absolute;
-  bottom: 5%; /* Adjust bottom value if needed */
-  left: 50%;
+  bottom: 10%; /* Adjust bottom value if needed */
+  left: 55%;
   transform: translateX(-50%); /* Ensure the links are centered horizontally */
   justify-content: center;
   gap: 2.5rem; /* Space between links */
@@ -128,7 +128,7 @@ button:active {
   text-decoration: none;
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, box-shadow 0.3s ease-in-out;
 }
 
 .link-item.visible {
@@ -139,8 +139,31 @@ button:active {
 
 .link-item:hover {
   color: #ffffff; /* Lighten color on hover */
-  text-shadow: 0 0 20px rgba(255, 255, 255, 1.8);
-  transform: scale(1.15);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glowing effect */
+  transform: scale(1.2); /* Slight scale increase on hover */
+}
+
+/* Flash effect on click */
+.link-item:active {
+  animation: flash 0.2s ease; /* Trigger flash effect on click */
+}
+
+/* Keyframe for a quick flash effect */
+@keyframes flash {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
+
+/* Keep the glow when the content is active */
+.link-item.active {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Stronger glow */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); /* Persistent glow */
 }
 
 /* Animation delays for each link */
