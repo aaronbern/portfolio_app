@@ -3,9 +3,7 @@ import SEO from '../components/SEO';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Link from 'next/link';
-import { Analytics } from "@vercel/analytics/react"
-
+import { Analytics } from "@vercel/analytics/react";
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -18,7 +16,9 @@ export default function Home() {
     contact: false,
     projects: false,
   });
-  
+
+  // State variable to manage active content
+  const [activeContent, setActiveContent] = useState('home');
 
   useEffect(() => {
     // Timed reveals of the links
@@ -40,7 +40,7 @@ export default function Home() {
 
     // Lights setup
     const sphereGeometry = new THREE.SphereGeometry(0.009, 16, 8);
-    const addLight = (hexColor: number) => {
+    const addLight = (hexColor: number) => {  // Added type annotation here
       const material = new THREE.MeshBasicMaterial({ color: hexColor });
       const mesh = new THREE.Mesh(sphereGeometry, material);
       const light = new THREE.PointLight(hexColor, 2, 3); // Increase intensity for more noticeable effect
@@ -166,9 +166,9 @@ export default function Home() {
     });
 
     // Text reference for illumination effect
-    const nameTitle = document.querySelector('.name-title') as HTMLHeadingElement;
-    const nameSubtitle = document.querySelector('.name-subtitle') as HTMLParagraphElement;
-    const linkItems = document.querySelectorAll('.link-item') as NodeListOf<HTMLAnchorElement>;
+    const nameTitle = document.querySelector('.name-title') as HTMLElement | null;
+    const nameSubtitle = document.querySelector('.name-subtitle') as HTMLElement | null;
+    const linkItems = document.querySelectorAll('.link-item') as NodeListOf<HTMLElement>;
 
     // Variables for smoothing
     let smoothedIntensity = 0;
@@ -301,24 +301,75 @@ export default function Home() {
       />
       <div id="three-container" className="w-full h-screen"></div>
       <div className="name-container">
-        <h1 className="name-title">Aaron Bernard</h1>
-        <p className="name-subtitle">Aspiring Software Engineer</p>
+        {/* Conditional Rendering Based on activeContent */}
+        {activeContent === 'home' && (
+          <>
+            <h1 className="name-title">Aaron Bernard</h1>
+            <p className="name-subtitle">Aspiring Software Engineer</p>
+          </>
+        )}
+        {activeContent === 'about' && (
+          <div className="content">
+            <h1>About Me</h1>
+            <p>
+              I am an aspiring software engineer with a passion for creating
+              innovative solutions. I love working with modern technologies and
+              continuously learning new things.
+            </p>
+          </div>
+        )}
+        {activeContent === 'contact' && (
+          <div className="content">
+            <h1>Contact</h1>
+            <p>
+              Feel free to reach out to me via email at
+              <a href="mailto:aaron@example.com"> aaron@example.com</a>
+            </p>
+          </div>
+        )}
+        {activeContent === 'projects' && (
+          <div className="content">
+            <h1>Projects</h1>
+            <ul>
+              <li>Project A - Description of Project A.</li>
+              <li>Project B - Description of Project B.</li>
+              <li>Project C - Description of Project C.</li>
+            </ul>
+          </div>
+        )}
+
+        {/* Modified Links to Buttons */}
         <div className="links">
-      <Link href="/about">
-        <a className={`link-item ${showLinks.about ? 'visible' : ''}`}>
-          About
-        </a>
-      </Link>
-      <Link href="/contact">
-        <a className={`link-item ${showLinks.contact ? 'visible' : ''}`}>
-          Contact
-        </a>
-      </Link>
-      <Link href="/projects">
-        <a className={`link-item ${showLinks.projects ? 'visible' : ''}`}>
-          Projects
-        </a>
-      </Link>
+          <button
+            className={`link-item ${showLinks.about ? 'visible' : ''} ${
+              activeContent === 'about' ? 'active' : ''
+            }`}
+            onClick={() => setActiveContent('about')}
+          >
+            About
+          </button>
+          <button
+            className={`link-item ${showLinks.contact ? 'visible' : ''} ${
+              activeContent === 'contact' ? 'active' : ''
+            }`}
+            onClick={() => setActiveContent('contact')}
+          >
+            Contact
+          </button>
+          <button
+            className={`link-item ${showLinks.projects ? 'visible' : ''} ${
+              activeContent === 'projects' ? 'active' : ''
+            }`}
+            onClick={() => setActiveContent('projects')}
+          >
+            Projects
+          </button>
+          <button
+            className={`link-item ${activeContent === 'home' ? 'active' : ''}`}
+            onClick={() => setActiveContent('home')}
+          >
+            Home
+          </button>
         </div>
         <Analytics />
       </div>
