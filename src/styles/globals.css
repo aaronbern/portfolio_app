@@ -58,7 +58,7 @@ button:active {
   font-family: 'KIMM_Bold'; /* Space-themed font */
   text-align: center;
   align-items: center;
-  top: 40%;
+  top: 47%;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
   margin-bottom: 25rem; /* Increase spacing between title and subtitle */
