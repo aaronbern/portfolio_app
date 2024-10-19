@@ -111,13 +111,13 @@ button:active {
   position: absolute;
   bottom: 10%; /* Adjust bottom value if needed */
   left: 50%;
+  transform: translateX(-50%); /* Center the links horizontally */
   justify-content: center;
   gap: 2.5rem; /* Space between links */
   user-select: none;
-  text-align: center; /* Add this for centering text in case links have different sizes */
+  text-align: center; /* Center text */
   width: auto; /* Ensure the width adjusts to the content */
 }
-
 
 /* Styling for links */
 .link-item {
@@ -140,7 +140,11 @@ button:active {
   color: #ffffff; /* Lighten color on hover */
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glowing effect */
   transform: scale(1.2); /* Slight scale increase on hover */
+  outline: none; /* Ensure no outline on hover */
+  box-shadow: none; /* Ensure no extra box shadow */
+  border: none; /* Ensure no border */
 }
+
 
 /* Flash effect on click */
 .link-item:active {
@@ -166,8 +170,8 @@ button:active {
 /* Keep the glow when the content is active */
 .link-item.active {
   color: #ffffff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Stronger glow */
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); /* Persistent glow */
+  text-shadow: 0 0 20px rgba(255, 255, 255, 2); /* Stronger glow */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 1); /* Persistent glow */
 }
 
 /* Animation delays for each link */
