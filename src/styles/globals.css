@@ -163,15 +163,14 @@ button:active {
     0 0 16px rgba(255, 255, 255, 0.6),
     0 0 24px rgba(255, 255, 255, 0.4),
     0 0 32px rgba(255, 255, 255, 0.2);
-  transform: scale(1.3); /* Increased scale for a more pronounced effect */
+  transform: scale(1.2); /* Slightly reduced scale for more balanced effect */
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
   outline: none;
-  /* Removed box-shadow to prevent box-like glow */
+  box-shadow: none; /* Removes box-like glow */
 }
 
 .link-item:active {
   animation: flash 0.2s ease;
-  /* Maintain the text-shadow during active state */
   text-shadow: 
     0 0 12px rgba(255, 255, 255, 0.8),
     0 0 24px rgba(255, 255, 255, 0.6),
@@ -182,7 +181,6 @@ button:active {
 /* Keyframe for a quick flash effect */
 @keyframes flash {
   0% {
-    /* Enhanced glow during flash */
     text-shadow: 
       0 0 24px rgba(255, 255, 255, 0.8),
       0 0 36px rgba(255, 255, 255, 0.6),
@@ -200,7 +198,6 @@ button:active {
 
 /* Keep the glow when the content is active */
 .link-item.active {
-  /* Enhanced persistent glow */
   text-shadow: 
     0 0 15px rgba(255, 255, 255, 1),
     0 0 30px rgba(255, 255, 255, 0.8),
@@ -209,18 +206,9 @@ button:active {
 }
 
 /* Animation delays for each link */
-.link-item:nth-child(1) {
-  transition-delay: 1s; /* Delay for About link */
-}
-
-.link-item:nth-child(2) {
-  transition-delay: 1.5s; /* Delay for Contact link */
-}
-
-.link-item:nth-child(3) {
-  transition-delay: 2s; /* Delay for Projects link */
-}
-
+.link-item:nth-child(1),
+.link-item:nth-child(2),
+.link-item:nth-child(3),
 .link-item:nth-child(4) {
-  transition-delay: 2.5s; /* Delay for Home link */
+  transition-delay: 0s; /* Removes delay for all links */
 }
