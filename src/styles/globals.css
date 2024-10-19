@@ -58,9 +58,10 @@ button:active {
   font-family: 'KIMM_Bold'; /* Space-themed font */
   text-align: center;
   align-items: center;
+  top: 40%;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
-  margin-bottom: 1rem; /* Increase spacing between title and subtitle */
+  margin-bottom: 5rem; /* Increase spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   color: #cfcfcf; /* Default color */
   pointer-events: none;
@@ -76,7 +77,7 @@ button:active {
 }
 
 .name-subtitle {
-  font-size: 1.2rem; /* Smaller subtitle font size */
+  font-size: 0.9rem; /* Smaller subtitle font size */
   animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   margin-bottom: 2rem; /* Increase space between the subtitle and links */
