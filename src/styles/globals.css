@@ -57,10 +57,9 @@ button:active {
 .name-subtitle {
   font-family: 'KIMM_Bold'; /* Space-themed font */
   text-align: center;
-  align-items: center;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
-  margin-bottom: 25rem; /* Increase spacing between title and subtitle */
+  margin-bottom: 2rem; /* Reduced from 25rem to 2rem for spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   color: #cfcfcf; /* Default color */
   pointer-events: none;
@@ -70,7 +69,7 @@ button:active {
 /* Adjust font sizes */
 .name-title {
   font-size: 2.5rem; /* Main title font size */
-  margin-bottom: 0.1rem; /* Increase space below the title */
+  margin-bottom: 0.5rem; /* Increased space below the title */
   pointer-events: none;
   user-select: none;
 }
@@ -86,7 +85,7 @@ button:active {
 /* Name Container */
 .name-container {
   position: absolute;
-  top: 48%; /* Adjusted from 52% to 48% */
+  top: 45%; /* Adjusted from 48% to 45% to move slightly above center */
   left: 50%;
   transform: translate(-50%, -50%); /* Centers horizontally and vertically based on the new top */
   text-align: center;
@@ -112,6 +111,7 @@ button:active {
   bottom: 10%; /* Positions the links 10% above the bottom */
   left: 0; /* Start from the left */
   right: 0; /* Stretch to the right */
+  width: 100%; /* Ensures the container spans the full width */
   justify-content: center; /* Centers the links horizontally */
   gap: 2.5rem; /* Space between links */
   user-select: none;
