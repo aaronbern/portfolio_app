@@ -128,6 +128,9 @@ button:active {
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, text-shadow 0.3s, box-shadow 0.3s ease-in-out;
+  border: none; /* Ensure no border */
+  outline: none; /* Ensure no outline */
+  background: none; /* Remove default background styling */
 }
 
 .link-item.visible {
@@ -145,6 +148,14 @@ button:active {
   border: none; /* Ensure no border */
 }
 
+.link-item:focus,
+.link-item:hover,
+.link-item:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  background: none; /* Make sure there's no default background color */
+}
 
 /* Flash effect on click */
 .link-item:active {
