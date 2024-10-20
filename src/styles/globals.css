@@ -376,19 +376,18 @@ button:active {
 
 /* Optional: Scrollbar Styling for Better Aesthetics */
 .about-container::-webkit-scrollbar {
-  width: 6px;
+  width: 0; /* Hides the scrollbar */
 }
 
 .about-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  background: transparent; /* Makes the track invisible */
 }
 
 .about-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
+  background: transparent; /* Makes the thumb invisible */
 }
 
 .about-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent; /* Ensures it stays invisible on hover */
 }
+
