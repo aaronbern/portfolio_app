@@ -5,51 +5,13 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
 import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { ProjectsCarousel } from "../components/ProjectsCarousel"
 
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-
-export function ProjectsCarousel() {
-  const projects = [
-    { id: 1, title: "Project A", description: "This is project A." },
-    { id: 2, title: "Project B", description: "This is project B." },
-    { id: 3, title: "Project C", description: "This is project C." },
-    { id: 4, title: "Project D", description: "This is project D." },
-    { id: 5, title: "Project E", description: "This is project E." },
-  ];
-
-  return (
-    <Carousel className="w-full max-w-lg">
-      <CarouselContent>
-        {projects.map((project) => (
-          <CarouselItem key={project.id} className="basis-1/3">
-            <div className="p-2">
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <h3 className="text-2xl font-bold">{project.title}</h3>
-                  <p>{project.description}</p>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
-  );
-}
 
 
 export default function Home() {
@@ -415,8 +377,8 @@ export default function Home() {
           </div>
         )}
           {activeContent === 'projects' && (
-            <div className = "about-heading">
-              <h1>Projects</h1>
+            <div className = "content">
+              <h1 className="about-heading">Projects</h1>
               <ProjectsCarousel />  {}
             </div>
           )}
