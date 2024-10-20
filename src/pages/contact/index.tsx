@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
 import SEO from '../../components/SEO';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import emailjs from 'emailjs-com';
@@ -34,7 +32,6 @@ export default function Contact() {
     <>
       <SEO title="Contact Me" description="Get in touch with me through this contact form" />
       <div className="min-h-screen bg-gray-100">
-        <Navbar />
         <main className="container mx-auto py-8">
           <h1 className="text-3xl font-bold mb-6">Contact Me</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 shadow-md rounded-lg">
@@ -80,7 +77,6 @@ export default function Contact() {
             )}
           </form>
         </main>
-        <Footer />
       </div>
     </>
   );
