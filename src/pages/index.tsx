@@ -320,7 +320,7 @@ export default function Home() {
         )}
         {activeContent === 'about' && (
           <div className="content about-section">
-            {/* Profile Picture */}
+            {/* Minimalist Profile Picture */}
             <div className="profile-picture-container">
               <img
                 src="/profile-picture.jpg" // Ensure this image exists in your public folder
@@ -328,8 +328,8 @@ export default function Home() {
                 className="profile-picture"
               />
             </div>
-            
-            {/* Numbered Sections */}
+
+            {/* Simplified About Content */}
             <div className="about-content">
               {/* Section 1: Introduction */}
               <section className="about-section">
@@ -337,41 +337,29 @@ export default function Home() {
                   <span className="section-number">1.</span> Introduction
                 </h2>
                 <p className="about-text">
-                  Hello, I&apos;m Aaron Bernard, and this is my professional portfolio showcasing my work,
-                  experience, and passion for technology. I am currently building projects using modern web
-                  technologies like React, Next.js, and AI tools to help predict and analyze data in real-time.
+                  Hello, I&apos;m Aaron Bernard, a passionate software engineer dedicated to creating innovative solutions. I specialize in modern web technologies like React and Next.js, and I leverage AI tools to predict and analyze data in real-time.
                 </p>
               </section>
 
               {/* Section 2: Background */}
               <section className="about-section">
                 <h2 className="about-heading">
-                  <span className="section-number">2.</span> My Background
+                  <span className="section-number">2.</span> Background
                 </h2>
                 <p className="about-text">
-                  I have a background in web development, customer service, and AI integration.
-                  My goal is to create reliable, scalable, and secure software that solves real-world problems.
-                  I apply DevOps and SRE principles to ensure reliability, automating workflows and using monitoring tools
-                  to enhance the resilience of my applications.
+                  With a foundation in web development, customer service, and AI integration, I aim to build reliable, scalable, and secure software that addresses real-world challenges. I apply DevOps and SRE principles to ensure system reliability, automate workflows, and enhance application resilience through effective monitoring tools.
                 </p>
               </section>
 
-              {/* Section 3: Interests and Goals */}
+              {/* Section 3: Interests & Goals */}
               <section className="about-section">
                 <h2 className="about-heading">
-                  <span className="section-number">3.</span> My Interests & Goals
+                  <span className="section-number">3.</span> Interests & Goals
                 </h2>
                 <p className="about-text">
-                  I am particularly interested in building software that merges creativity with functionality.
-                  I am excited about AI, game development, web technology, and learning about new tools that can help
-                  me be a better developer. My dream job is to become a Site Reliability Engineer at Nike, where I can
-                  contribute to building highly available, scalable, and secure systems while implementing best practices
-                  in monitoring, performance optimization, and automation.
+                  I thrive on merging creativity with functionality in software development. My interests include AI, game development, and exploring new web technologies. My aspiration is to become a Site Reliability Engineer at Nike, contributing to the creation of highly available, scalable, and secure systems while implementing best practices in monitoring, performance optimization, and automation.
                 </p>
               </section>
-
-              {/* Additional Sections (Optional) */}
-              {/* You can add more sections here following the same structure */}
             </div>
           </div>
         )}
