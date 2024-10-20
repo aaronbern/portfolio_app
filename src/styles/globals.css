@@ -14,7 +14,8 @@ button {
 }
 
 button:hover {
-  background-color: #1e40af; /* Darker blue */
+  outline: none;
+  box-shadow: none;
 }
 
 button:focus {
@@ -23,7 +24,8 @@ button:focus {
 }
 
 button:active {
-  background-color: #1e3a8a; /* Even darker blue */
+  outline: none;
+  box-shadow: none;
 }
 
 /* Keyframe animation for fading in */
