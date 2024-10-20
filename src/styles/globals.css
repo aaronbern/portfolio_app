@@ -118,6 +118,7 @@ button:active {
   width: 100%; /* Ensures the container spans the full width */
   justify-content: center; /* Centers the links horizontally */
   gap: 2.5rem; /* Space between links */
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
   text-align: center;
   background: none;
@@ -131,6 +132,7 @@ button:active {
   font-family: 'KIMM_Bold';
   font-weight: 300;
   font-size: 0.9rem;
+  -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   opacity: 0; /* Start hidden */
   transform: translateY(20px); /* Start with a downward offset */
@@ -141,7 +143,6 @@ button:active {
   padding: 0;
   margin: 0;
   color: #ffffff; /* Ensure the text has a base color */
-  -webkit-tap-highlight-color: transparent;
 }
 
 .link-item.visible {
