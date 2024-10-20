@@ -303,7 +303,7 @@ export default function Home() {
     };
   }, []);
 
-    return (
+  return (
     <>
       <SEO
         title="AaronBernard.exe"
@@ -319,13 +319,60 @@ export default function Home() {
           </>
         )}
         {activeContent === 'about' && (
-          <div className="content">
-            <h1>About Me</h1>
-            <p>
-              I am an aspiring software engineer with a passion for creating
-              innovative solutions. I love working with modern technologies and
-              continuously learning new things.
-            </p>
+          <div className="content about-section">
+            {/* Profile Picture */}
+            <div className="profile-picture-container">
+              <img
+                src="/profile-picture.jpg" // Ensure this image exists in your public folder
+                alt="Aaron Bernard"
+                className="profile-picture"
+              />
+            </div>
+            
+            {/* Numbered Sections */}
+            <div className="about-content">
+              {/* Section 1: Introduction */}
+              <section className="about-section">
+                <h2 className="about-heading">
+                  <span className="section-number">1.</span> Introduction
+                </h2>
+                <p className="about-text">
+                  Hello, I&apos;m Aaron Bernard, and this is my professional portfolio showcasing my work,
+                  experience, and passion for technology. I am currently building projects using modern web
+                  technologies like React, Next.js, and AI tools to help predict and analyze data in real-time.
+                </p>
+              </section>
+
+              {/* Section 2: Background */}
+              <section className="about-section">
+                <h2 className="about-heading">
+                  <span className="section-number">2.</span> My Background
+                </h2>
+                <p className="about-text">
+                  I have a background in web development, customer service, and AI integration.
+                  My goal is to create reliable, scalable, and secure software that solves real-world problems.
+                  I apply DevOps and SRE principles to ensure reliability, automating workflows and using monitoring tools
+                  to enhance the resilience of my applications.
+                </p>
+              </section>
+
+              {/* Section 3: Interests and Goals */}
+              <section className="about-section">
+                <h2 className="about-heading">
+                  <span className="section-number">3.</span> My Interests & Goals
+                </h2>
+                <p className="about-text">
+                  I am particularly interested in building software that merges creativity with functionality.
+                  I am excited about AI, game development, web technology, and learning about new tools that can help
+                  me be a better developer. My dream job is to become a Site Reliability Engineer at Nike, where I can
+                  contribute to building highly available, scalable, and secure systems while implementing best practices
+                  in monitoring, performance optimization, and automation.
+                </p>
+              </section>
+
+              {/* Additional Sections (Optional) */}
+              {/* You can add more sections here following the same structure */}
+            </div>
           </div>
         )}
         {activeContent === 'contact' && (

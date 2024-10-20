@@ -219,3 +219,115 @@ button:active {
 .link-item:nth-child(4) {
   transition-delay: 0s; /* Removes delay for all links */
 }
+
+/* New Styles for About Me Enhancements */
+
+/* Profile Picture Styling */
+.profile-picture-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #4a5568; /* Gray-700 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Numbered Section Headings */
+.about-heading {
+  display: flex;
+  align-items: center;
+  font-size: 1.75rem;
+  color: #cbd5e0; /* Gray-300 */
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.about-heading:hover {
+  color: #a0aec0; /* Gray-400 */
+}
+
+.section-number {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  color: #ffffff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 0.75rem;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: 'KIMM_Bold';
+}
+
+/* About Text Styling */
+.about-text {
+  font-family: 'KIMM_Bold';
+  font-size: 1.125rem; /* Text-lg */
+  line-height: 1.75rem; /* Leading-relaxed */
+  color: #e2e8f0; /* Gray-300 */
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+  text-align: justify;
+}
+
+/* About Section Container */
+.about-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #2d3748; /* Gray-800 */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-heading {
+    font-family: 'KIMM_Bold';
+    font-size: 1.5rem;
+  }
+
+  .section-number {
+    font-family: 'KIMM_Bold';
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+  }
+
+  .about-text {
+    font-family: 'KIMM_Bold';
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+  }
+
+  .about-section {
+    font-family: 'KIMM_Bold';
+    padding: 1rem;
+  }
+}
