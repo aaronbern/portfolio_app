@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
 import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
-
+import Image from 'next/image';
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -326,7 +326,7 @@ export default function Home() {
           <div className="content about-container">
             {/* Minimalist Profile Picture */}
             <div className="profile-picture-container">
-              <img
+              <Image
                 src="/PFP.jpg" // Ensure this image exists in your public folder
                 alt="Aaron Bernard"
                 className="profile-picture"

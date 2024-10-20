@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Card, CardContent} from "./ui/card"; // Ensure Button is correctly imported
-import { Button } from "./ui/button"
+import { Card, CardContent} from "@/components/ui/card"; // Ensure Button is correctly imported
+import { Button } from "@/components/ui/button"
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { projects, Project } from "C:/Users/aaron/OneDrive/Desktop/Code/portfolio_app/src/pages/projects/ProjectsData";
+import { projects, Project } from "@/lib/ProjectsData";
 
 export function ProjectsCarousel() {
   const [api, setApi] = React.useState<CarouselApi>();
