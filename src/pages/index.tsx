@@ -415,7 +415,7 @@ export default function Home() {
           </div>
         )}
           {activeContent === 'projects' && (
-            <div className="content">
+            <div className = "about-heading">
               <h1>Projects</h1>
               <ProjectsCarousel />  {}
             </div>
