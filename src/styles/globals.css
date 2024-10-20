@@ -196,7 +196,7 @@ button:active {
   }
 }
 
-.link-item:active {
+.link-item:not(.active) {
   transform: scale(1); /* Ensure link goes back to normal when clicked again */
 }
 
