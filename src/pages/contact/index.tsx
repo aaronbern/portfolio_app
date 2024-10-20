@@ -21,10 +21,10 @@ export default function Contact() {
     };
 
     emailjs.send(
-      'service_iixemqc',     // Replace with your actual service ID
-      'template_t6ja56p',    // Replace with your actual template ID
+      'service_iixemqc',    
+      'template_t6ja56p',   
       emailData,
-      'UEkOXZOgq5NDGXhU6'    // Replace with your actual user ID (public key)
+      'UEkOXZOgq5NDGXhU6'   
     )
   };
 

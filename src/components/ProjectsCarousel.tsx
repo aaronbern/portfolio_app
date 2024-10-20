@@ -51,10 +51,10 @@ export function ProjectsCarousel() {
                   className="w-full md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
                   <Card className="h-80 md:h-96 lg:h-120">
-                    <CardContent className="flex flex-col items-center justify-center p-8 md:p-10 lg:p-12">
+                    <CardContent className="flex flex-col items-center justify-center p-8 md:p-10 lg:p-12 text-gray-400">
                       <h3 className="text-3xl font-bold">{project.title}</h3>
-                      <p className="text-center text-lg">{project.description}</p>
-                      <Button onClick={() => handleProjectClick(project)} className="mt-4">
+                      <p className="text-center text-lg user-select-none">{project.description}</p>
+                      <Button onClick={() => handleProjectClick(project)} className="mt-4 text-gray-400 border-gray-400">
                         View Details
                       </Button>
                     </CardContent>
