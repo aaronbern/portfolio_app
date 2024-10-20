@@ -5,7 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import the "Orbitron" font */
+/* Import the "Orbitron" and "KIMM_Bold" fonts */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300&display=swap');
 
 /* Custom global styles here */
@@ -51,20 +51,20 @@ button:active {
 @font-face {
   font-family: 'KIMM_Bold';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
-  font-weight: 100;
+  font-weight: 700;
   font-style: normal;
 }
 
 /* General Style for Name */
 .name-title,
 .name-subtitle {
-  font-family: 'KIMM_Bold'; /* Space-themed font */
+  font-family: 'KIMM_Bold', sans-serif; /* Space-themed font with fallback */
   text-align: center;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
   margin-bottom: 2rem; /* Reduced from 25rem to 2rem for spacing between title and subtitle */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
-  color: #cfcfcf; /* Default color */
+  color: #ffffff; /* Changed to white for better contrast against dark background */
   pointer-events: none;
   user-select: none;
 }
@@ -78,7 +78,7 @@ button:active {
 }
 
 .name-subtitle {
-  font-size: 0.9rem; /* Smaller subtitle font size */
+  font-size: 1rem; /* Slightly increased for better readability */
   animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   pointer-events: none;
@@ -132,9 +132,9 @@ button:active {
 
 /* Link items styling */
 .link-item {
-  font-family: 'KIMM_Bold';
-  font-weight: 300;
-  font-size: 0.9rem;
+  font-family: 'KIMM_Bold', sans-serif;
+  font-weight: 700; /* Bold weight */
+  font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   opacity: 0; /* Start hidden */
@@ -159,19 +159,17 @@ button:active {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Enhanced Glow and Quick Scale on Hover/Focus/Active */
+/* Minimalist Hover Effects */
 .link-item:hover,
 .link-item:focus,
 .link-item:active {
   -webkit-tap-highlight-color: transparent;
   color: #ffffff; /* Maintain base color */
-  /* Enhanced text-shadow for a better glow effect */
+  /* Subtle text-shadow for a hint of depth */
   text-shadow: 
-    0 0 16px rgba(255, 255, 255, 0.9),
-    0 0 24px rgba(255, 255, 255, 0.7),
-    0 0 32px rgba(255, 255, 255, 0.5),
-    0 0 40px rgba(255, 255, 255, 0.3);
-  transform: scale(1.35); /* Slightly reduced scale for more balanced effect */
+    0 0 8px rgba(255, 255, 255, 0.6),
+    0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1); /* Slight scale for minimal emphasis */
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
   outline: none !important;
   box-shadow: none !important; /* Removes box-like glow */
@@ -181,10 +179,8 @@ button:active {
   -webkit-tap-highlight-color: transparent;
   animation: flash 0.2s ease;
   text-shadow: 
-    0 0 12px rgba(255, 255, 255, 0.8),
-    0 0 24px rgba(255, 255, 255, 0.6),
-    0 0 36px rgba(255, 255, 255, 0.4),
-    0 0 48px rgba(255, 255, 255, 0.2);
+    0 0 6px rgba(255, 255, 255, 0.8),
+    0 0 12px rgba(255, 255, 255, 0.6);
   outline: none;
 }
 
@@ -192,17 +188,13 @@ button:active {
 @keyframes flash {
   0% {
     text-shadow: 
-      0 0 24px rgba(255, 255, 255, 0.8),
-      0 0 36px rgba(255, 255, 255, 0.6),
-      0 0 48px rgba(255, 255, 255, 0.4),
-      0 0 60px rgba(255, 255, 255, 0.2);
+      0 0 12px rgba(255, 255, 255, 0.8),
+      0 0 18px rgba(255, 255, 255, 0.6);
   }
   100% {
     text-shadow: 
-      0 0 12px rgba(255, 255, 255, 0.8),
-      0 0 24px rgba(255, 255, 255, 0.6),
-      0 0 36px rgba(255, 255, 255, 0.4),
-      0 0 48px rgba(255, 255, 255, 0.2);
+      0 0 6px rgba(255, 255, 255, 0.8),
+      0 0 12px rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -233,92 +225,97 @@ button:active {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 4px solid #4a5568; /* Gray-700 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Minimalist border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
   object-fit: cover;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-picture:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Numbered Section Headings */
 .about-heading {
   display: flex;
   align-items: center;
-  font-size: 1.75rem;
-  color: #cbd5e0; /* Gray-300 */
+  font-size: 1.5rem; /* Reduced size for minimalism */
+  color: #ffffff; /* White color for better contrast */
   margin-bottom: 1rem;
   transition: color 0.3s ease;
+  font-family: 'KIMM_Bold', sans-serif; /* Apply KIMM_Bold font */
 }
 
 .about-heading:hover {
-  color: #a0aec0; /* Gray-400 */
+  color: #d1d5db; /* Light gray on hover */
 }
 
 .section-number {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   background-color: currentColor;
   color: #ffffff;
   border-radius: 50%;
   text-align: center;
-  line-height: 24px;
-  margin-right: 0.75rem;
+  line-height: 20px;
+  margin-right: 0.5rem;
   font-weight: bold;
-  font-size: 1rem;
-  font-family: 'KIMM_Bold';
+  font-size: 0.875rem;
+  font-family: 'KIMM_Bold', sans-serif; /* Apply KIMM_Bold font */
 }
 
 /* About Text Styling */
 .about-text {
-  font-family: 'KIMM_Bold';
-  font-size: 1.125rem; /* Text-lg */
-  line-height: 1.75rem; /* Leading-relaxed */
-  color: #e2e8f0; /* Gray-300 */
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
-  text-align: justify;
+  font-size: 1rem; /* Text-base for readability */
+  line-height: 1.5rem; /* Leading-normal */
+  color: #e2e8f0; /* Light gray for contrast */
+  max-width: 600px; /* Reduced width for better readability */
+  margin: 0 auto 1.5rem auto;
+  text-align: left; /* Left-aligned for simplicity */
 }
 
 /* About Section Container */
 .about-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding: 1.5rem;
-  background-color: #2d3748; /* Gray-800 */
+  background-color: rgba(45, 55, 72, 0.8); /* Semi-transparent gray */
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .about-section:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  background-color: rgba(45, 55, 72, 0.9); /* Slightly more opaque on hover */
+  transform: translateY(-2px); /* Minimal lift on hover */
+}
+
+/* About Content Wrapper */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .about-heading {
-    font-family: 'KIMM_Bold';
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   .section-number {
-    font-family: 'KIMM_Bold';
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 0.875rem;
-    margin-right: 0.5rem;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 0.75rem;
+    margin-right: 0.4rem;
   }
 
   .about-text {
-    font-family: 'KIMM_Bold';
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4rem;
+    max-width: 90%;
   }
 
   .profile-picture {
@@ -327,7 +324,6 @@ button:active {
   }
 
   .about-section {
-    font-family: 'KIMM_Bold';
     padding: 1rem;
   }
 }
