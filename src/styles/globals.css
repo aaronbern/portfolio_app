@@ -261,13 +261,11 @@ button:active {
   max-width: 600px; /* Reduced width for better readability */
   margin: 0 auto 1.5rem auto;
   text-align: left; /* Left-aligned for simplicity */
-  pointer-events: none;
   user-select: none;
 }
 
 /* About Section Container */
 .about-container {
-  pointer-events: none;
   user-select: none;
   /* Set width and height to occupy 40% of the viewport (30% margin on each side) */
   width: 40vw;
@@ -317,7 +315,6 @@ button:active {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  pointer-events: none;
   user-select: none;
 }
 
@@ -326,7 +323,6 @@ button:active {
   .about-container {
     width: 60vw; /* Increase width for medium screens */
     height: 60vh; /* Increase height for better readability */
-    pointer-events: none;
     user-select: none;
   }
 }
@@ -336,14 +332,12 @@ button:active {
     width: 80vw; /* Further increase width for smaller screens */
     height: 70vh; /* Adjust height accordingly */
     padding: 1rem; /* Reduce padding for smaller screens */
-    pointer-events: none;
     user-select: none;
   }
 
   .about-text {
     font-size: 0.95rem; /* Slightly reduce font size for better fit */
     line-height: 1.4rem;
-    pointer-events: none;
     user-select: none;
   }
 
@@ -362,7 +356,6 @@ button:active {
 
   .about-heading {
     font-size: 1.25rem; /* Adjust heading size */
-    pointer-events: none;
     user-select: none;
   }
 
