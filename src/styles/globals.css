@@ -278,7 +278,7 @@ button:active {
   transform: translate(-50%, -50%);
 
   /* More transparent and darker background */
-  background-color: rgba(0, 0, 0, 0.6); /* Adjusted for higher transparency */
+  background-color: rgba(0, 0, 0, 0.3); /* Adjusted for higher transparency */
 
   /* Ensure the box doesn't exceed the viewport height */
   max-height: 60vh;
