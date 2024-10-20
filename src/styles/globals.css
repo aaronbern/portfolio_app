@@ -86,7 +86,7 @@ button:active {
 /* Name Container using Flexbox for centering */
 .name-container {
   position: fixed; /* Use fixed to keep it centered relative to the viewport */
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
