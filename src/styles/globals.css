@@ -159,11 +159,11 @@ button:active {
   color: #ffffff; /* Maintain base color */
   /* Enhanced text-shadow for a better glow effect */
   text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.8),
-    0 0 16px rgba(255, 255, 255, 0.6),
-    0 0 24px rgba(255, 255, 255, 0.4),
-    0 0 32px rgba(255, 255, 255, 0.2);
-  transform: scale(1.7); /* Slightly reduced scale for more balanced effect */
+    0 0 16px rgba(255, 255, 255, 0.9),
+    0 0 24px rgba(255, 255, 255, 0.7),
+    0 0 32px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.3);
+  transform: scale(1.5); /* Slightly reduced scale for more balanced effect */
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
   outline: none;
   box-shadow: none; /* Removes box-like glow */
@@ -176,6 +176,7 @@ button:active {
     0 0 24px rgba(255, 255, 255, 0.6),
     0 0 36px rgba(255, 255, 255, 0.4),
     0 0 48px rgba(255, 255, 255, 0.2);
+  outline: none;
 }
 
 /* Keyframe for a quick flash effect */
@@ -198,6 +199,7 @@ button:active {
 
 .link-item:not(.active) {
   transform: scale(1); /* Ensure link goes back to normal when clicked again */
+  outline: none;
 }
 
 /* Animation delays for each link */
