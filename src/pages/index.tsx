@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
 import Image from 'next/image';
+import ContactForm from './contact';
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -23,6 +24,7 @@ export default function Home() {
 
   // State variable to manage active content
   const [activeContent, setActiveContent] = useState('home');
+  const [showContactForm, setShowContactForm] = useState(false);
 
   // Function to handle link clicks
   const handleLinkClick = (content: string) => {
@@ -330,6 +332,9 @@ export default function Home() {
                 src="/PFP.jpg" // Ensure this image exists in your public folder
                 alt="Aaron Bernard"
                 className="profile-picture"
+                layout="fixed"
+                width={100}
+                height={100}
               />
             </div>
   
@@ -368,14 +373,39 @@ export default function Home() {
           </div>
         )}
         {activeContent === 'contact' && (
-          <div className="content">
-            <h1>Contact</h1>
-            <p>
-              Feel free to reach out to me via email at
-              <a href="mailto:aaron@example.com"> aaron@example.com</a>
-            </p>
+          <div id="contact-form" className="content">
+            <h1>Contact Me</h1>
+            <p>Feel free to reach out to me via:</p>
+            <ul className="contact-list">
+              <li>
+                <a href="#" onClick={() => setShowContactForm(true)}>
+                  Email: Aaronber@pdx.edu
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/aaron-bernard-92a511162/" target="_blank" rel="noopener noreferrer">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/aaronbern" target="_blank" rel="noopener noreferrer">
+                  GitHub
+                </a>
+              </li>
+            </ul>
           </div>
         )}
+      {/* Modal for Contact Form */}
+      {showContactForm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-button" onClick={() => setShowContactForm(false)}>
+              X
+            </button>
+            <ContactForm />
+          </div>
+        </div>
+      )}
           {activeContent === 'projects' && (
             <div className = "content">
               <ProjectsCarousel />  {}

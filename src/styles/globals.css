@@ -18,6 +18,36 @@
   box-sizing: border-box;
 }
 
+/* Project Button Styling */
+.project-button {
+  background-color: #1f2937; /* Dark gray background */
+  color: #ffffff; /* White text */
+  border: 2px solid #ffffff; /* White border for clarity */
+  padding: 0.75rem 1.5rem; /* Larger padding for a bigger button */
+  font-size: 1.1rem; /* Slightly larger font size */
+  font-family: 'Kimm_Bold', sans-serif; /* Use your custom font */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+.project-button:hover {
+  background-color: #4ade80; /* Bright green background on hover */
+  color: #000000; /* Black text on hover for contrast */
+  border-color: #4ade80; /* Green border on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Deeper shadow on hover */
+}
+
+.project-button:active {
+  transform: scale(0.95); /* Slight press-down effect */
+}
+
+.project-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.5); /* Light green focus ring */
+}
+
+
 button {
   transition: background-color 0.3s ease-in-out;
 }
@@ -259,7 +289,7 @@ button:active {
 /* About Text Styling */
 .about-text {
   font-size: 1rem; /* Text-base for readability */
-  line-height: 1.5rem; /* Leading-normal */
+  line-height: 1.5rem; /* Leading-normal */ 
   color: #e2e8f0; /* Light gray for contrast */
   max-width: 600px; /* Reduced width for better readability */
   margin: 0 auto 1.5rem auto;
@@ -388,4 +418,150 @@ button:active {
 
 .about-container::-webkit-scrollbar-thumb {
   background: transparent; /* Makes the thumb invisible */
+}
+
+.user-select-none {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard */
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.non-interactable {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Contact Links Styling */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.contact-list li {
+  opacity: 0; /* Start hidden */
+  transform: translateY(20px); /* Start with a slight offset */
+  animation: fadeIn 1s ease forwards; /* Apply fadeIn animation */
+}
+
+.contact-list li:nth-child(1) {
+  animation-delay: 0.3s; /* Stagger the animation for the first link */
+}
+
+.contact-list li:nth-child(2) {
+  animation-delay: 0.5s; /* Stagger the animation for the second link */
+}
+
+.contact-list li:nth-child(3) {
+  animation-delay: 0.7s; /* Stagger the animation for the third link */
+}
+
+.contact-list a {
+  font-family: 'KIMM_Bold', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85); /* Semi-transparent white for minimalism */
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.contact-list a:hover {
+  color: rgba(255, 255, 255, 1); /* Fully opaque on hover */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); /* Subtle glow */
+}
+
+.contact-list a:focus,
+.contact-list a:active {
+  outline: none;
+  color: rgba(255, 255, 255, 1); /* Fully opaque when active or focused */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); /* Same glow as hover */
+}
+
+/* Modal Overlay (dark background that dims the rest of the page) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content (where the contact form is displayed) */
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent background for minimalistic effect */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px); /* Adds a blur effect for a futuristic look */
+  max-width: 400px;
+  width: 100%;
+  color: #fff; /* White text */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border to match the theme */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Close Button Styling */
+.close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+/* Input Styling for the form to match the space theme */
+input, textarea {
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent input fields */
+  color: #fff; /* White text for input */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+  padding: 0.75rem;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 1rem;
+  outline: none;
+  font-family: 'Orbitron', sans-serif; /* Space-themed font */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #4ade80; /* Green glow on focus */
+  background-color: rgba(255, 255, 255, 0.2); /* More opaque on focus */
+}
+
+/* Submit button matching the space theme */
+button[type="submit"] {
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent button */
+  color: #00ffcc; /* Bright teal text */
+  border: 1px solid #00ffcc; /* Bright teal border */
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Kimm_Bold', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #00ffcc; /* Bright teal on hover */
+  color: #000; /* Black text on hover */
+  border-color: #00ffcc; /* Teal border */
+}
+
+/* Modal Animation */
+.modal-content {
+  animation: fadeIn 0.3s ease-in-out;
 }

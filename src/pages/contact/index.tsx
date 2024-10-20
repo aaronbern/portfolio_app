@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import SEO from '../../components/SEO';
+// pages/contact/index.tsx
 import { useForm, SubmitHandler } from 'react-hook-form';
 import emailjs from 'emailjs-com';
 
@@ -9,9 +8,8 @@ interface ContactFormInputs {
   message: string;
 }
 
-export default function Contact() {
-  const { register, handleSubmit, formState: { errors } } = useForm<ContactFormInputs>();
-  const [submitStatus] = useState<string | null>(null);
+export const ContactForm = () => {
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>();
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
     const emailData = {
@@ -20,64 +18,61 @@ export default function Contact() {
       message: data.message,
     };
 
-    emailjs.send(
-      'service_iixemqc',    
-      'template_t6ja56p',   
-      emailData,
-      'UEkOXZOgq5NDGXhU6'   
-    )
+    emailjs
+      .send(
+        'service_iixemqc',    // Your EmailJS service ID
+        'template_t6ja56p',   // Your EmailJS template ID
+        emailData,
+        'UEkOXZOgq5NDGXhU6'   // Your EmailJS public key
+      )
+      .then(() => {
+        console.log('Your message has been sent successfully!');
+        reset(); // Reset form after submission
+      })
+      .catch((error) => {
+        console.error('Email sending error:', error);
+      });
   };
 
   return (
-    <>
-      <SEO title="Contact Me" description="Get in touch with me through this contact form" />
-      <div className="min-h-screen bg-gray-100">
-        <main className="container mx-auto py-8">
-          <h1 className="text-3xl font-bold mb-6">Contact Me</h1>
-          <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 shadow-md rounded-lg">
-            <div className="mb-4">
-              <label className="block font-semibold mb-2" htmlFor="name">Name</label>
-              <input
-                id="name"
-                {...register('name', { required: 'Name is required' })}
-                className="w-full p-2 border rounded"
-              />
-              {errors.name && <span className="text-red-600 text-sm">{errors.name.message}</span>}
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-semibold mb-2" htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                {...register('email', { required: 'Email is required', pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" } })}
-                className="w-full p-2 border rounded"
-              />
-              {errors.email && <span className="text-red-600 text-sm">{errors.email.message}</span>}
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-semibold mb-2" htmlFor="message">Message</label>
-              <textarea
-                id="message"
-                {...register('message', { required: 'Message is required' })}
-                className="w-full p-2 border rounded"
-              />
-              {errors.message && <span className="text-red-600 text-sm">{errors.message.message}</span>}
-            </div>
-
-            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-              Send
-            </button>
-
-            {submitStatus && (
-              <div role="alert" className={`mt-4 p-4 rounded ${submitStatus.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                {submitStatus}
-              </div>
-            )}
-          </form>
-        </main>
+    <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
+      <div className="input-group">
+        <label htmlFor="name" className="input-label">Name</label>
+        <input
+          id="name"
+          {...register('name', { required: 'Name is required' })}
+          className="input-field"
+        />
+        {errors.name && <span className="error-message">{errors.name.message}</span>}
       </div>
-    </>
+
+      <div className="input-group">
+        <label htmlFor="email" className="input-label">Email</label>
+        <input
+          id="email"
+          type="email"
+          {...register('email', {
+            required: 'Email is required',
+            pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" }
+          })}
+          className="input-field"
+        />
+        {errors.email && <span className="error-message">{errors.email.message}</span>}
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="message" className="input-label">Message</label>
+        <textarea
+          id="message"
+          {...register('message', { required: 'Message is required' })}
+          className="input-field"
+        />
+        {errors.message && <span className="error-message">{errors.message.message}</span>}
+      </div>
+
+      <button type="submit" className="submit-button">Send</button>
+    </form>
   );
-}
+};
+
+export default ContactForm;

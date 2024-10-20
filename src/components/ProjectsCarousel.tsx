@@ -50,11 +50,27 @@ export function ProjectsCarousel() {
                   key={project.id}
                   className="w-full md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
-                  <Card className="h-80 md:h-96 lg:h-120">
-                    <CardContent className="flex flex-col items-center justify-center p-8 md:p-10 lg:p-12 text-gray-400">
-                      <h3 className="text-3xl font-bold">{project.title}</h3>
-                      <p className="text-center text-lg user-select-none">{project.description}</p>
-                      <Button onClick={() => handleProjectClick(project)} className="mt-4 text-gray-400 border-gray-400">
+                  {/* Set Card as relative to position the overlay correctly */}
+                  <Card className="relative overflow-hidden user-select-none" style={{ height: "450px" }}>
+                    {/* Display the project image and ensure it fits inside the card */}
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover pointer-events-auto" // Ensure the image fits the card
+                    />
+                    {/* CardContent as an overlay on top of the image */}
+                    <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-4">
+                      <h3 className="text-3xl font-bold">
+                        {project.title}
+                      </h3>
+                      <p className="text-center text-lg">
+                        {project.description}
+                      </p>
+                      <Button
+                        variant="project"
+                        onClick={() => handleProjectClick(project)}
+                        className="mt-4"
+                      >
                         View Details
                       </Button>
                     </CardContent>
@@ -62,8 +78,13 @@ export function ProjectsCarousel() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            {/* Custom styles for the previous and next buttons */}
+            <CarouselPrevious className="absolute left-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
+              &#8249;
+            </CarouselPrevious>
+            <CarouselNext className="absolute right-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
+              &#8250;
+            </CarouselNext>
           </Carousel>
           <div className="py-2 text-center text-sm text-muted-foreground">
             Slide {current} of {count}
@@ -76,13 +97,19 @@ export function ProjectsCarousel() {
         <div className="mt-4">
           <Card>
             <CardContent className="flex flex-col items-center justify-center p-6">
-              <h3 className="text-2xl font-bold">{selectedProject.title}</h3>
-              <p>{selectedProject.description}</p>
+              {/* Make title and description non-interactable */}
+              <h3 className="text-2xl font-bold text-white user-select-none">
+                {selectedProject.title}
+              </h3>
+              <p className="user-select-none text-white ">
+                {selectedProject.description}
+              </p>
               <div className="mt-4">
-                <h4 className="text-xl font-semibold">Project Example</h4>
+                <h4 className="text-xl font-semibold text-white ">Project Example</h4>
                 <p>{selectedProject.example}</p>
               </div>
-              <Button onClick={handleClose} className="mt-4">
+              {/* Keep the close button interactive */}
+              <Button onClick={handleClose} className="mt-4 text-white ">
                 Close
               </Button>
             </CardContent>
