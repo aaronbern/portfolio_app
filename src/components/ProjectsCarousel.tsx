@@ -79,11 +79,11 @@ export function ProjectsCarousel() {
               ))}
             </CarouselContent>
             {/* Custom styles for the previous and next buttons */}
-            <CarouselPrevious className="absolute left-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
-              &#8249;
+            <CarouselPrevious className="absolute left-2 sm:left-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
+                &#8249;
             </CarouselPrevious>
-            <CarouselNext className="absolute right-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
-              &#8250;
+            <CarouselNext className="absolute right-2 sm:right-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
+                &#8250;
             </CarouselNext>
           </Carousel>
           <div className="py-2 text-center text-sm text-muted-foreground">
