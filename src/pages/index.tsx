@@ -319,7 +319,7 @@ export default function Home() {
           </>
         )}
         {activeContent === 'about' && (
-          <div className="content about-section">
+          <div className="content about-container">
             {/* Minimalist Profile Picture */}
             <div className="profile-picture-container">
               <img
@@ -328,11 +328,11 @@ export default function Home() {
                 className="profile-picture"
               />
             </div>
-
+  
             {/* Simplified About Content */}
             <div className="about-content">
               {/* Section 1: Introduction */}
-              <section className="about-section">
+              <section className="about-subsection">
                 <h2 className="about-heading">
                   <span className="section-number">1.</span> Introduction
                 </h2>
@@ -340,9 +340,9 @@ export default function Home() {
                   Hello, I&apos;m Aaron Bernard, a passionate software engineer dedicated to creating innovative solutions. I specialize in modern web technologies like React and Next.js, and I leverage AI tools to predict and analyze data in real-time.
                 </p>
               </section>
-
+  
               {/* Section 2: Background */}
-              <section className="about-section">
+              <section className="about-subsection">
                 <h2 className="about-heading">
                   <span className="section-number">2.</span> Background
                 </h2>
@@ -350,9 +350,9 @@ export default function Home() {
                   With a foundation in web development, customer service, and AI integration, I aim to build reliable, scalable, and secure software that addresses real-world challenges. I apply DevOps and SRE principles to ensure system reliability, automate workflows, and enhance application resilience through effective monitoring tools.
                 </p>
               </section>
-
+  
               {/* Section 3: Interests & Goals */}
-              <section className="about-section">
+              <section className="about-subsection">
                 <h2 className="about-heading">
                   <span className="section-number">3.</span> Interests & Goals
                 </h2>
@@ -383,7 +383,7 @@ export default function Home() {
           </div>
         )}
       </div>
-
+  
       {/* Static Links Container */}
       <div className="links">
         <button
@@ -413,5 +413,5 @@ export default function Home() {
       </div>
       <Analytics />
     </>
-  );
+  );  
 }
