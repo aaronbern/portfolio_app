@@ -323,7 +323,7 @@ export default function Home() {
             {/* Minimalist Profile Picture */}
             <div className="profile-picture-container">
               <img
-                src="/profile-picture.jpg" // Ensure this image exists in your public folder
+                src="/PFP.jpg" // Ensure this image exists in your public folder
                 alt="Aaron Bernard"
                 className="profile-picture"
               />
