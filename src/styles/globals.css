@@ -18,7 +18,8 @@ button:hover {
 }
 
 button:focus {
-  outline: 2px solid #2563eb; /* Adds a focus indicator for accessibility */
+  outline: none;
+  box-shadow: none;
 }
 
 button:active {
@@ -170,8 +171,8 @@ button:active {
     0 0 40px rgba(255, 255, 255, 0.3);
   transform: scale(1.35); /* Slightly reduced scale for more balanced effect */
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
-  outline: none;
-  box-shadow: none; /* Removes box-like glow */
+  outline: none !important;
+  box-shadow: none !important; /* Removes box-like glow */
 }
 
 .link-item:active {
