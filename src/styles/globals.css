@@ -147,16 +147,19 @@ button:active {
 .link-item.visible {
   opacity: 1;
   transform: translateY(0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .link-item.active {
   transform: scale(1); /* Ensures the active link returns to normal size */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Enhanced Glow and Quick Scale on Hover/Focus/Active */
 .link-item:hover,
 .link-item:focus,
 .link-item:active {
+  -webkit-tap-highlight-color: transparent;
   color: #ffffff; /* Maintain base color */
   /* Enhanced text-shadow for a better glow effect */
   text-shadow: 
@@ -164,13 +167,14 @@ button:active {
     0 0 24px rgba(255, 255, 255, 0.7),
     0 0 32px rgba(255, 255, 255, 0.5),
     0 0 40px rgba(255, 255, 255, 0.3);
-  transform: scale(1.5); /* Slightly reduced scale for more balanced effect */
+  transform: scale(1.35); /* Slightly reduced scale for more balanced effect */
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
   outline: none;
   box-shadow: none; /* Removes box-like glow */
 }
 
 .link-item:active {
+  -webkit-tap-highlight-color: transparent;
   animation: flash 0.2s ease;
   text-shadow: 
     0 0 12px rgba(255, 255, 255, 0.8),
@@ -199,6 +203,7 @@ button:active {
 }
 
 .link-item:not(.active) {
+  -webkit-tap-highlight-color: transparent;
   transform: scale(1); /* Ensure link goes back to normal when clicked again */
   outline: none;
 }
