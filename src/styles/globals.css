@@ -9,20 +9,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300&display=swap');
 
 /* Custom global styles here */
+
+/* Apply border-box sizing globally */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 button {
   transition: background-color 0.3s ease-in-out;
 }
 
-button:hover {
-  outline: none;
-  box-shadow: none;
-}
-
-button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
+button:hover,
+button:focus,
 button:active {
   outline: none;
   box-shadow: none;
@@ -62,7 +60,7 @@ button:active {
   text-align: center;
   animation: fadeIn 2s ease-in-out;
   margin-top: 0;
-  margin-bottom: 2rem; /* Reduced from 25rem to 2rem for spacing between title and subtitle */
+  margin-bottom: 2rem; /* Reduced spacing */
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   color: #ffffff; /* Changed to white for better contrast against dark background */
   pointer-events: none;
@@ -85,29 +83,17 @@ button:active {
   user-select: none;
 }
 
-/* Name Container */
+/* Name Container using Flexbox for centering */
 .name-container {
   position: absolute;
-  top: 45%; /* Adjusted from 48% to 45% to move slightly above center */
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centers horizontally and vertically based on the new top */
+  transform: translate(-50%, -50%);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem; /* Adds consistent spacing between title and subtitle */
-}
-
-/* Keyframe animation for fading in with smooth movement */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Styling for links */
@@ -218,12 +204,12 @@ button:active {
 .profile-picture-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* Reduced margin for smaller height */
 }
 
 .profile-picture {
-  width: 120px;
-  height: 120px;
+  width: 100px; /* Reduced size for a more compact look */
+  height: 100px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.2); /* Minimalist border */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
@@ -278,52 +264,112 @@ button:active {
 
 /* About Section Container */
 .about-section {
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  background-color: rgba(45, 55, 72, 0.8); /* Semi-transparent gray */
+  /* Set width and height to occupy 40% of the viewport (30% margin on each side) */
+  width: 40vw;
+  height: 40vh;
+
+  /* Center the about-section within the viewport */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* More transparent and darker background */
+  background-color: rgba(0, 0, 0, 0.6); /* Adjusted for higher transparency */
+
+  /* Ensure the box doesn't exceed the viewport height */
+  max-height: 60vh;
+
+  /* Rounded corners and subtle shadow for a clean look */
   border-radius: 0.5rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+  /* Add padding for content spacing */
+  padding: 1.5rem;
+
+  /* Enable scrolling if content overflows */
+  overflow-y: auto;
+
+  /* Transition for smooth hover effects */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .about-section:hover {
-  background-color: rgba(45, 55, 72, 0.9); /* Slightly more opaque on hover */
-  transform: translateY(-2px); /* Minimal lift on hover */
-}
+  /* Slightly increase transparency on hover for depth */
+  background-color: rgba(0, 0, 0, 0.7);
 
-/* About Content Wrapper */
-.about-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  /* Minimal lift effect on hover */
+  transform: translate(-50%, -50%) scale(1.02);
+
+  /* Enhanced shadow on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
-  .about-heading {
-    font-size: 1.25rem;
+@media (max-width: 1024px) {
+  .about-section {
+    width: 60vw; /* Increase width for medium screens */
+    height: 60vh; /* Increase height for better readability */
   }
+}
 
-  .section-number {
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
-    font-size: 0.75rem;
-    margin-right: 0.4rem;
+@media (max-width: 768px) {
+  .about-section {
+    width: 80vw; /* Further increase width for smaller screens */
+    height: 70vh; /* Adjust height accordingly */
+    padding: 1rem; /* Reduce padding for smaller screens */
   }
 
   .about-text {
-    font-size: 0.95rem;
+    font-size: 0.95rem; /* Slightly reduce font size for better fit */
     line-height: 1.4rem;
-    max-width: 90%;
   }
 
   .profile-picture {
     width: 100px;
     height: 100px;
   }
+}
 
+@media (max-width: 480px) {
   .about-section {
-    padding: 1rem;
+    width: 90vw; /* Maximize width on very small screens */
+    height: 80vh; /* Allow more height for content */
+    padding: 0.75rem; /* Further reduce padding */
   }
+
+  .about-heading {
+    font-size: 1.25rem; /* Adjust heading size */
+  }
+
+  .section-number {
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    margin-right: 0.4rem;
+  }
+
+  .about-text {
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+  }
+}
+
+/* Optional: Scrollbar Styling for Better Aesthetics */
+.about-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-section::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.about-section::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.about-section::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
