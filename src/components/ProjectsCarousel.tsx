@@ -48,7 +48,7 @@ export function ProjectsCarousel() {
               {projects.map((project: Project) => (
                 <CarouselItem
                   key={project.id}
-                  className="w-full md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
+                  className="w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
                   {/* Set Card as relative to position the overlay correctly */}
                   <Card className="relative overflow-hidden user-select-none" style={{ height: "450px" }}>
