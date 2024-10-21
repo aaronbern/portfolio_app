@@ -50,22 +50,16 @@ export function ProjectsCarousel() {
                   key={project.id}
                   className="w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
-                  {/* Set Card as relative to position the overlay correctly */}
                   <Card className="relative overflow-hidden user-select-none" style={{ height: "450px" }}>
-                    {/* Display the project image and ensure it fits inside the card */}
+                    {/* Non-selected image */}
                     <img 
                       src={project.image} 
                       alt={project.title} 
-                      className="w-full h-full object-cover pointer-events-auto" // Ensure the image fits the card
+                      className="w-full h-full object-cover pointer-events-auto"
                     />
-                    {/* CardContent as an overlay on top of the image */}
                     <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-4">
-                      <h3 className="text-3xl font-bold">
-                        {project.title}
-                      </h3>
-                      <p className="text-center text-lg">
-                        {project.description}
-                      </p>
+                      <h3 className="text-3xl font-bold">{project.title}</h3>
+                      <p className="text-center text-lg">{project.description}</p>
                       <Button
                         variant="project"
                         onClick={() => handleProjectClick(project)}
@@ -78,13 +72,12 @@ export function ProjectsCarousel() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* Custom styles for the previous and next buttons */}
             <CarouselPrevious className="hidden sm:block absolute left-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
-                &#8249;
-                </CarouselPrevious>
-                <CarouselNext className="hidden sm:block absolute right-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
-                &#8250;
-                </CarouselNext>
+              &#8249;
+            </CarouselPrevious>
+            <CarouselNext className="hidden sm:block absolute right-0 z-10 m-4 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-75">
+              &#8250;
+            </CarouselNext>
           </Carousel>
           <div className="py-2 text-center text-sm text-muted-foreground">
             Slide {current} of {count}
@@ -97,7 +90,6 @@ export function ProjectsCarousel() {
         <div className="mt-4">
           <Card>
             <CardContent className="flex flex-col items-center justify-center p-6">
-              {/* Make title and description non-interactable */}
               <h3 className="text-2xl font-bold text-white user-select-none">
                 {selectedProject.title}
               </h3>
@@ -106,9 +98,26 @@ export function ProjectsCarousel() {
               </p>
               <div className="mt-4">
                 <h4 className="text-xl font-semibold text-white ">Project Example</h4>
-                <p>{selectedProject.example}</p>
+                <p dangerouslySetInnerHTML={{ __html: selectedProject.example || '' }}></p>
               </div>
-              {/* Keep the close button interactive */}
+              {selectedProject && selectedProject.detailedImage && (
+                <div className="mt-4">
+                  <img 
+                    src={selectedProject.detailedImage} 
+                    alt={`${selectedProject.title} Detailed`} 
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+              {selectedProject.videoPath && (
+                <div className="mt-4">
+                  <h4 className="text-xl font-semibold text-white">Here is Trajectory Oracle in Action</h4>
+                  <video width="500" height="300" controls>
+                    <source src={selectedProject.videoPath} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              )}
               <Button onClick={handleClose} className="mt-4 text-white ">
                 Close
               </Button>

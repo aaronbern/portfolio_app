@@ -3,13 +3,40 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  example: string;
-  image: string;  // Add image property
+  image?: string;  // If you have images
+  example?: string;
+  link?: string; 
+  videoPath?: string;
+  detailedImage?: string;
 }
 
 // Export an array of projects
 export const projects: Project[] = [
-  { id: 1, title: "Trajectory Oracle", description: "Predicts object trajectories with RL.", example: "Real-time prediction of moving objects.", image: "/traj.jpg" },
-  { id: 2, title: "Yap-Chat", description: "A sleek and modern chat app.", example: "Real-time chat and messaging.", image: "/chat.jpg" },
+  {
+    id: 1,
+    title: 'Trajectory Oracle',
+    description: 'Predicts object trajectories with RL.',
+    image: '/traj.jpg',
+    example: `
+      <p>
+        Check out the full project on 
+        <a href="https://github.com/aaronbern/Trajectory-Oracle" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>.
+      </p>
+    `,
+    videoPath: '/output_with_trajectory.mp4', // Path for the video
+    detailedImage: "/prediction.png"
+  },
+  {
+    id: 2,
+    title: 'Yap-Chat',
+    description: 'A real-time web chat app built with MERN stack.',
+    image: '/chat.jpg',
+    example: 'A simple chat app using websockets and MERN stack.',
+    link: 'https://yapp-chat-app-de1a44a0cf7e.herokuapp.com/',  
+    detailedImage: "/selected_yap-chat.png"
+  },
+
   { id: 3, title: "Vulkan Game Engine", description: "A Vulkan-powered game engine.", example: "Rendering a simple triangle.", image: "/engine.jpg" }
 ];
