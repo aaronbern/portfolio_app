@@ -1,3 +1,7 @@
+// AARON BERNARD
+// MAIN COMMIT FOR LIVE WEBSITE
+
+
 import '../styles/globals.css';
 import SEO from '../components/SEO';
 import { useEffect, useState } from 'react';
