@@ -51,6 +51,7 @@ export function ProjectsCarousel() {
                   className="w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
                   <Card className="relative overflow-hidden user-select-none" style={{ height: "450px" }}>
+                    {/* Non-selected image */}
                     <img 
                       src={project.image} 
                       alt={project.title} 
@@ -95,14 +96,14 @@ export function ProjectsCarousel() {
               <p className="user-select-none text-white ">
                 {selectedProject.description}
               </p>
-              
+
               {/* Display the detailed image if available */}
               {selectedProject.detailedImage && (
                 <div className="mt-4">
                   <img 
                     src={selectedProject.detailedImage} 
                     alt={`${selectedProject.title} Detailed`} 
-                    className="w-full max-w-screen-lg h-auto"  
+                    className="w-full max-w-screen-md h-auto"  // Ensure image fits within screen bounds
                   />
                 </div>
               )}
@@ -110,8 +111,11 @@ export function ProjectsCarousel() {
               {/* Display the video if available */}
               {selectedProject.videoPath && (
                 <div className="mt-4">
-                  <h4 className="text-xl font-semibold text-white">Here is Trajectory Oracle in Action</h4>
-                  <video width="100%" height="auto" controls>
+                  <h4 className="text-xl font-semibold text-white">Here is {selectedProject.title} in Action</h4>
+                  <video 
+                    className="w-full max-w-screen-md h-auto"  // Dynamically adjust video size
+                    controls
+                  >
                     <source src={selectedProject.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
