@@ -27,7 +27,12 @@ export function ProjectsCarousel() {
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
-  }, [api]);
+
+    // Ensure it scrolls to the last selected project after re-mounting
+    if (selectedIndex && api) {
+      api.scrollTo(selectedIndex);
+    }
+  }, [api, selectedIndex]);
 
   const handleProjectClick = (project: Project, index: number) => {
     setSelectedProject(project);
@@ -36,9 +41,6 @@ export function ProjectsCarousel() {
 
   const handleClose = () => {
     setSelectedProject(null);
-    if (api) {
-      api.scrollTo(selectedIndex); // Restore to the last selected project
-    }
   };
 
   return (
