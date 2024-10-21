@@ -32,10 +32,6 @@ export function ProjectsCarousel() {
   const handleProjectClick = (project: Project, index: number) => {
     setSelectedProject(project);
     setSelectedIndex(index); // Store the selected index
-
-    if (api) {
-      api.scrollTo(index); // Scroll to the specific project
-    }
   };
 
   const handleClose = () => {
@@ -84,8 +80,8 @@ export function ProjectsCarousel() {
               &#8250;
             </CarouselNext>
           </Carousel>
-          <div className="py-2 text-center text-sm text-muted-foreground user-select-none text-white">
-            Showcased project {current} of {count}
+          <div className="py-2 text-center text-sm text-muted-foreground">
+            Slide {current} of {count}
           </div>
         </>
       )}
@@ -102,7 +98,6 @@ export function ProjectsCarousel() {
               </p>
               {selectedProject.link && (
                 <div className="mt-4">
-                  {/* Use a styled anchor (<a>) instead of Button for external links */}
                   <a
                     href={selectedProject.link}
                     target="_blank"
