@@ -18,7 +18,7 @@ export const projects: Project[] = [
     description: 'Predicts object trajectories with RL.',
     link: 'https://github.com/aaronbern/Trajectory-Oracle',
     image: '/traj.jpg',
-    videoPath: "C:/Users/aaron/OneDrive/Desktop/Code/portfolio_app/public/videos/output_with_trajectory.mp4", 
+    videoPath: "/videos/output_with_trajectory.mp4", 
     detailedImage: "/prediction.png"
   },
   {
