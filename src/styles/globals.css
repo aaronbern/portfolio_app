@@ -619,28 +619,22 @@ button[type="submit"]:hover {
 
 .project-detail-container {
   width: 80%;  /* Adjust the width */
-  height: auto;
+  height: 60vh; /* Set a fixed height, similar to other projects */
   padding: 1rem;
-  overflow-y: scroll;  /* Enable vertical scrolling */
+  overflow-y: auto;  /* Enable vertical scrolling */
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.7);  /* Dark background for contrast */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
   margin: 2rem auto;  /* Center it horizontally */
   border: 2px solid white; /* Add a clear white border */
 }
-
 /* Hide the scrollbar in WebKit browsers (Chrome, Safari, etc.) */
 .project-detail-container::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for Firefox */
 .project-detail-container {
   scrollbar-width: none; /* Firefox */
-}
-
-/* Optional: Overflow-y scroll to allow scrolling but hide scroll bar */
-.project-detail-container {
   -ms-overflow-style: none;  /* IE and Edge */
 }
 
@@ -653,6 +647,13 @@ button[type="submit"]:hover {
   .detailed-image, .project-video {
     max-height: 300px; /* Reduce the size for mobile */
   }
+}
+
+/* Ensure the video and images fit within the constraints */
+.project-video, .detailed-image {
+  max-width: 100%; /* Ensure the video and images don't overflow */
+  max-height: 40vh; /* Set a max height for the video and images */
+  object-fit: contain; /* Prevent distortion of images and videos */
 }
 
 .project-detail-container .links-container {
