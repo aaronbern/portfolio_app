@@ -87,9 +87,8 @@ export function ProjectsCarousel() {
           </div>
         </>
       )}
-
       {selectedProject && (
-        <div className="mt-4">
+        <div className="mt-4 project-detail-container">
           <Card>
             <CardContent className="flex flex-col items-center justify-center p-6">
               <h3 className="text-2xl font-bold text-white user-select-none">
@@ -98,37 +97,27 @@ export function ProjectsCarousel() {
               <p className="user-select-none text-white ">
                 {selectedProject.description}
               </p>
-              {selectedProject.link && (
-                <div className="mt-4">
-                  <a
-                    href={selectedProject.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md"
-                  >
-                    Visit Project
-                  </a>
-                </div>
-              )}
+
               {selectedProject.detailedImage && (
-                <div className="mt-4">
+                <div className="image-container">
                   <img 
                     src={selectedProject.detailedImage} 
                     alt={`${selectedProject.title} Detailed`} 
-                    className="w-full max-w-screen-lg h-auto"
+                    className="detailed-image"
                   />
                 </div>
               )}
+
               {selectedProject.videoPath && (
-                <div className="mt-4">
+                <div className="video-container">
                   <h4 className="text-xl font-semibold text-white">Here is Trajectory Oracle in Action</h4>
-                  <video width="100%" height="auto" controls>
+                  <video className="project-video" controls>
                     <source src={selectedProject.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
               )}
-              <Button onClick={handleClose} className="mt-4 text-white ">
+              <Button onClick={handleClose} className="mt-4 text-white">
                 Close
               </Button>
             </CardContent>

@@ -565,3 +565,74 @@ button[type="submit"]:hover {
 .modal-content {
   animation: fadeIn 0.3s ease-in-out;
 }
+
+/* Additional CSS Enhancements */
+
+/* Smooth Transition for Project Cards */
+.card-transition {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-transition:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar Styling for Detailed View */
+.fixed.inset-0.bg-black.bg-opacity-80::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fixed.inset-0.bg-black.bg-opacity-80::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.fixed.inset-0.bg-black.bg-opacity-80::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.fixed.inset-0.bg-black.bg-opacity-80::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.detailed-image, .project-video {
+  max-width: 80%;  /* Reduce to fit within a smaller container */
+  max-height: 400px; /* Limit the height for a more compact look */
+  object-fit: contain;  /* Ensures images/videos don't stretch */
+  margin-bottom: 1rem;  /* Add some space below the media */
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;  /* Center the video */
+  align-items: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;  /* Center the image */
+  align-items: center;
+}
+
+.project-detail-container {
+  width: 80%;  /* Adjust the width to fit the content */
+  height: 60vh; /* Set the height for the container */
+  padding: 1rem;
+  overflow-y: auto; /* Enable vertical scrolling */
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.7);  /* Dark background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin: 2rem auto;  /* Center it horizontally */
+}
+
+@media (max-width: 768px) {
+  .project-detail-container {
+    width: 90%;
+    height: 50vh; /* Adjust height for smaller screens */
+  }
+  .detailed-image, .project-video {
+    max-height: 300px; /* Reduce the size for mobile */
+  }
+}

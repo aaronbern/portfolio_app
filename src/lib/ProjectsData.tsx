@@ -34,6 +34,7 @@ export const projects: Project[] = [
     title: "Vulkan Game Engine",
     description: "A Vulkan-powered game engine.",
     example: "Rendering a simple triangle.", // Example or additional info
-    image: "/engine.jpg" // Image for the project card
+    image: "/engine.jpg", // Image for the project card
+    videoPath:"/videos/enginevid.mp4"
   }
 ];
