@@ -94,12 +94,36 @@ export function ProjectsCarousel() {
               <h3 className="text-2xl font-bold text-white user-select-none">
                 {selectedProject.title}
               </h3>
-              <p className="user-select-none text-white ">
+              <p className="user-select-none text-white">
                 {selectedProject.description}
               </p>
 
+              {/* Conditionally Render GitHub and Live Links */}
+              <div className="mt-4">
+                {selectedProject.githubLink && (
+                  <a
+                    href={selectedProject.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md"
+                  >
+                    GitHub Repo
+                  </a>
+                )}
+                {selectedProject.link && (
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-4 mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md"
+                  >
+                    Visit Project
+                  </a>
+                )}
+              </div>
+
               {selectedProject.detailedImage && (
-                <div className="image-container">
+                <div className="image-container mt-4">
                   <img 
                     src={selectedProject.detailedImage} 
                     alt={`${selectedProject.title} Detailed`} 
@@ -109,8 +133,8 @@ export function ProjectsCarousel() {
               )}
 
               {selectedProject.videoPath && (
-                <div className="video-container">
-                  <h4 className="text-xl font-semibold text-white">Here is Trajectory Oracle in Action</h4>
+                <div className="video-container mt-4">
+                  <h4 className="text-xl font-semibold text-white">Here is {selectedProject.title} in Action</h4>
                   <video className="project-video" controls>
                     <source src={selectedProject.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.

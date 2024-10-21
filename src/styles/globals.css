@@ -636,3 +636,28 @@ button[type="submit"]:hover {
     max-height: 300px; /* Reduce the size for mobile */
   }
 }
+
+.project-detail-container .links-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;  /* Space between buttons */
+  margin-top: 1rem;
+}
+
+.project-detail-container .links-container a {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.project-detail-container .links-container a:hover {
+  opacity: 0.9;
+}
+
+.project-video-container h4 {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
