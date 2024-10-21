@@ -60,13 +60,18 @@ export function ProjectsCarousel() {
                       alt={project.title} 
                       className="w-full h-full object-cover pointer-events-auto"
                     />
-                    <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-4">
-                      <h3 className="text-3xl font-bold">{project.title}</h3>
-                      <p className="text-center text-lg">{project.description}</p>
+                    <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-4" style={{ fontFamily: 'KIMM_Bold, sans-serif' }}>
+                      <h3 className="text-3xl font-bold"> 
+                        {project.title} 
+                      </h3>
+                      <p className="text-center text-lg">
+                        {project.description}
+                      </p>
                       <Button
                         variant="project"
-                        onClick={() => handleProjectClick(project, index)} // Pass index
+                        onClick={() => handleProjectClick(project, index)}
                         className="mt-4"
+                        style={{ fontFamily: 'KIMM_Bold, sans-serif' }} /* Ensures button also uses KIMM_Bold */
                       >
                         View Details
                       </Button>
@@ -94,7 +99,7 @@ export function ProjectsCarousel() {
               <h3 className="text-2xl font-bold text-white user-select-none">
                 {selectedProject.title}
               </h3>
-              <p className="user-select-none text-white">
+              <p className="user-select-none text-white ">
                 {selectedProject.description}
               </p>
 
@@ -134,7 +139,10 @@ export function ProjectsCarousel() {
 
               {selectedProject.videoPath && (
                 <div className="video-container mt-4">
-                  <h4 className="text-xl font-semibold text-white">Here is {selectedProject.title} in Action</h4>
+                  {/* Move this heading above the video */}
+                  <h4 className="text-xl font-semibold text-white mb-2 text-center">
+                    Here is {selectedProject.title} in Action
+                  </h4>
                   <video className="project-video" controls>
                     <source src={selectedProject.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.

@@ -606,8 +606,9 @@ button[type="submit"]:hover {
 
 .video-container {
   display: flex;
-  justify-content: center;  /* Center the video */
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .image-container {
@@ -617,15 +618,32 @@ button[type="submit"]:hover {
 }
 
 .project-detail-container {
-  width: 80%;  /* Adjust the width to fit the content */
-  height: 60vh; /* Set the height for the container */
+  width: 80%;  /* Adjust the width */
+  height: auto;
   padding: 1rem;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: scroll;  /* Enable vertical scrolling */
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.7);  /* Dark background for contrast */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
   margin: 2rem auto;  /* Center it horizontally */
+  border: 2px solid white; /* Add a clear white border */
 }
+
+/* Hide the scrollbar in WebKit browsers (Chrome, Safari, etc.) */
+.project-detail-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.project-detail-container {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Optional: Overflow-y scroll to allow scrolling but hide scroll bar */
+.project-detail-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
 
 @media (max-width: 768px) {
   .project-detail-container {
@@ -660,4 +678,25 @@ button[type="submit"]:hover {
   text-align: center;
   font-size: 1.25rem;
   margin-bottom: 1rem;
+}
+
+/* Ensure KIMM_Bold font is applied to all project carousel text */
+.carousel-content h3, /* Apply to project titles */
+.carousel-content p, /* Apply to project descriptions */
+.carousel-content a, /* Apply to project links */
+.carousel-content button { /* Apply to buttons */
+  font-family: 'KIMM_Bold', sans-serif; /* Apply KIMM_Bold font */
+}
+
+/* Optional: Adjust the text size or other styles if needed */
+.carousel-content h3 {
+  font-size: 1.75rem; /* Adjust the font size for titles */
+}
+
+.carousel-content p {
+  font-size: 1.1rem; /* Adjust font size for descriptions */
+}
+
+.carousel-content a, .carousel-content button {
+  font-size: 1rem; /* Uniform font size for links and buttons */
 }
