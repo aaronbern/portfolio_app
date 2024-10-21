@@ -80,8 +80,8 @@ export function ProjectsCarousel() {
               &#8250;
             </CarouselNext>
           </Carousel>
-          <div className="py-2 text-center text-sm text-muted-foreground">
-            Slide {current} of {count}
+          <div className="py-2 text-center text-sm text-muted-foreground user-select-none text-white">
+            Showcased Project {current} of {count}
           </div>
         </>
       )}
