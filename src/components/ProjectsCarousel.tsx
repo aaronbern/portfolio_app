@@ -51,7 +51,6 @@ export function ProjectsCarousel() {
                   className="w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 pl-4 md:pl-6 lg:pl-8"
                 >
                   <Card className="relative overflow-hidden user-select-none" style={{ height: "450px" }}>
-                    {/* Non-selected image */}
                     <img 
                       src={project.image} 
                       alt={project.title} 
@@ -96,28 +95,43 @@ export function ProjectsCarousel() {
               <p className="user-select-none text-white ">
                 {selectedProject.description}
               </p>
-              <div className="mt-4">
-                <h4 className="text-xl font-semibold text-white ">Project Example</h4>
-                <p dangerouslySetInnerHTML={{ __html: selectedProject.example || '' }}></p>
-              </div>
-              {selectedProject && selectedProject.detailedImage && (
+              
+              {/* Display the detailed image if available */}
+              {selectedProject.detailedImage && (
                 <div className="mt-4">
                   <img 
                     src={selectedProject.detailedImage} 
                     alt={`${selectedProject.title} Detailed`} 
-                    className="w-full h-auto"
+                    className="w-full max-w-screen-lg h-auto"  
                   />
                 </div>
               )}
+
+              {/* Display the video if available */}
               {selectedProject.videoPath && (
                 <div className="mt-4">
                   <h4 className="text-xl font-semibold text-white">Here is Trajectory Oracle in Action</h4>
-                  <video width="500" height="300" controls>
+                  <video width="100%" height="auto" controls>
                     <source src={selectedProject.videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
               )}
+
+              {/* Add the project link button if available */}
+              {selectedProject.link && (
+                <div className="mt-4">
+                  <a 
+                    href={selectedProject.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Visit Project
+                  </a>
+                </div>
+              )}
+
               <Button onClick={handleClose} className="mt-4 text-white ">
                 Close
               </Button>
