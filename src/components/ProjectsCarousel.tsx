@@ -16,11 +16,10 @@ export function ProjectsCarousel() {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   const [selectedProject, setSelectedProject] = React.useState<Project | null>(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(0); // Track the selected index
 
   React.useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
 
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
@@ -32,15 +31,18 @@ export function ProjectsCarousel() {
 
   const handleProjectClick = (project: Project, index: number) => {
     setSelectedProject(project);
+    setSelectedIndex(index); // Store the selected index
 
-    // If `goTo` is not available, use `scrollTo` or `scrollSnap`
     if (api) {
-      api.scrollTo(index); // Replace with the correct method
+      api.scrollTo(index); // Scroll to the specific project
     }
   };
 
   const handleClose = () => {
     setSelectedProject(null);
+    if (api) {
+      api.scrollTo(selectedIndex); // Restore to the last selected project
+    }
   };
 
   return (
@@ -65,7 +67,7 @@ export function ProjectsCarousel() {
                       <p className="text-center text-lg">{project.description}</p>
                       <Button
                         variant="project"
-                        onClick={() => handleProjectClick(project, index)}
+                        onClick={() => handleProjectClick(project, index)} // Pass index
                         className="mt-4"
                       >
                         View Details
@@ -98,11 +100,20 @@ export function ProjectsCarousel() {
               <p className="user-select-none text-white ">
                 {selectedProject.description}
               </p>
-              <div className="mt-4">
-                <h4 className="text-xl font-semibold text-white ">Link to Github</h4>
-                <p dangerouslySetInnerHTML={{ __html: selectedProject.example || '' }}></p>
-              </div>
-              {selectedProject && selectedProject.detailedImage && (
+              {selectedProject.link && (
+                <div className="mt-4">
+                  {/* Use a styled anchor (<a>) instead of Button for external links */}
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md"
+                  >
+                    Visit Project
+                  </a>
+                </div>
+              )}
+              {selectedProject.detailedImage && (
                 <div className="mt-4">
                   <img 
                     src={selectedProject.detailedImage} 
