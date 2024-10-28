@@ -1,4 +1,4 @@
-// pages/contact/index.tsx
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import emailjs from 'emailjs-com';
 
@@ -10,6 +10,7 @@ interface ContactFormInputs {
 
 export const ContactForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>();
+  const [isSent, setIsSent] = useState(false); // State to track successful submission
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
     const emailData = {
@@ -27,7 +28,9 @@ export const ContactForm = () => {
       )
       .then(() => {
         console.log('Your message has been sent successfully!');
+        setIsSent(true); // Show success message
         reset(); // Reset form after submission
+        setTimeout(() => setIsSent(false), 3000); 
       })
       .catch((error) => {
         console.error('Email sending error:', error);
@@ -35,43 +38,46 @@ export const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
-      <div className="input-group">
-        <label htmlFor="name" className="input-label">Name</label>
-        <input
-          id="name"
-          {...register('name', { required: 'Name is required' })}
-          className="input-field"
-        />
-        {errors.name && <span className="error-message">{errors.name.message}</span>}
-      </div>
+    <div>
+      {isSent && <p className="success-message">Your message has been sent successfully!</p>} {/* Success message */}
+      <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
+        <div className="input-group">
+          <label htmlFor="name" className="input-label">Name</label>
+          <input
+            id="name"
+            {...register('name', { required: 'Name is required' })}
+            className="input-field"
+          />
+          {errors.name && <span className="error-message">{errors.name.message}</span>}
+        </div>
 
-      <div className="input-group">
-        <label htmlFor="email" className="input-label">Email</label>
-        <input
-          id="email"
-          type="email"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" }
-          })}
-          className="input-field"
-        />
-        {errors.email && <span className="error-message">{errors.email.message}</span>}
-      </div>
+        <div className="input-group">
+          <label htmlFor="email" className="input-label">Email</label>
+          <input
+            id="email"
+            type="email"
+            {...register('email', {
+              required: 'Email is required',
+              pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" }
+            })}
+            className="input-field"
+          />
+          {errors.email && <span className="error-message">{errors.email.message}</span>}
+        </div>
 
-      <div className="input-group">
-        <label htmlFor="message" className="input-label">Message</label>
-        <textarea
-          id="message"
-          {...register('message', { required: 'Message is required' })}
-          className="input-field"
-        />
-        {errors.message && <span className="error-message">{errors.message.message}</span>}
-      </div>
+        <div className="input-group">
+          <label htmlFor="message" className="input-label">Message</label>
+          <textarea
+            id="message"
+            {...register('message', { required: 'Message is required' })}
+            className="input-field"
+          />
+          {errors.message && <span className="error-message">{errors.message.message}</span>}
+        </div>
 
-      <button type="submit" className="submit-button">Send</button>
-    </form>
+        <button type="submit" className="submit-button">Send</button>
+      </form>
+    </div>
   );
 };
 
