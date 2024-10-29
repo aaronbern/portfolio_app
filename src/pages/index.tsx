@@ -377,7 +377,7 @@ export default function Home() {
           </div>
         )}
         {activeContent === 'contact' && (
-          <div id="contact-form" className="content">
+          <div id="contact-form" className="about-heading">
             <h1>Contact Me</h1>
             <p>Feel free to reach out to me via:</p>
             <ul className="contact-list">
