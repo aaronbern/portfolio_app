@@ -442,6 +442,7 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  top: 45%;
   align-items: center;
 }
 
