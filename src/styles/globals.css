@@ -449,7 +449,6 @@ button:active {
 
 .contact-list li {
   opacity: 0; /* Start hidden */
-  transform: translateY(20px); /* Start with a slight offset */
   animation: fadeIn 1s ease forwards; /* Apply fadeIn animation */
 }
 
