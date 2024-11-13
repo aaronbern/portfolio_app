@@ -469,6 +469,7 @@ button:active {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.85); /* Semi-transparent white for minimalism */
   text-decoration: none;
+  left: 50%;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
