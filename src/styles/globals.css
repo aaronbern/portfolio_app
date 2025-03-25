@@ -133,20 +133,21 @@ button:active {
 /* Links Container */
 .links {
   display: flex;
-  position: fixed; /* Keeps the links fixed relative to the viewport */
-  bottom: 10%; /* Positions the links 10% above the bottom */
-  left: 0; /* Start from the left */
-  right: 0; /* Stretch to the right */
-  width: 100%; /* Ensures the container spans the full width */
-  justify-content: center; /* Centers the links horizontally */
-  gap: 2.5rem; /* Space between links */
+  position: fixed;
+  bottom: 5%; /* Lower position from bottom */
+  left: 0;
+  right: 0;
+  width: 100%;
+  justify-content: center; /* This should be working, but let's reinforce it */
+  align-items: center; /* Added for vertical alignment */
+  gap: 2.5rem;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   text-align: center;
   background: none;
   padding: 0;
-  margin: 0;
-  z-index: 1000; /* Ensures links appear above other elements */
+  margin: 0 auto; /* Added auto margin to help with centering */
+  z-index: 1000;
 }
 
 /* Link items styling */
