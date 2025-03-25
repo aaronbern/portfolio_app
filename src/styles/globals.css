@@ -129,107 +129,71 @@ button:active {
   gap: 1rem;
 }
 
-/* Styling for links */
-/* Links Container */
+/* Modified links container to align with striped background */
 .links {
   display: flex;
   position: fixed;
-  bottom: 5%; /* Lower position from bottom */
+  bottom: 5%;
   left: 0;
   right: 0;
   width: 100%;
-  justify-content: center; /* This should be working, but let's reinforce it */
-  align-items: center; /* Added for vertical alignment */
-  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0; /* Remove gap to allow manual positioning */
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   text-align: center;
   background: none;
   padding: 0;
-  margin: 0 auto; /* Added auto margin to help with centering */
+  margin: 0 auto;
   z-index: 1000;
 }
 
-/* Link items styling */
+/* Adjust each link item to match column width */
 .link-item {
   font-family: 'KIMM_Bold', sans-serif;
-  font-weight: 700; /* Bold weight */
+  font-weight: 700;
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
-  opacity: 0; /* Start hidden */
-  transform: translateY(20px); /* Start with a downward offset */
+  opacity: 0;
+  transform: translateY(20px);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
   border: none;
   outline: none;
   background: none;
   padding: 0;
   margin: 0;
-  color: #ffffff; /* Ensure the text has a base color */
+  color: #ffffff;
+  /* Each link gets positioned to match the grid */
+  width: calc(100% / 9); /* Assuming your grid has 9 columns */
 }
 
+/* Position the About, Contact, and Projects links to match specific columns */
+.link-item:nth-child(1) { /* About */
+  transform: translateX(-50px); /* Adjust this value as needed */
+}
+
+.link-item:nth-child(2) { /* Contact */
+  /* Center link stays in the middle */
+}
+
+.link-item:nth-child(3) { /* Projects */
+  transform: translateX(50px); /* Adjust this value as needed */
+}
+
+/* Maintain visibility and hover effects */
 .link-item.visible {
   opacity: 1;
-  transform: translateY(0);
-  -webkit-tap-highlight-color: transparent;
+  transform: translateY(0) translateX(-50px); /* For About */
 }
 
-.link-item.active {
-  transform: scale(1); /* Ensures the active link returns to normal size */
-  -webkit-tap-highlight-color: transparent;
+.link-item.visible:nth-child(2) {
+  transform: translateY(0); /* For Contact, no horizontal offset */
 }
 
-/* Minimalist Hover Effects */
-.link-item:hover,
-.link-item:focus,
-.link-item:active {
-  -webkit-tap-highlight-color: transparent;
-  color: #ffffff; /* Maintain base color */
-  /* Subtle text-shadow for a hint of depth */
-  text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.6),
-    0 0 12px rgba(255, 255, 255, 0.4);
-  transform: scale(1.1); /* Slight scale for minimal emphasis */
-  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
-  outline: none !important;
-  box-shadow: none !important; /* Removes box-like glow */
-}
-
-.link-item:active {
-  -webkit-tap-highlight-color: transparent;
-  animation: flash 0.2s ease;
-  text-shadow: 
-    0 0 6px rgba(255, 255, 255, 0.8),
-    0 0 12px rgba(255, 255, 255, 0.6);
-  outline: none;
-}
-
-/* Keyframe for a quick flash effect */
-@keyframes flash {
-  0% {
-    text-shadow: 
-      0 0 12px rgba(255, 255, 255, 0.8),
-      0 0 18px rgba(255, 255, 255, 0.6);
-  }
-  100% {
-    text-shadow: 
-      0 0 6px rgba(255, 255, 255, 0.8),
-      0 0 12px rgba(255, 255, 255, 0.6);
-  }
-}
-
-.link-item:not(.active) {
-  -webkit-tap-highlight-color: transparent;
-  transform: scale(1); /* Ensure link goes back to normal when clicked again */
-  outline: none;
-}
-
-/* Animation delays for each link */
-.link-item:nth-child(1),
-.link-item:nth-child(2),
-.link-item:nth-child(3),
-.link-item:nth-child(4) {
-  transition-delay: 0s; /* Removes delay for all links */
+.link-item.visible:nth-child(3) {
+  transform: translateY(0) translateX(50px); /* For Projects */
 }
 
 /* New Styles for About Me Enhancements */
