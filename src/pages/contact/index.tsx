@@ -10,7 +10,7 @@ interface ContactFormInputs {
 
 export const ContactForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>();
-  const [isSent, setIsSent] = useState(false); // State to track successful submission
+  const [isSent, setIsSent] = useState(false);
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
     const emailData = {
@@ -21,15 +21,15 @@ export const ContactForm = () => {
 
     emailjs
       .send(
-        'service_iixemqc',    // Your EmailJS service ID
-        'template_t6ja56p',   // Your EmailJS template ID
+        'service_iixemqc',
+        'template_t6ja56p',
         emailData,
-        'UEkOXZOgq5NDGXhU6'   // Your EmailJS public key
+        'UEkOXZOgq5NDGXhU6'
       )
       .then(() => {
         console.log('Your message has been sent successfully!');
-        setIsSent(true); // Show success message
-        reset(); // Reset form after submission
+        setIsSent(true);
+        reset();
         setTimeout(() => setIsSent(false), 3000); 
       })
       .catch((error) => {
@@ -38,15 +38,17 @@ export const ContactForm = () => {
   };
 
   return (
-    <div>
-      {isSent && <p className="success-message">Your message has been sent successfully!</p>} {/* Success message */}
-      <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
+    // Add this wrapper div with text-center class for centering
+    <div className="flex flex-col items-center w-full">
+      {isSent && <p className="success-message">Your message has been sent successfully!</p>}
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="spacey-form w-full max-w-md">
         <div className="input-group">
           <label htmlFor="name" className="input-label">Name</label>
           <input
             id="name"
             {...register('name', { required: 'Name is required' })}
-            className="input-field"
+            className="input-field w-full"
           />
           {errors.name && <span className="error-message">{errors.name.message}</span>}
         </div>
@@ -60,7 +62,7 @@ export const ContactForm = () => {
               required: 'Email is required',
               pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" }
             })}
-            className="input-field"
+            className="input-field w-full"
           />
           {errors.email && <span className="error-message">{errors.email.message}</span>}
         </div>
@@ -70,12 +72,15 @@ export const ContactForm = () => {
           <textarea
             id="message"
             {...register('message', { required: 'Message is required' })}
-            className="input-field"
+            className="input-field w-full"
           />
           {errors.message && <span className="error-message">{errors.message.message}</span>}
         </div>
 
-        <button type="submit" className="submit-button">Send</button>
+        {/* Center the button with a div */}
+        <div className="flex justify-center mt-4">
+          <button type="submit" className="submit-button">Send</button>
+        </div>
       </form>
     </div>
   );
