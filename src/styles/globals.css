@@ -129,7 +129,7 @@ button:active {
   gap: 1rem;
 }
 
-/* Modified links container to align with striped background */
+/* Complete fix for bottom links with hover animations */
 .links {
   display: flex;
   position: fixed;
@@ -149,7 +149,7 @@ button:active {
   z-index: 1000;
 }
 
-/* Adjust each link item to match column width */
+/* Link items styling */
 .link-item {
   font-family: 'KIMM_Bold', sans-serif;
   font-weight: 700;
@@ -163,37 +163,62 @@ button:active {
   outline: none;
   background: none;
   padding: 0;
-  margin: 0;
+  margin: 0 2.5rem; /* Added horizontal margin instead of gap */
   color: #ffffff;
-  /* Each link gets positioned to match the grid */
-  width: calc(100% / 9); /* Assuming your grid has 9 columns */
 }
 
-/* Position the About, Contact, and Projects links to match specific columns */
-.link-item:nth-child(1) { /* About */
-  transform: translateX(-50px); /* Adjust this value as needed */
-}
-
-.link-item:nth-child(2) { /* Contact */
-  /* Center link stays in the middle */
-}
-
-.link-item:nth-child(3) { /* Projects */
-  transform: translateX(50px); /* Adjust this value as needed */
-}
-
-/* Maintain visibility and hover effects */
 .link-item.visible {
   opacity: 1;
-  transform: translateY(0) translateX(-50px); /* For About */
+  transform: translateY(0);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.link-item.visible:nth-child(2) {
-  transform: translateY(0); /* For Contact, no horizontal offset */
+.link-item.active {
+  transform: scale(1);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.link-item.visible:nth-child(3) {
-  transform: translateY(0) translateX(50px); /* For Projects */
+/* Minimalist Hover Effects */
+.link-item:hover,
+.link-item:focus,
+.link-item:active {
+  -webkit-tap-highlight-color: transparent;
+  color: #ffffff;
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.6),
+    0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.link-item:active {
+  -webkit-tap-highlight-color: transparent;
+  animation: flash 0.2s ease;
+  text-shadow: 
+    0 0 6px rgba(255, 255, 255, 0.8),
+    0 0 12px rgba(255, 255, 255, 0.6);
+  outline: none;
+}
+
+@keyframes flash {
+  0% {
+    text-shadow: 
+      0 0 12px rgba(255, 255, 255, 0.8),
+      0 0 18px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.8),
+      0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.link-item:not(.active) {
+  -webkit-tap-highlight-color: transparent;
+  transform: scale(1);
+  outline: none;
 }
 
 /* New Styles for About Me Enhancements */
