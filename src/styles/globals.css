@@ -118,7 +118,7 @@ button:active {
 /* Name Container using Flexbox for centering */
 .name-container {
   position: fixed; /* Use fixed to keep it centered relative to the viewport */
-  top: 20%; /* Move up higher on the page to make room for contact info */
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -127,72 +127,7 @@ button:active {
   align-items: center;
   justify-content: center; /* Center content vertically */
   gap: 1rem;
-  z-index: 20;
 }
-
-/* CONTACT LINKS FIX - The main fix for your contact links positioning */
-/* This creates a dedicated container for your contact information */
-.contact-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 45%; /* Position the contact info container in the middle of the screen */
-  left: 0;
-  right: 0;
-  width: 100%;
-  gap: 1.2rem; /* Space between links */
-  z-index: 50;
-}
-
-/* Styling for each contact link */
-.contact-info-link {
-  font-family: 'KIMM_Bold', sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-  text-decoration: none;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-/* Hover effect for contact links */
-.contact-info-link:hover {
-  color: #4ade80; /* Green color on hover */
-  transform: scale(1.05);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-
-/* Bottom nav container - for About, Contact, Projects links */
-.bottom-nav {
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  bottom: 10%; /* Position from bottom */
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 50;
-  gap: 2.5rem;
-}
-
-/* Apply to each bottom navigation link */
-.bottom-nav-link {
-  font-family: 'KIMM_Bold', sans-serif;
-  color: #ffffff;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards;
-  animation-delay: 0.7s;
-}
-
-.bottom-nav-link:hover {
-  color: #4ade80;
-  transform: scale(1.1);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-/* END OF CONTACT LINKS FIX */
 
 /* Styling for links */
 /* Links Container */
@@ -442,11 +377,6 @@ button:active {
     width: 100px;
     height: 100px;
   }
-  
-  /* Adjust contact info container for mobile */
-  .contact-info-container {
-    top: 50%;
-  }
 }
 
 @media (max-width: 480px) {
@@ -473,15 +403,6 @@ button:active {
     line-height: 1.3rem;
     pointer-events: none;
     user-select: none;
-  }
-  
-  /* Adjust contact links for very small screens */
-  .contact-info-container {
-    gap: 1rem;
-  }
-  
-  .bottom-nav {
-    gap: 1.5rem;
   }
 }
 
@@ -521,13 +442,13 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  left: 50%;
   top: 45%;
   align-items: center;
 }
 
 .contact-list li {
   opacity: 0; /* Start hidden */
+  transform: translateY(20px); /* Start with a slight offset */
   animation: fadeIn 1s ease forwards; /* Apply fadeIn animation */
 }
 
@@ -548,7 +469,6 @@ button:active {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.85); /* Semi-transparent white for minimalism */
   text-decoration: none;
-  left: 50%;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
@@ -782,6 +702,8 @@ button[type="submit"]:hover {
   font-size: 1rem; /* Uniform font size for links and buttons */
 }
 
+/* Add these styles to your globals.css file */
+
 /* Make form centered and properly sized */
 .spacey-form {
   display: flex;
@@ -821,4 +743,14 @@ button[type="submit"]:hover {
   font-size: 0.875rem;
   margin-top: -0.5rem;
   margin-bottom: 0.5rem;
+}
+
+/* Center the contact list if used */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
 }

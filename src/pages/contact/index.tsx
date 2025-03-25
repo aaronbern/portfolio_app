@@ -8,6 +8,33 @@ interface ContactFormInputs {
   message: string;
 }
 
+const ContactPage = () => {
+  // This component contains both the contact form and the contact links
+  return (
+    <>
+      {/* Contact links in the middle of the screen */}
+      <div className="contact-links">
+        <a href="mailto:Aaronber@pdx.edu">Email: Aaronber@pdx.edu</a>
+        <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
+        <a href="https://github.com/yourusername">GitHub</a>
+      </div>
+
+      {/* Bottom navigation links */}
+      <div className="bottom-links">
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#projects">Projects</a>
+      </div>
+
+      {/* Contact form is hidden by default unless shown by some state or navigation */}
+      <div style={{ display: 'none' }}>
+        <ContactForm />
+      </div>
+    </>
+  );
+};
+
+// The contact form component remains unchanged
 export const ContactForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>();
   const [isSent, setIsSent] = useState(false);
@@ -38,17 +65,15 @@ export const ContactForm = () => {
   };
 
   return (
-    // Add this wrapper div with text-center class for centering
-    <div className="flex flex-col items-center w-full">
+    <div>
       {isSent && <p className="success-message">Your message has been sent successfully!</p>}
-      
-      <form onSubmit={handleSubmit(onSubmit)} className="spacey-form w-full max-w-md">
+      <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
         <div className="input-group">
           <label htmlFor="name" className="input-label">Name</label>
           <input
             id="name"
             {...register('name', { required: 'Name is required' })}
-            className="input-field w-full"
+            className="input-field"
           />
           {errors.name && <span className="error-message">{errors.name.message}</span>}
         </div>
@@ -62,7 +87,7 @@ export const ContactForm = () => {
               required: 'Email is required',
               pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" }
             })}
-            className="input-field w-full"
+            className="input-field"
           />
           {errors.email && <span className="error-message">{errors.email.message}</span>}
         </div>
@@ -72,12 +97,11 @@ export const ContactForm = () => {
           <textarea
             id="message"
             {...register('message', { required: 'Message is required' })}
-            className="input-field w-full"
+            className="input-field"
           />
           {errors.message && <span className="error-message">{errors.message.message}</span>}
         </div>
 
-        {/* Center the button with a div */}
         <div className="flex justify-center mt-4">
           <button type="submit" className="submit-button">Send</button>
         </div>
@@ -86,4 +110,4 @@ export const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default ContactPage;

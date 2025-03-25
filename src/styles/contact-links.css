@@ -1,0 +1,64 @@
+/* contact-links.css - Dedicated styling for contact links */
+
+/* Middle contact links container */
+.contact-links {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    top: 45%;
+    left: 0;
+    right: 0;
+    z-index: 30;
+  }
+  
+  /* Middle contact links styling */
+  .contact-links a {
+    font-family: 'KIMM_Bold', sans-serif;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .contact-links a:hover {
+    color: #4ade80;
+    transform: scale(1.05);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Bottom navigation links container */
+  .bottom-links {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+    z-index: 30;
+  }
+  
+  /* Bottom navigation links styling */
+  .bottom-links a {
+    font-family: 'KIMM_Bold', sans-serif;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .bottom-links a:hover {
+    color: #4ade80;
+    transform: scale(1.05);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 640px) {
+    .bottom-links {
+      gap: 1.5rem;
+    }
+  }
