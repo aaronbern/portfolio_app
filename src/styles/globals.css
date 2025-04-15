@@ -226,8 +226,7 @@ button:active {
 /* Animation delays for each link */
 .link-item:nth-child(1),
 .link-item:nth-child(2),
-.link-item:nth-child(3),
-.link-item:nth-child(4) {
+.link-item:nth-child(3){
   transition-delay: 0s; /* Removes delay for all links */
 }
 
