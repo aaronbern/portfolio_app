@@ -8,9 +8,36 @@ interface ContactFormInputs {
   message: string;
 }
 
+const ContactPage = () => {
+  // This component contains both the contact form and the contact links
+  return (
+    <>
+      {/* Contact links in the middle of the screen */}
+      <div className="contact-links">
+        <a href="mailto:Aaronber@pdx.edu">Email: Aaronber@pdx.edu</a>
+        <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
+        <a href="https://github.com/yourusername">GitHub</a>
+      </div>
+
+      {/* Bottom navigation links */}
+      <div className="bottom-links">
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#projects">Projects</a>
+      </div>
+
+      {/* Contact form is hidden by default unless shown by some state or navigation */}
+      <div style={{ display: 'none' }}>
+        <ContactForm />
+      </div>
+    </>
+  );
+};
+
+// The contact form component remains unchanged
 export const ContactForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>();
-  const [isSent, setIsSent] = useState(false); // State to track successful submission
+  const [isSent, setIsSent] = useState(false);
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
     const emailData = {
@@ -21,15 +48,15 @@ export const ContactForm = () => {
 
     emailjs
       .send(
-        'service_iixemqc',    // Your EmailJS service ID
-        'template_t6ja56p',   // Your EmailJS template ID
+        'service_iixemqc',
+        'template_t6ja56p',
         emailData,
-        'UEkOXZOgq5NDGXhU6'   // Your EmailJS public key
+        'UEkOXZOgq5NDGXhU6'
       )
       .then(() => {
         console.log('Your message has been sent successfully!');
-        setIsSent(true); // Show success message
-        reset(); // Reset form after submission
+        setIsSent(true);
+        reset();
         setTimeout(() => setIsSent(false), 3000); 
       })
       .catch((error) => {
@@ -39,7 +66,7 @@ export const ContactForm = () => {
 
   return (
     <div>
-      {isSent && <p className="success-message">Your message has been sent successfully!</p>} {/* Success message */}
+      {isSent && <p className="success-message">Your message has been sent successfully!</p>}
       <form onSubmit={handleSubmit(onSubmit)} className="spacey-form">
         <div className="input-group">
           <label htmlFor="name" className="input-label">Name</label>
@@ -75,10 +102,12 @@ export const ContactForm = () => {
           {errors.message && <span className="error-message">{errors.message.message}</span>}
         </div>
 
-        <button type="submit" className="submit-button">Send</button>
+        <div className="flex justify-center mt-4">
+          <button type="submit" className="submit-button">Send</button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default ContactForm;
+export default ContactPage;

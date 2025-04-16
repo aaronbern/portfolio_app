@@ -129,42 +129,42 @@ button:active {
   gap: 1rem;
 }
 
-/* Styling for links */
-/* Links Container */
+/* Complete fix for bottom links with hover animations */
 .links {
   display: flex;
-  position: fixed; /* Keeps the links fixed relative to the viewport */
-  bottom: 10%; /* Positions the links 10% above the bottom */
-  left: 0; /* Start from the left */
-  right: 0; /* Stretch to the right */
-  width: 100%; /* Ensures the container spans the full width */
-  justify-content: center; /* Centers the links horizontally */
-  gap: 2.5rem; /* Space between links */
+  position: fixed;
+  bottom: 5%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0; /* Remove gap to allow manual positioning */
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   text-align: center;
   background: none;
   padding: 0;
-  margin: 0;
-  z-index: 1000; /* Ensures links appear above other elements */
+  margin: 0 auto;
+  z-index: 1000;
 }
 
 /* Link items styling */
 .link-item {
   font-family: 'KIMM_Bold', sans-serif;
-  font-weight: 700; /* Bold weight */
+  font-weight: 700;
   font-size: 1rem;
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
-  opacity: 0; /* Start hidden */
-  transform: translateY(20px); /* Start with a downward offset */
+  opacity: 0;
+  transform: translateY(20px);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
   border: none;
   outline: none;
   background: none;
   padding: 0;
-  margin: 0;
-  color: #ffffff; /* Ensure the text has a base color */
+  margin: 0 2.5rem; /* Added horizontal margin instead of gap */
+  color: #ffffff;
 }
 
 .link-item.visible {
@@ -174,7 +174,7 @@ button:active {
 }
 
 .link-item.active {
-  transform: scale(1); /* Ensures the active link returns to normal size */
+  transform: scale(1);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -183,15 +183,14 @@ button:active {
 .link-item:focus,
 .link-item:active {
   -webkit-tap-highlight-color: transparent;
-  color: #ffffff; /* Maintain base color */
-  /* Subtle text-shadow for a hint of depth */
+  color: #ffffff;
   text-shadow: 
     0 0 8px rgba(255, 255, 255, 0.6),
     0 0 12px rgba(255, 255, 255, 0.4);
-  transform: scale(1.1); /* Slight scale for minimal emphasis */
+  transform: scale(1.1);
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
   outline: none !important;
-  box-shadow: none !important; /* Removes box-like glow */
+  box-shadow: none !important;
 }
 
 .link-item:active {
@@ -203,7 +202,6 @@ button:active {
   outline: none;
 }
 
-/* Keyframe for a quick flash effect */
 @keyframes flash {
   0% {
     text-shadow: 
@@ -219,7 +217,7 @@ button:active {
 
 .link-item:not(.active) {
   -webkit-tap-highlight-color: transparent;
-  transform: scale(1); /* Ensure link goes back to normal when clicked again */
+  transform: scale(1);
   outline: none;
 }
 
@@ -441,13 +439,13 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  left: 50%;
   top: 45%;
   align-items: center;
 }
 
 .contact-list li {
   opacity: 0; /* Start hidden */
+  transform: translateY(20px); /* Start with a slight offset */
   animation: fadeIn 1s ease forwards; /* Apply fadeIn animation */
 }
 
@@ -468,7 +466,6 @@ button:active {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.85); /* Semi-transparent white for minimalism */
   text-decoration: none;
-  left: 50%;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
@@ -700,4 +697,57 @@ button[type="submit"]:hover {
 
 .carousel-content a, .carousel-content button {
   font-size: 1rem; /* Uniform font size for links and buttons */
+}
+
+/* Add these styles to your globals.css file */
+
+/* Make form centered and properly sized */
+.spacey-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Ensure inputs take full width */
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Center success message */
+.success-message {
+  text-align: center;
+  color: #4ade80;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(74, 222, 128, 0.1);
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Style error messages */
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Center the contact list if used */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
 }
