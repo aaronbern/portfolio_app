@@ -221,6 +221,13 @@ button:active {
   outline: none;
 }
 
+/* Animation delays for each link */
+.link-item:nth-child(1),
+.link-item:nth-child(2),
+.link-item:nth-child(3){
+  transition-delay: 0s; /* Removes delay for all links */
+}
+
 /* New Styles for About Me Enhancements */
 
 /* Profile Picture Styling */
