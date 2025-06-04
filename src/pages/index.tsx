@@ -278,22 +278,19 @@ export default function Home() {
       if (nameTitle && nameSubtitle) {
         nameTitle.style.color = rgbColor;
         nameTitle.style.opacity = '1'; // Keep opacity constant
-        nameTitle.style.textShadow = `0 0 ${
-          30 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
+        nameTitle.style.textShadow = `0 0 ${30 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
         nameSubtitle.style.color = rgbColor;
         nameSubtitle.style.opacity = '1'; // Keep opacity constant
-        nameSubtitle.style.textShadow = `0 0 ${
-          15 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        nameSubtitle.style.textShadow = `0 0 ${15 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
       }
 
       // Update link styles
       linkItems.forEach((link) => {
         link.style.color = rgbColor;
-        link.style.textShadow = `0 0 ${
-          15 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        link.style.textShadow = `0 0 ${15 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
       });
 
       scene.rotation.y = time * 0.02;
@@ -317,7 +314,7 @@ export default function Home() {
     <>
       <SEO
         title="AaronBernard.exe"
-        description="A showcase of my projects and experience"
+        description="CS student focused on AI and full-stack development"
       />
       <div id="three-container" className="w-full h-screen"></div>
       <div className="name-container">
@@ -325,7 +322,7 @@ export default function Home() {
         {activeContent === 'home' && (
           <>
             <h1 className="name-title">Aaron Bernard</h1>
-            <p className="name-subtitle">Aspiring Software Engineer</p>
+            <p className="name-subtitle">Computer Science Student</p>
           </>
         )}
         {activeContent === 'about' && (
@@ -341,7 +338,7 @@ export default function Home() {
                 height={100}
               />
             </div>
-  
+
             {/* Simplified About Content */}
             <div className="about-content">
               {/* Section 1: Introduction */}
@@ -350,27 +347,27 @@ export default function Home() {
                   <span className="section-number">1.</span> Introduction
                 </h2>
                 <p className="about-text">
-                  Hello, I&apos;m Aaron Bernard, a passionate software engineer dedicated to creating innovative solutions. I specialize in modern web technologies like React and Next.js, and I leverage AI tools to predict and analyze data in real-time.
+                  Hello, I&apos;m Aaron Bernard, a Computer Science student at Portland State University (GPA: 3.4, Expected: 2026) focused on AI and full-stack development. I specialize in MERN stack technologies, LangChain, and reinforcement learning models, with growing expertise in building reliable, scalable systems.
                 </p>
               </section>
-  
-              {/* Section 2: Background */}
+
+              {/* Section 2: Current Work & Experience */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">2.</span> Background
+                  <span className="section-number">2.</span> Current Work
                 </h2>
                 <p className="about-text">
-                  With a foundation in web development, customer service, and AI integration, I aim to build reliable, scalable, and secure software that addresses real-world challenges. I apply DevOps and SRE principles to ensure system reliability, automate workflows, and enhance application resilience through effective monitoring tools.
+                  I&apos;m currently working as a Core/AI Developer Intern where I build bot detection models with machine learning workflows, develop real-time metric dashboards for model performance tracking, and improve deployment pipelines. My work involves data annotation, ML model development, and supporting production deployments of AI systems.
                 </p>
               </section>
-  
-              {/* Section 3: Interests & Goals */}
+
+              {/* Section 3: Technical Skills & Interests */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">3.</span> Interests & Goals
+                  <span className="section-number">3.</span> Skills & Interests
                 </h2>
                 <p className="about-text">
-                  I thrive on merging creativity with functionality in software development. My interests include AI, game development, and exploring new web technologies. My aspiration is to become a Site Reliability Engineer at Nike, contributing to the creation of highly available, scalable, and secure systems while implementing best practices in monitoring, performance optimization, and automation.
+                  I work with C++, Python, Java, and modern web technologies including React, Node.js, and MongoDB. My projects range from real-time chat applications with file uploads and OAuth integration to YOLO + reinforcement learning systems for motion prediction. I&apos;m particularly interested in site reliability engineering, cloud infrastructure, and building highly available, secure systems with effective monitoring and automation.
                 </p>
               </section>
             </div>
@@ -397,45 +394,42 @@ export default function Home() {
             </ul>
           </div>
         )}
-      {/* Modal for Contact Form */}
-      {showContactForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="close-button" onClick={() => setShowContactForm(false)}>
-              X
-            </button>
-            <ContactForm />
-          </div>
-        </div>
-      )}
-          {activeContent === 'projects' && (
-            <div className = "content">
-              <ProjectsCarousel />  {}
+        {/* Modal for Contact Form */}
+        {showContactForm && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <button className="close-button" onClick={() => setShowContactForm(false)}>
+                X
+              </button>
+              <ContactForm />
             </div>
-          )}
+          </div>
+        )}
+        {activeContent === 'projects' && (
+          <div className="content">
+            <ProjectsCarousel />  { }
+          </div>
+        )}
       </div>
       {/* Static Links Container */}
       <div className="links">
         <button
-          className={`link-item ${showLinks.about ? 'visible' : ''} ${
-            activeContent === 'about' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.about ? 'visible' : ''} ${activeContent === 'about' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('about')}
         >
           About
         </button>
         <button
-          className={`link-item ${showLinks.contact ? 'visible' : ''} ${
-            activeContent === 'contact' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.contact ? 'visible' : ''} ${activeContent === 'contact' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('contact')}
         >
           Contact
         </button>
         <button
-          className={`link-item ${showLinks.projects ? 'visible' : ''} ${
-            activeContent === 'projects' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.projects ? 'visible' : ''} ${activeContent === 'projects' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('projects')}
         >
           Projects
@@ -443,5 +437,5 @@ export default function Home() {
       </div>
       <Analytics />
     </>
-  );  
+  );
 }
