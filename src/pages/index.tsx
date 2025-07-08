@@ -346,27 +346,27 @@ export default function Home() {
                   <span className="section-number">1.</span> Introduction
                 </h2>
                 <p className="about-text">
-                  Hello, I'm Aaron Bernard — a software engineer passionate about building systems that are both innovative and reliable. I currently work as a Site Reliability Engineering Intern at Trimble, where I help improve system stability, automation, and observability across internal platforms.
+                  Hello, I&apos;m Aaron Bernard — a software engineer passionate about building systems that are both innovative and reliable. I currently work as a Site Reliability Engineering Intern at Trimble, where I help improve system stability, automation, and observability across internal platforms.
                 </p>
               </section>
 
               {/* Section 2: Background */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">2.</span> Current Work
+                  <span className="section-number">2.</span> Background
                 </h2>
                 <p className="about-text">
-                  Previously, I worked at Act-On Software, contributing to projects that integrated AI into production systems and supported internal infrastructure initiatives. I’ve worked with cloud-based monitoring tools, infrastructure-as-code platforms like Terraform, and performance reporting systems to help teams gain visibility into system health and reliability.
+                  Previously, I worked at Act-On Software, contributing to projects that integrated AI into production systems and supported internal infrastructure initiatives. I&apos;ve worked with cloud-based monitoring tools, infrastructure-as-code platforms like Terraform, and performance reporting systems to help teams gain visibility into system health and reliability.
                 </p>
               </section>
 
               {/* Section 3: Interests & Goals */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">3.</span> Skills & Interests
+                  <span className="section-number">3.</span> Interests & Goals
                 </h2>
                 <p className="about-text">
-                  I'm especially interested in Site Reliability Engineering — combining software and systems thinking to build fault-tolerant, scalable platforms. I also enjoy AI development, game design, and exploring new ways to create efficient developer experiences. Long-term, I want to continue working on production infrastructure that supports large-scale, real-time applications with a focus on reliability, automation, and thoughtful monitoring.
+                  I&apos;m especially interested in Site Reliability Engineering — combining software and systems thinking to build fault-tolerant, scalable platforms. I also enjoy AI development, game design, and exploring new ways to create efficient developer experiences. Long-term, I want to continue working on production infrastructure that supports large-scale, real-time applications with a focus on reliability, automation, and thoughtful monitoring.
                 </p>
               </section>
             </div>
