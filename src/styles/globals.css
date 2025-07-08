@@ -139,7 +139,7 @@ button:active {
   width: 100%;
   justify-content: center;
   align-items: center;
-  gap: 3rem; /* Remove gap to allow manual positioning */
+  gap: 0; /* Remove gap to allow manual positioning */
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   text-align: center;
@@ -163,6 +163,7 @@ button:active {
   outline: none;
   background: none;
   padding: 0;
+  margin: 0;
   color: #ffffff;
 }
 
