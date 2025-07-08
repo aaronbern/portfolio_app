@@ -57,7 +57,7 @@ export default function Home() {
     scene.background = new THREE.Color(0x000000); // Set a dark background
 
     // Enhanced shader material for star-like lights
-    const createStarMaterial = (color) => {
+    const createStarMaterial = (color: number) => {
       return new THREE.ShaderMaterial({
         uniforms: {
           time: { value: 0 },
@@ -168,7 +168,7 @@ export default function Home() {
     };
 
     // Enhanced lights setup
-    const addEnhancedLight = (hexColor) => {
+    const addEnhancedLight = (hexColor: number) => {
       // Create a larger geometry for the visual effect
       const starGeometry = new THREE.PlaneGeometry(0.08, 0.08);
       const starMaterial = createStarMaterial(hexColor);
