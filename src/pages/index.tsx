@@ -1,7 +1,6 @@
 // AARON BERNARD
 // MAIN COMMIT FOR LIVE WEBSITE c6c7939aedebecd772374f5f074a8e5a80ce7d20
 
-
 import '../styles/globals.css';
 import SEO from '../components/SEO';
 import { useEffect, useState } from 'react';
@@ -17,7 +16,6 @@ import ContactForm from './contact';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-
 
 export default function Home() {
   const [showLinks, setShowLinks] = useState({
@@ -58,20 +56,143 @@ export default function Home() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000); // Set a dark background
 
-    // Lights setup
-    const sphereGeometry = new THREE.SphereGeometry(0.009, 16, 8);
-    const addLight = (hexColor: number) => {  // Added type annotation here
-      const material = new THREE.MeshBasicMaterial({ color: hexColor });
-      const mesh = new THREE.Mesh(sphereGeometry, material);
-      const light = new THREE.PointLight(hexColor, 2, 3); // Increase intensity for more noticeable effect
-      light.add(mesh);
-      scene.add(light);
-      return light;
+    // Enhanced shader material for star-like lights
+    const createStarMaterial = (color) => {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          color: { value: new THREE.Color(color) },
+          intensity: { value: 2.0 }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          varying vec3 vPosition;
+          
+          void main() {
+            vUv = uv;
+            vPosition = position;
+            
+            // Make the geometry slightly larger and add some vertex displacement
+            vec3 pos = position;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float time;
+          uniform vec3 color;
+          uniform float intensity;
+          
+          varying vec2 vUv;
+          varying vec3 vPosition;
+          
+          // Noise function for flame-like effects
+          float noise(vec2 p) {
+            return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+          }
+          
+          float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            for(int i = 0; i < 6; i++) {
+              value += amplitude * noise(p);
+              p *= 2.0;
+              amplitude *= 0.5;
+            }
+            return value;
+          }
+          
+          void main() {
+            vec2 center = vec2(0.5, 0.5);
+            vec2 uv = vUv - center;
+            float dist = length(uv);
+            
+            // Create radial gradient for star core
+            float core = 1.0 - smoothstep(0.0, 0.3, dist);
+            
+            // Add pulsing effect
+            float pulse = 0.8 + 0.2 * sin(time * 3.0);
+            
+            // Create flame-like turbulence
+            vec2 turbulence = uv * 8.0 + time * 0.5;
+            float flames = fbm(turbulence + fbm(turbulence * 2.0));
+            
+            // Create corona effect
+            float corona = 1.0 - smoothstep(0.1, 0.8, dist);
+            corona *= flames * 0.5 + 0.5;
+            
+            // Add stellar spikes (6-pointed star)
+            float angle = atan(uv.y, uv.x);
+            float spikes = 0.0;
+            for(int i = 0; i < 6; i++) {
+              float spikeAngle = float(i) * 3.14159 / 3.0;
+              float angleDiff = abs(angle - spikeAngle);
+              angleDiff = min(angleDiff, 6.28318 - angleDiff);
+              spikes += (1.0 - smoothstep(0.0, 0.1, angleDiff)) * (1.0 - smoothstep(0.0, 0.6, dist));
+            }
+            
+            // Combine all effects
+            float brightness = core * pulse + corona * 0.7 + spikes * 0.4;
+            brightness = clamp(brightness, 0.0, 1.0);
+            
+            // Color variations based on brightness
+            vec3 hotColor = color * 1.2;
+            vec3 coolColor = color * 0.8;
+            vec3 finalColor = mix(coolColor, hotColor, brightness);
+            
+            // Add some color temperature variation
+            if(color.r > color.g && color.r > color.b) {
+              // Red star - add orange/yellow highlights
+              finalColor += vec3(0.3, 0.15, 0.0) * brightness * flames;
+            } else if(color.b > color.r && color.b > color.g) {
+              // Blue star - add white highlights
+              finalColor += vec3(0.2, 0.2, 0.3) * brightness * flames;
+            } else {
+              // Green star - add yellow-green highlights
+              finalColor += vec3(0.1, 0.3, 0.1) * brightness * flames;
+            }
+            
+            // Create outer glow that fades to black
+            float glow = 1.0 - smoothstep(0.0, 1.0, dist);
+            glow *= 0.3;
+            
+            float alpha = brightness + glow;
+            alpha = clamp(alpha, 0.0, 1.0);
+            
+            gl_FragColor = vec4(finalColor * intensity, alpha);
+          }
+        `,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
     };
 
-    const light1 = addLight(0xff6666); // Red
-    const light2 = addLight(0x66b3ff); // Blue
-    const light3 = addLight(0x80ff80); // Green
+    // Enhanced lights setup
+    const addEnhancedLight = (hexColor) => {
+      // Create a larger geometry for the visual effect
+      const starGeometry = new THREE.PlaneGeometry(0.08, 0.08);
+      const starMaterial = createStarMaterial(hexColor);
+      const starMesh = new THREE.Mesh(starGeometry, starMaterial);
+      
+      // Make the star always face the camera
+      starMesh.lookAt(camera.position);
+      
+      // Create the actual point light
+      const light = new THREE.PointLight(hexColor, 3, 4);
+      light.add(starMesh);
+      
+      scene.add(light);
+      return { light, starMaterial };
+    };
+
+    // Create the enhanced lights
+    const light1Data = addEnhancedLight(0xff6666); // Red
+    const light2Data = addEnhancedLight(0x66b3ff); // Blue  
+    const light3Data = addEnhancedLight(0x80ff80); // Green
+
+    const light1 = light1Data.light;
+    const light2 = light2Data.light;
+    const light3 = light3Data.light;
 
     // Points setup
     const points = [];
@@ -198,6 +319,17 @@ export default function Home() {
     // Animation loop
     const animate = () => {
       const time = Date.now() * 0.001;
+      
+      // Update time uniform for all star materials
+      light1Data.starMaterial.uniforms.time.value = time;
+      light2Data.starMaterial.uniforms.time.value = time;
+      light3Data.starMaterial.uniforms.time.value = time;
+
+      // Make stars always face the camera
+      light1.children[0].lookAt(camera.position);
+      light2.children[0].lookAt(camera.position);
+      light3.children[0].lookAt(camera.position);
+
       const scale = 0.5;
 
       // Light movements
@@ -406,7 +538,7 @@ export default function Home() {
         )}
         {activeContent === 'projects' && (
           <div className="content">
-            <ProjectsCarousel />  { }
+            <ProjectsCarousel />
           </div>
         )}
       </div>
