@@ -106,56 +106,59 @@ export default function Home() {
             vec2 uv = vUv - center;
             float dist = length(uv);
             
+            // Smooth circular falloff instead of hard edges
+            float circle = 1.0 - smoothstep(0.0, 0.5, dist);
+            
             // Create radial gradient for star core
-            float core = 1.0 - smoothstep(0.0, 0.3, dist);
+            float core = 1.0 - smoothstep(0.0, 0.2, dist);
             
             // Add pulsing effect
             float pulse = 0.8 + 0.2 * sin(time * 3.0);
             
             // Create flame-like turbulence
-            vec2 turbulence = uv * 8.0 + time * 0.5;
-            float flames = fbm(turbulence + fbm(turbulence * 2.0));
+            vec2 turbulence = uv * 12.0 + time * 0.5;
+            float flames = fbm(turbulence + fbm(turbulence * 1.5));
             
-            // Create corona effect
-            float corona = 1.0 - smoothstep(0.1, 0.8, dist);
-            corona *= flames * 0.5 + 0.5;
+            // Create corona effect with smoother falloff
+            float corona = 1.0 - smoothstep(0.05, 0.4, dist);
+            corona *= flames * 0.3 + 0.7;
             
-            // Add stellar spikes (6-pointed star)
+            // Add stellar spikes (6-pointed star) but make them more subtle
             float angle = atan(uv.y, uv.x);
             float spikes = 0.0;
             for(int i = 0; i < 6; i++) {
               float spikeAngle = float(i) * 3.14159 / 3.0;
               float angleDiff = abs(angle - spikeAngle);
               angleDiff = min(angleDiff, 6.28318 - angleDiff);
-              spikes += (1.0 - smoothstep(0.0, 0.1, angleDiff)) * (1.0 - smoothstep(0.0, 0.6, dist));
+              spikes += (1.0 - smoothstep(0.0, 0.05, angleDiff)) * (1.0 - smoothstep(0.0, 0.3, dist));
             }
             
-            // Combine all effects
-            float brightness = core * pulse + corona * 0.7 + spikes * 0.4;
+            // Combine all effects with circular mask
+            float brightness = (core * pulse + corona * 0.6 + spikes * 0.3) * circle;
             brightness = clamp(brightness, 0.0, 1.0);
             
             // Color variations based on brightness
-            vec3 hotColor = color * 1.2;
-            vec3 coolColor = color * 0.8;
+            vec3 hotColor = color * 1.3;
+            vec3 coolColor = color * 0.7;
             vec3 finalColor = mix(coolColor, hotColor, brightness);
             
             // Add some color temperature variation
             if(color.r > color.g && color.r > color.b) {
               // Red star - add orange/yellow highlights
-              finalColor += vec3(0.3, 0.15, 0.0) * brightness * flames;
+              finalColor += vec3(0.4, 0.2, 0.0) * brightness * flames;
             } else if(color.b > color.r && color.b > color.g) {
               // Blue star - add white highlights
-              finalColor += vec3(0.2, 0.2, 0.3) * brightness * flames;
+              finalColor += vec3(0.3, 0.3, 0.4) * brightness * flames;
             } else {
               // Green star - add yellow-green highlights
-              finalColor += vec3(0.1, 0.3, 0.1) * brightness * flames;
+              finalColor += vec3(0.2, 0.4, 0.1) * brightness * flames;
             }
             
-            // Create outer glow that fades to black
-            float glow = 1.0 - smoothstep(0.0, 1.0, dist);
-            glow *= 0.3;
+            // Create smooth outer glow
+            float glow = 1.0 - smoothstep(0.2, 0.5, dist);
+            glow *= 0.4 * circle;
             
-            float alpha = brightness + glow;
+            float alpha = (brightness + glow) * circle;
             alpha = clamp(alpha, 0.0, 1.0);
             
             gl_FragColor = vec4(finalColor * intensity, alpha);
@@ -169,8 +172,8 @@ export default function Home() {
 
     // Enhanced lights setup
     const addEnhancedLight = (hexColor: number) => {
-      // Create a larger geometry for the visual effect
-      const starGeometry = new THREE.PlaneGeometry(0.08, 0.08);
+      // Create a circular geometry for the visual effect
+      const starGeometry = new THREE.CircleGeometry(0.04, 32);
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
       
