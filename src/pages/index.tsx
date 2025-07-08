@@ -278,22 +278,19 @@ export default function Home() {
       if (nameTitle && nameSubtitle) {
         nameTitle.style.color = rgbColor;
         nameTitle.style.opacity = '1'; // Keep opacity constant
-        nameTitle.style.textShadow = `0 0 ${
-          30 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
+        nameTitle.style.textShadow = `0 0 ${30 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
         nameSubtitle.style.color = rgbColor;
         nameSubtitle.style.opacity = '1'; // Keep opacity constant
-        nameSubtitle.style.textShadow = `0 0 ${
-          15 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        nameSubtitle.style.textShadow = `0 0 ${15 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
       }
 
       // Update link styles
       linkItems.forEach((link) => {
         link.style.color = rgbColor;
-        link.style.textShadow = `0 0 ${
-          15 * smoothedIntensity
-        }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        link.style.textShadow = `0 0 ${15 * smoothedIntensity
+          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
       });
 
       scene.rotation.y = time * 0.02;
@@ -317,7 +314,7 @@ export default function Home() {
     <>
       <SEO
         title="AaronBernard.exe"
-        description="A showcase of my projects and experience"
+        description="CS student focused on AI and full-stack development"
       />
       <div id="three-container" className="w-full h-screen"></div>
       <div className="name-container">
@@ -325,7 +322,7 @@ export default function Home() {
         {activeContent === 'home' && (
           <>
             <h1 className="name-title">Aaron Bernard</h1>
-            <p className="name-subtitle">Aspiring Software Engineer</p>
+            <p className="name-subtitle">Computer Science Student</p>
           </>
         )}
         {activeContent === 'about' && (
@@ -356,7 +353,7 @@ export default function Home() {
               {/* Section 2: Background */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">2.</span> Background
+                  <span className="section-number">2.</span> Current Work
                 </h2>
                 <p className="about-text">
                   Previously, I worked at Act-On Software, contributing to projects that integrated AI into production systems and supported internal infrastructure initiatives. I’ve worked with cloud-based monitoring tools, infrastructure-as-code platforms like Terraform, and performance reporting systems to help teams gain visibility into system health and reliability.
@@ -366,7 +363,7 @@ export default function Home() {
               {/* Section 3: Interests & Goals */}
               <section className="about-subsection">
                 <h2 className="about-heading">
-                  <span className="section-number">3.</span> Interests & Goals
+                  <span className="section-number">3.</span> Skills & Interests
                 </h2>
                 <p className="about-text">
                   I'm especially interested in Site Reliability Engineering — combining software and systems thinking to build fault-tolerant, scalable platforms. I also enjoy AI development, game design, and exploring new ways to create efficient developer experiences. Long-term, I want to continue working on production infrastructure that supports large-scale, real-time applications with a focus on reliability, automation, and thoughtful monitoring.
@@ -396,45 +393,42 @@ export default function Home() {
             </ul>
           </div>
         )}
-      {/* Modal for Contact Form */}
-      {showContactForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="close-button" onClick={() => setShowContactForm(false)}>
-              X
-            </button>
-            <ContactForm />
-          </div>
-        </div>
-      )}
-          {activeContent === 'projects' && (
-            <div className = "content">
-              <ProjectsCarousel />  {}
+        {/* Modal for Contact Form */}
+        {showContactForm && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <button className="close-button" onClick={() => setShowContactForm(false)}>
+                X
+              </button>
+              <ContactForm />
             </div>
-          )}
+          </div>
+        )}
+        {activeContent === 'projects' && (
+          <div className="content">
+            <ProjectsCarousel />  { }
+          </div>
+        )}
       </div>
       {/* Static Links Container */}
       <div className="links">
         <button
-          className={`link-item ${showLinks.about ? 'visible' : ''} ${
-            activeContent === 'about' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.about ? 'visible' : ''} ${activeContent === 'about' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('about')}
         >
           About
         </button>
         <button
-          className={`link-item ${showLinks.contact ? 'visible' : ''} ${
-            activeContent === 'contact' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.contact ? 'visible' : ''} ${activeContent === 'contact' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('contact')}
         >
           Contact
         </button>
         <button
-          className={`link-item ${showLinks.projects ? 'visible' : ''} ${
-            activeContent === 'projects' ? 'active' : ''
-          }`}
+          className={`link-item ${showLinks.projects ? 'visible' : ''} ${activeContent === 'projects' ? 'active' : ''
+            }`}
           onClick={() => handleLinkClick('projects')}
         >
           Projects
@@ -442,5 +436,5 @@ export default function Home() {
       </div>
       <Analytics />
     </>
-  );  
+  );
 }
