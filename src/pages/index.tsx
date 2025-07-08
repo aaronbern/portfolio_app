@@ -322,7 +322,7 @@ export default function Home() {
         {activeContent === 'home' && (
           <>
             <h1 className="name-title">Aaron Bernard</h1>
-            <p className="name-subtitle">Computer Science Student</p>
+            <p className="name-subtitle">Site Reliability Engineering Intern</p>
           </>
         )}
         {activeContent === 'about' && (
