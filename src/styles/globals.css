@@ -469,8 +469,7 @@ button:active {
   flex-direction: column;
   gap: 1rem;
   top: 46%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 60%;
   align-items: center; /* Center each item */
   justify-content: center; /* Center vertically if needed */
   width: 100%; /* Take full width of container */
