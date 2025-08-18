@@ -468,11 +468,11 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  top: 45%;
+  top: 38%;
+  left: 50%;
   align-items: center; /* Center each item */
   justify-content: center; /* Center vertically if needed */
   width: 100%; /* Take full width of container */
-  max-width: 400px; /* Limit maximum width */
 }
 
 .contact-list li {
@@ -488,11 +488,11 @@ button:active {
 }
 
 .contact-list li:nth-child(2) {
-  animation-delay: 0.5s; /* Stagger the animation for the second link */
+  animation-delay: 0.6s; /* Stagger the animation for the second link */
 }
 
 .contact-list li:nth-child(3) {
-  animation-delay: 0.7s; /* Stagger the animation for the third link */
+  animation-delay: 0.9s; /* Stagger the animation for the third link */
 }
 
 .contact-list a {
