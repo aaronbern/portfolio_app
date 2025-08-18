@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
 import Image from 'next/image';
-import ContactForm from './contact';
+import { ContactForm } from './contact';
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
