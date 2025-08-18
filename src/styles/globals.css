@@ -133,24 +133,25 @@ button:active {
 }
 
   /* Complete fix for bottom links with hover animations */
-  .links {
-    display: flex;
-    position: fixed;
-    bottom: 5%;
-    left: 50%; /* Position left edge at center */
-    transform: translateX(-50%); /* Move back by half its width for perfect centering */
-    width: auto; /* Let it size naturally based on content */
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    text-align: center;
-    background: none;
-    padding: 0 1rem; /* Add small padding for edge cases */
-    margin: 0;
-    z-index: 1000;
-  }
+    .links {
+      display: flex;
+      flex-direction: row;
+      position: fixed;
+      left: 50%;
+      bottom: 5%;
+      transform: translateX(-50%);
+      width: auto;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      background: none;
+      padding: 0;
+      margin: 0;
+      z-index: 1000;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      text-align: center;
+    }
 
   /* Link items styling */
   .link-item {
