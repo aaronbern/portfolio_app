@@ -109,7 +109,7 @@ button:active {
 }
 
 .name-subtitle {
-  font-size: 0.75rem; /* Slightly increased for better readability */
+  font-size: 1rem; /* Slightly increased for better readability */
   animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
   transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
   pointer-events: none;
@@ -119,7 +119,7 @@ button:active {
 /* Name Container using Flexbox for centering */
 .name-container {
   position: fixed; /* Changed from 40% to 50% for better centering */
-  top: 50%;
+  top: 38%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
