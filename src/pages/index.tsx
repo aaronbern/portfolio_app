@@ -200,7 +200,7 @@ export default function Home() {
     // Points setup
     const points = [];
     const colors = [];
-    for (let i = 0; i < 500000; i++) {
+    for (let i = 0; i < 100000; i++) {
       const point = new THREE.Vector3()
         .random()
         .subScalar(0.5)
