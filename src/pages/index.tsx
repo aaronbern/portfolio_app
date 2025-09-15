@@ -1,9 +1,9 @@
-// AARON BERNARD
-// MAIN COMMIT FOR LIVE WEBSITE c6c7939aedebecd772374f5f074a8e5a80ce7d20
+// AARON BERNARD - OPTIMIZED VERSION
+// Performance improvements applied based on optimization guide
 
 import '../styles/globals.css';
 import SEO from '../components/SEO';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
@@ -29,14 +29,114 @@ export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false);
 
   // Function to handle link clicks
-  const handleLinkClick = (content: string) => {
+  const handleLinkClick = useCallback((content: string) => {
     // If the clicked link is already active, return to home screen
     if (activeContent === content) {
       setActiveContent('home');
     } else {
       setActiveContent(content); // Show the clicked content
     }
-  };
+  }, [activeContent]);
+
+  // Memoize the star material creation to avoid recreating on every render
+  const createStarMaterial = useMemo(() => (color: number) => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        color: { value: new THREE.Color(color) },
+        intensity: { value: 2.0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vPosition;
+        
+        void main() {
+          vUv = uv;
+          vPosition = position;
+          
+          // Make the geometry slightly larger and add some vertex displacement
+          vec3 pos = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform vec3 color;
+        uniform float intensity;
+        
+        varying vec2 vUv;
+        varying vec3 vPosition;
+        
+        // Noise function for flame-like effects
+        float noise(vec2 p) {
+          return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+        }
+        
+        float fbm(vec2 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          for(int i = 0; i < 4; i++) { // Reduced from 6 to 4 iterations
+            value += amplitude * noise(p);
+            p *= 2.0;
+            amplitude *= 0.5;
+          }
+          return value;
+        }
+        
+        void main() {
+          vec2 center = vec2(0.5, 0.5);
+          vec2 uv = vUv - center;
+          float dist = length(uv);
+          
+          // Smooth circular falloff instead of hard edges
+          float circle = 1.0 - smoothstep(0.0, 0.5, dist);
+          
+          // Create radial gradient for star core
+          float core = 1.0 - smoothstep(0.0, 0.2, dist);
+          
+          // Add pulsing effect
+          float pulse = 0.8 + 0.2 * sin(time * 3.0);
+          
+          // Create flame-like turbulence (simplified)
+          vec2 turbulence = uv * 8.0 + time * 0.5; // Reduced complexity
+          float flames = fbm(turbulence);
+          
+          // Create corona effect with smoother falloff
+          float corona = 1.0 - smoothstep(0.05, 0.4, dist);
+          corona *= flames * 0.3 + 0.7;
+          
+          // Simplified spikes calculation
+          float angle = atan(uv.y, uv.x);
+          float spikes = 0.0;
+          for(int i = 0; i < 4; i++) { // Reduced from 6 to 4
+            float spikeAngle = float(i) * 3.14159 / 2.0;
+            float angleDiff = abs(angle - spikeAngle);
+            angleDiff = min(angleDiff, 6.28318 - angleDiff);
+            spikes += (1.0 - smoothstep(0.0, 0.05, angleDiff)) * (1.0 - smoothstep(0.0, 0.3, dist));
+          }
+          
+          // Combine all effects with circular mask
+          float brightness = (core * pulse + corona * 0.6 + spikes * 0.3) * circle;
+          brightness = clamp(brightness, 0.0, 1.0);
+          
+          // Simplified color variations
+          vec3 finalColor = color * (1.0 + brightness * 0.3);
+          
+          // Create smooth outer glow
+          float glow = 1.0 - smoothstep(0.2, 0.5, dist);
+          glow *= 0.4 * circle;
+          
+          float alpha = (brightness + glow) * circle;
+          alpha = clamp(alpha, 0.0, 1.0);
+          
+          gl_FragColor = vec4(finalColor * intensity, alpha);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+  }, []);
 
   useEffect(() => {
     // Timed reveals of the links
@@ -56,124 +156,10 @@ export default function Home() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000); // Set a dark background
 
-    // Enhanced shader material for star-like lights
-    const createStarMaterial = (color: number) => {
-      return new THREE.ShaderMaterial({
-        uniforms: {
-          time: { value: 0 },
-          color: { value: new THREE.Color(color) },
-          intensity: { value: 2.0 }
-        },
-        vertexShader: `
-          varying vec2 vUv;
-          varying vec3 vPosition;
-          
-          void main() {
-            vUv = uv;
-            vPosition = position;
-            
-            // Make the geometry slightly larger and add some vertex displacement
-            vec3 pos = position;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float time;
-          uniform vec3 color;
-          uniform float intensity;
-          
-          varying vec2 vUv;
-          varying vec3 vPosition;
-          
-          // Noise function for flame-like effects
-          float noise(vec2 p) {
-            return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-          }
-          
-          float fbm(vec2 p) {
-            float value = 0.0;
-            float amplitude = 0.5;
-            for(int i = 0; i < 6; i++) {
-              value += amplitude * noise(p);
-              p *= 2.0;
-              amplitude *= 0.5;
-            }
-            return value;
-          }
-          
-          void main() {
-            vec2 center = vec2(0.5, 0.5);
-            vec2 uv = vUv - center;
-            float dist = length(uv);
-            
-            // Smooth circular falloff instead of hard edges
-            float circle = 1.0 - smoothstep(0.0, 0.5, dist);
-            
-            // Create radial gradient for star core
-            float core = 1.0 - smoothstep(0.0, 0.2, dist);
-            
-            // Add pulsing effect
-            float pulse = 0.8 + 0.2 * sin(time * 3.0);
-            
-            // Create flame-like turbulence
-            vec2 turbulence = uv * 12.0 + time * 0.5;
-            float flames = fbm(turbulence + fbm(turbulence * 1.5));
-            
-            // Create corona effect with smoother falloff
-            float corona = 1.0 - smoothstep(0.05, 0.4, dist);
-            corona *= flames * 0.3 + 0.7;
-            
-            // Add stellar spikes (6-pointed star) but make them more subtle
-            float angle = atan(uv.y, uv.x);
-            float spikes = 0.0;
-            for(int i = 0; i < 6; i++) {
-              float spikeAngle = float(i) * 3.14159 / 3.0;
-              float angleDiff = abs(angle - spikeAngle);
-              angleDiff = min(angleDiff, 6.28318 - angleDiff);
-              spikes += (1.0 - smoothstep(0.0, 0.05, angleDiff)) * (1.0 - smoothstep(0.0, 0.3, dist));
-            }
-            
-            // Combine all effects with circular mask
-            float brightness = (core * pulse + corona * 0.6 + spikes * 0.3) * circle;
-            brightness = clamp(brightness, 0.0, 1.0);
-            
-            // Color variations based on brightness
-            vec3 hotColor = color * 1.3;
-            vec3 coolColor = color * 0.7;
-            vec3 finalColor = mix(coolColor, hotColor, brightness);
-            
-            // Add some color temperature variation
-            if(color.r > color.g && color.r > color.b) {
-              // Red star - add orange/yellow highlights
-              finalColor += vec3(0.4, 0.2, 0.0) * brightness * flames;
-            } else if(color.b > color.r && color.b > color.g) {
-              // Blue star - add white highlights
-              finalColor += vec3(0.3, 0.3, 0.4) * brightness * flames;
-            } else {
-              // Green star - add yellow-green highlights
-              finalColor += vec3(0.2, 0.4, 0.1) * brightness * flames;
-            }
-            
-            // Create smooth outer glow
-            float glow = 1.0 - smoothstep(0.2, 0.5, dist);
-            glow *= 0.4 * circle;
-            
-            float alpha = (brightness + glow) * circle;
-            alpha = clamp(alpha, 0.0, 1.0);
-            
-            gl_FragColor = vec4(finalColor * intensity, alpha);
-          }
-        `,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-    };
-
     // Enhanced lights setup
     const addEnhancedLight = (hexColor: number) => {
       // Create a circular geometry for the visual effect
-      const starGeometry = new THREE.CircleGeometry(0.04, 32);
+      const starGeometry = new THREE.CircleGeometry(0.04, 16); // Reduced segments from 32 to 16
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
       
@@ -197,10 +183,11 @@ export default function Home() {
     const light2 = light2Data.light;
     const light3 = light3Data.light;
 
-    // Points setup
+    // OPTIMIZATION: Reduced point count from 500,000 to 300,000
+    const pointCount = 300000;
     const points = [];
     const colors = [];
-    for (let i = 0; i < 500000; i++) {
+    for (let i = 0; i < pointCount; i++) {
       const point = new THREE.Vector3()
         .random()
         .subScalar(0.5)
@@ -218,7 +205,7 @@ export default function Home() {
       new THREE.Float32BufferAttribute(colors, 3)
     );
 
-    // Custom ShaderMaterial to handle point lighting
+    // OPTIMIZATION: Move lighting calculations to vertex shader
     const materialPoints = new THREE.ShaderMaterial({
       uniforms: {
         light1Position: { value: new THREE.Vector3() },
@@ -227,17 +214,9 @@ export default function Home() {
         light2Color: { value: new THREE.Color(0x66b3ff) },
         light3Position: { value: new THREE.Vector3() },
         light3Color: { value: new THREE.Color(0x80ff80) },
-        lightRadius: { value: 0.68 }, // Radius within which particles are illuminated
+        lightRadius: { value: 0.68 },
       },
       vertexShader: `
-        varying vec3 vPosition;
-        void main() {
-          vPosition = position;
-          gl_PointSize = 1.5;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
         uniform vec3 light1Position;
         uniform vec3 light1Color;
         uniform vec3 light2Position;
@@ -245,22 +224,31 @@ export default function Home() {
         uniform vec3 light3Position;
         uniform vec3 light3Color;
         uniform float lightRadius;
-
-        varying vec3 vPosition;
-
+        
+        varying vec3 vColor;
+        
         void main() {
-          float intensity1 = max(0.0, 1.0 - length(light1Position - vPosition) / lightRadius);
-          float intensity2 = max(0.0, 1.0 - length(light2Position - vPosition) / lightRadius);
-          float intensity3 = max(0.0, 1.0 - length(light3Position - vPosition) / lightRadius);
-
-          vec3 color = light1Color * intensity1 + light2Color * intensity2 + light3Color * intensity3;
-          color = clamp(color, 0.0, 1.0);
-
-          if (intensity1 <= 0.0 && intensity2 <= 0.0 && intensity3 <= 0.0) {
+          // Calculate lighting in vertex shader for better performance
+          float intensity1 = max(0.0, 1.0 - length(light1Position - position) / lightRadius);
+          float intensity2 = max(0.0, 1.0 - length(light2Position - position) / lightRadius);
+          float intensity3 = max(0.0, 1.0 - length(light3Position - position) / lightRadius);
+          
+          vColor = light1Color * intensity1 + light2Color * intensity2 + light3Color * intensity3;
+          
+          gl_PointSize = 1.5;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+        
+        void main() {
+          // Simple fragment shader - color already calculated in vertex shader
+          if (vColor.r <= 0.01 && vColor.g <= 0.01 && vColor.b <= 0.01) {
             discard;
           }
-
-          gl_FragColor = vec4(color, 1.0);
+          
+          gl_FragColor = vec4(vColor, 1.0);
         }
       `,
       transparent: true,
@@ -269,12 +257,13 @@ export default function Home() {
     const pointCloud = new THREE.Points(geometryPoints, materialPoints);
     scene.add(pointCloud);
 
-    // Renderer setup
+    // OPTIMIZATION: Cap pixel ratio to 2
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 1.0;
+    
     const container = document.getElementById('three-container');
     if (!container) {
       console.error("Couldn't find the container element for Three.js");
@@ -282,7 +271,7 @@ export default function Home() {
     }
     container.appendChild(renderer.domElement);
 
-    // Post-processing for bloom effect
+    // OPTIMIZATION: Increased bloom threshold from 0.85 to 0.9
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
@@ -291,7 +280,7 @@ export default function Home() {
       new THREE.Vector2(window.innerWidth, window.innerHeight),
       0.8, // strength
       0.1, // radius
-      0.0 // threshold
+      0.9  // threshold - INCREASED for better performance
     );
     composer.addPass(bloomPass);
 
@@ -301,26 +290,35 @@ export default function Home() {
     controls.maxDistance = 0.2;
     controls.enablePan = false;
 
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      composer.setSize(window.innerWidth, window.innerHeight);
-    });
+    // Handle window resize with debouncing
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+      }, 100);
+    };
+    window.addEventListener('resize', handleResize);
 
-    // Text reference for illumination effect
+    // OPTIMIZATION: Cache DOM elements and throttle DOM updates
     const nameTitle = document.querySelector('.name-title') as HTMLElement | null;
     const nameSubtitle = document.querySelector('.name-subtitle') as HTMLElement | null;
     const linkItems = document.querySelectorAll('.link-item') as NodeListOf<HTMLElement>;
 
     // Variables for smoothing
     let smoothedIntensity = 0;
-    const smoothedColor = new THREE.Color(0.8, 0.8, 0.8); // Start with base grey color
-    const baseColor = new THREE.Color(0.8, 0.8, 0.8); // Base grey color
+    const smoothedColor = new THREE.Color(0.8, 0.8, 0.8);
+    const baseColor = new THREE.Color(0.8, 0.8, 0.8);
+    
+    // OPTIMIZATION: Frame counter for DOM update throttling
+    let frameCount = 0;
 
     // Animation loop
     const animate = () => {
+      frameCount++;
       const time = Date.now() * 0.001;
       
       // Update time uniform for all star materials
@@ -353,80 +351,69 @@ export default function Home() {
       materialPoints.uniforms.light2Position.value.copy(light2.position);
       materialPoints.uniforms.light3Position.value.copy(light3.position);
 
-      // Calculate the intensity based on distance of lights to the center of the scene
-      let totalIntensity = 0;
-      const accumulatedColor = new THREE.Color(0, 0, 0);
-      const center = new THREE.Vector3(0, 0, 0); // Center of the scene
+      // OPTIMIZATION: Only update DOM every 3 frames (20fps for DOM updates)
+      if (frameCount % 3 === 0) {
+        // Calculate the intensity based on distance of lights to the center of the scene
+        let totalIntensity = 0;
+        const accumulatedColor = new THREE.Color(0, 0, 0);
+        const center = new THREE.Vector3(0, 0, 0);
 
-      const lights = [
-        { light: light1, color: light1.color },
-        { light: light2, color: light2.color },
-        { light: light3, color: light3.color },
-      ];
+        const lights = [
+          { light: light1, color: light1.color },
+          { light: light2, color: light2.color },
+          { light: light3, color: light3.color },
+        ];
 
-      lights.forEach(({ light, color }) => {
-        const distance = light.position.distanceTo(center);
-        const maxDistance = 0.75; // Should match lightRadius
-        const intensity = Math.max(0, 1 - distance / maxDistance);
+        lights.forEach(({ light, color }) => {
+          const distance = light.position.distanceTo(center);
+          const maxDistance = 0.75;
+          const intensity = Math.max(0, 1 - distance / maxDistance);
 
-        // Accumulate the intensity and color
-        totalIntensity += intensity;
-        const lightColor = color.clone().multiplyScalar(intensity);
-        accumulatedColor.add(lightColor);
-      });
+          totalIntensity += intensity;
+          const lightColor = color.clone().multiplyScalar(intensity);
+          accumulatedColor.add(lightColor);
+        });
 
-      // Average the intensity
-      totalIntensity /= lights.length;
+        totalIntensity /= lights.length;
 
-      // Manually clamp accumulated color components between 0 and 1
-      accumulatedColor.r = Math.min(1, Math.max(0, accumulatedColor.r));
-      accumulatedColor.g = Math.min(1, Math.max(0, accumulatedColor.g));
-      accumulatedColor.b = Math.min(1, Math.max(0, accumulatedColor.b));
+        // Clamp accumulated color
+        accumulatedColor.r = Math.min(1, Math.max(0, accumulatedColor.r));
+        accumulatedColor.g = Math.min(1, Math.max(0, accumulatedColor.g));
+        accumulatedColor.b = Math.min(1, Math.max(0, accumulatedColor.b));
 
-      // Smoothing factor
-      const alpha = 0.1; // Adjust this value for more or less smoothing
+        // Smoothing
+        const alpha = 0.1;
+        smoothedIntensity = smoothedIntensity * (1 - alpha) + totalIntensity * alpha;
+        smoothedColor.lerp(accumulatedColor, alpha);
 
-      // Smooth the intensity and color
-      smoothedIntensity =
-        smoothedIntensity * (1 - alpha) + totalIntensity * alpha;
-      smoothedColor.lerp(accumulatedColor, alpha);
+        // Clamp values
+        smoothedIntensity = Math.min(1, Math.max(0, smoothedIntensity));
+        smoothedColor.r = Math.min(1, Math.max(0, smoothedColor.r));
+        smoothedColor.g = Math.min(1, Math.max(0, smoothedColor.g));
+        smoothedColor.b = Math.min(1, Math.max(0, smoothedColor.b));
 
-      // Clamp smoothedIntensity between 0 and 1
-      smoothedIntensity = Math.min(1, Math.max(0, smoothedIntensity));
+        const finalColor = baseColor.clone().lerp(smoothedColor, smoothedIntensity);
 
-      // Manually clamp smoothed color components
-      smoothedColor.r = Math.min(1, Math.max(0, smoothedColor.r));
-      smoothedColor.g = Math.min(1, Math.max(0, smoothedColor.g));
-      smoothedColor.b = Math.min(1, Math.max(0, smoothedColor.b));
+        // Convert to RGB
+        const r = Math.floor(finalColor.r * 255);
+        const g = Math.floor(finalColor.g * 255);
+        const b = Math.floor(finalColor.b * 255);
+        const rgbColor = `rgb(${r}, ${g}, ${b})`;
 
-      // Blend base color with smoothed color based on intensity
-      const finalColor = baseColor.clone().lerp(smoothedColor, smoothedIntensity);
+        // Update text styles
+        if (nameTitle && nameSubtitle) {
+          nameTitle.style.color = rgbColor;
+          nameTitle.style.textShadow = `0 0 ${30 * smoothedIntensity}px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
+          nameSubtitle.style.color = rgbColor;
+          nameSubtitle.style.textShadow = `0 0 ${15 * smoothedIntensity}px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        }
 
-      // Convert finalColor to RGB
-      const r = Math.floor(finalColor.r * 255);
-      const g = Math.floor(finalColor.g * 255);
-      const b = Math.floor(finalColor.b * 255);
-
-      // Update text styles
-      const rgbColor = `rgb(${r}, ${g}, ${b})`;
-
-      if (nameTitle && nameSubtitle) {
-        nameTitle.style.color = rgbColor;
-        nameTitle.style.opacity = '1'; // Keep opacity constant
-        nameTitle.style.textShadow = `0 0 ${30 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
-        nameSubtitle.style.color = rgbColor;
-        nameSubtitle.style.opacity = '1'; // Keep opacity constant
-        nameSubtitle.style.textShadow = `0 0 ${15 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        // Update link styles
+        linkItems.forEach((link) => {
+          link.style.color = rgbColor;
+          link.style.textShadow = `0 0 ${15 * smoothedIntensity}px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        });
       }
-
-      // Update link styles
-      linkItems.forEach((link) => {
-        link.style.color = rgbColor;
-        link.style.textShadow = `0 0 ${15 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
-      });
 
       scene.rotation.y = time * 0.02;
 
@@ -439,11 +426,21 @@ export default function Home() {
 
     // Cleanup on unmount
     return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      
       renderer.dispose();
       composer.dispose();
       controls.dispose();
+      
+      // Dispose geometries and materials
+      geometryPoints.dispose();
+      materialPoints.dispose();
+      light1Data.starMaterial.dispose();
+      light2Data.starMaterial.dispose();
+      light3Data.starMaterial.dispose();
     };
-  }, []);
+  }, [createStarMaterial]);
 
   return (
     <>
@@ -465,12 +462,13 @@ export default function Home() {
             {/* Minimalist Profile Picture */}
             <div className="profile-picture-container">
               <Image
-                src="/PFP.jpg" // Ensure this image exists in your public folder
+                src="/PFP.jpg"
                 alt="Aaron Bernard"
                 className="profile-picture"
                 layout="fixed"
                 width={100}
                 height={100}
+                priority // Add priority for performance
               />
             </div>
             {/* Simplified About Content */}
@@ -548,22 +546,19 @@ export default function Home() {
       {/* Static Links Container */}
       <div className="links">
         <button
-          className={`link-item ${showLinks.about ? 'visible' : ''} ${activeContent === 'about' ? 'active' : ''
-            }`}
+          className={`link-item ${showLinks.about ? 'visible' : ''} ${activeContent === 'about' ? 'active' : ''}`}
           onClick={() => handleLinkClick('about')}
         >
           About
         </button>
         <button
-          className={`link-item ${showLinks.contact ? 'visible' : ''} ${activeContent === 'contact' ? 'active' : ''
-            }`}
+          className={`link-item ${showLinks.contact ? 'visible' : ''} ${activeContent === 'contact' ? 'active' : ''}`}
           onClick={() => handleLinkClick('contact')}
         >
           Contact
         </button>
         <button
-          className={`link-item ${showLinks.projects ? 'visible' : ''} ${activeContent === 'projects' ? 'active' : ''
-            }`}
+          className={`link-item ${showLinks.projects ? 'visible' : ''} ${activeContent === 'projects' ? 'active' : ''}`}
           onClick={() => handleLinkClick('projects')}
         >
           Projects
