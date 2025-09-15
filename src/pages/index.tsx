@@ -252,7 +252,7 @@ export default function Home() {
           gl_FragColor = vec4(vColor, 1.0);
         }
       `,
-      transparent: true,
+      transparent: false,
     });
 
     const pointCloud = new THREE.Points(geometryPoints, materialPoints);
