@@ -44,7 +44,7 @@ export default function Home() {
       uniforms: {
         time: { value: 0 },
         color: { value: new THREE.Color(color) },
-        intensity: { value: 2.0 }
+        intensity: { value: 2.5 }
       },
       vertexShader: `
         varying vec2 vUv;
@@ -281,7 +281,7 @@ export default function Home() {
       new THREE.Vector2(window.innerWidth, window.innerHeight),
       0.8, // strength
       0.1, // radius
-      0.9  // threshold - INCREASED for better performance
+      0.7  // threshold - INCREASED for better performance
     );
     composer.addPass(bloomPass);
 
