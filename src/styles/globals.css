@@ -118,7 +118,7 @@ button:active {
 
 /* Name Container using Flexbox for centering */
 .name-container {
-  position: fixed; /* Changed from 40% to 50% for better centering */
+  position: fixed;
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -128,8 +128,11 @@ button:active {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  width: 100vw; /* Ensure it takes full width */
-  max-width: 1200px; /* Prevent it from being too wide */
+  width: 100vw;
+  max-width: 1200px;
+  /* Ensure consistent centering */
+  padding: 0;
+  margin: 0;
 }
 
   /* Complete fix for bottom links with hover animations */
@@ -137,20 +140,18 @@ button:active {
     display: flex;
     position: fixed;
     bottom: 5%;
-    left: 50%; /* Position left edge at center */
-    transform: translateX(-50%); /* Move back by half its width for perfect centering */
-    width: auto; /* Let it size naturally based on content */
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
     justify-content: center;
     align-items: center;
     gap: 2.5rem;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    text-align: center;
-    background: none;
-    padding: 0 1rem; /* Add small padding for edge cases */
-    margin: 0;
     z-index: 1000;
+    /* Remove all padding and margin that could offset positioning */
+    padding: 0;
+    margin: 0;
   }
+
 
   /* Link items styling */
   .link-item {
@@ -287,13 +288,17 @@ button:active {
 
 /* About Text Styling */
 .about-text {
-  font-size: 1rem; /* Text-base for readability */
-  line-height: 1.5rem; /* Leading-normal */
-  color: #e2e8f0; /* Light gray for contrast */
-  max-width: 600px; /* Reduced width for better readability */
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #e2e8f0;
+  max-width: 600px;
   margin: 0 auto 1.5rem auto;
-  text-align: left; /* Left-aligned for simplicity */
+  text-align: center; /* Changed from left to center for consistency */
   user-select: none;
+  /* Remove any positioning that could cause offset */
+  position: static;
+  left: auto;
+  transform: none;
 }
 
 /* About Section Container */
@@ -464,15 +469,18 @@ button:active {
 .contact-list {
   list-style: none;
   padding: 0;
-  margin: 0 auto; /* Center the entire list */
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* Removed problematic positioning */
-  align-items: center; /* Center each item horizontally */
-  justify-content: center; /* Center vertically if needed */
-  width: 100%; /* Take full width of container */
-  text-align: center; /* Ensure text is centered */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  /* Ensure it uses the same centering approach as .links */
+  position: relative;
+  left: 0;
+  transform: none;
 }
 
 .contact-list li {
@@ -481,6 +489,17 @@ button:active {
   animation: fadeIn 1s ease forwards; /* Apply fadeIn animation */
   text-align: center; /* Ensure text is centered */
   width: 100%; /* Take full width of parent */
+}
+
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  /* Remove any positioning that could offset the content */
+  position: static;
 }
 
 .contact-list li:nth-child(1) {

@@ -229,9 +229,10 @@ export default function Home() {
         
         void main() {
           // Calculate lighting in vertex shader for better performance
-          float intensity1 = max(0.0, 1.0 - length(light1Position - position) / lightRadius);
-          float intensity2 = max(0.0, 1.0 - length(light2Position - position) / lightRadius);
-          float intensity3 = max(0.0, 1.0 - length(light3Position - position) / lightRadius);
+          // Increased intensity multipliers for brighter stars
+          float intensity1 = max(0.0, 1.0 - length(light1Position - position) / lightRadius) * 1.3;
+          float intensity2 = max(0.0, 1.0 - length(light2Position - position) / lightRadius) * 1.3;
+          float intensity3 = max(0.0, 1.0 - length(light3Position - position) / lightRadius) * 1.3;
           
           vColor = light1Color * intensity1 + light2Color * intensity2 + light3Color * intensity3;
           
