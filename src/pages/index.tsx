@@ -3,7 +3,7 @@
 
 import '../styles/globals.css';
 import SEO from '../components/SEO';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
@@ -51,6 +51,14 @@ export default function Home() {
   // State variable to manage active content
   const [activeContent, setActiveContent] = useState('home');
   const [showContactForm, setShowContactForm] = useState(false);
+
+  // Create a ref to track active content inside the 3JS loop
+  const activeContentRef = useRef(activeContent);
+
+  // Sync the ref whenever state changes
+  useEffect(() => {
+    activeContentRef.current = activeContent;
+  }, [activeContent]);
 
   // Function to handle link clicks
   const handleLinkClick = (content: string) => {
@@ -140,6 +148,7 @@ export default function Home() {
       const starGeometry = new THREE.CircleGeometry(0.04, 32);
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
+      starMesh.renderOrder = 2;
       cometGroup.add(starMesh);
       
       // Create the actual point light
@@ -151,9 +160,12 @@ export default function Home() {
     };
 
     // Create the enhanced lights
-    const light1Data = addEnhancedLight(0xff6666); // Red
-    const light2Data = addEnhancedLight(0x66b3ff); // Blue  
-    const light3Data = addEnhancedLight(0x80ff80); // Green
+    // 1. Red (Right Card - Vulkan / Top Right About / Email Contact)
+    const light1Data = addEnhancedLight(0xff6666);
+    // 2. Blue (Left Card - Trajectory / Top Left About / LinkedIn Contact)
+    const light2Data = addEnhancedLight(0x66b3ff);
+    // 3. Green (Center Card - YapChat / Bottom About / GitHub Contact)
+    const light3Data = addEnhancedLight(0x80ff80);
 
     const light1 = light1Data.light;
     const light2 = light2Data.light;
@@ -292,11 +304,9 @@ export default function Home() {
 
     // No motion blur - keeps particles crisp
 
-    // Controls setup
+    // Controls setup - DISABLED for static camera
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.minDistance = 0.2;
-    controls.maxDistance = 0.2;
-    controls.enablePan = false;
+    controls.enabled = false; // Disable all interaction
 
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -305,6 +315,20 @@ export default function Home() {
       renderer.setSize(window.innerWidth, window.innerHeight);
       composer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // Helper function to orient comet tails
+    const orientComet = (lightData: typeof light1Data, currentPos: THREE.Vector3, prevPos: THREE.Vector3) => {
+      const cometGroup = lightData.cometGroup;
+      const velocity = new THREE.Vector3().subVectors(currentPos, prevPos);
+      cometGroup.lookAt(camera.position);
+
+      if (velocity.lengthSq() > 0.000001) {
+        const velCamera = velocity.clone().applyQuaternion(camera.quaternion.clone().invert());
+        const angle = Math.atan2(velCamera.y, velCamera.x);
+        cometGroup.rotation.z = angle;
+      }
+      prevPos.copy(currentPos);
+    };
 
     // Text reference for illumination effect
     const nameTitle = document.querySelector('.name-title') as HTMLElement | null;
@@ -315,6 +339,18 @@ export default function Home() {
     let smoothedIntensity = 0;
     const smoothedColor = new THREE.Color(0.8, 0.8, 0.8); // Start with base grey color
     const baseColor = new THREE.Color(0.8, 0.8, 0.8); // Base grey color
+
+    // Animation Mode Transition
+    let modeTransition = 0; // 0 = orbit, 1 = fixed layout
+
+    // Track previous target positions for smooth transitions between modes
+    let prevTargetPos1 = new THREE.Vector3();
+    let prevTargetPos2 = new THREE.Vector3();
+    let prevTargetPos3 = new THREE.Vector3();
+    let currentTargetPos1 = new THREE.Vector3();
+    let currentTargetPos2 = new THREE.Vector3();
+    let currentTargetPos3 = new THREE.Vector3();
+    let previousContent = 'home';
 
     // Animation loop
     const animate = () => {
@@ -328,37 +364,103 @@ export default function Home() {
 
       const scale = 0.5;
 
-      // Light movements
-      light1.position.x = Math.sin(time * 0.8) * scale;
-      light1.position.y = Math.cos(time * 0.6) * scale;
-      light1.position.z = Math.cos(time * 0.4) * scale;
+      // 1. Calculate Standard Orbit Positions (Home Mode)
+      // Light 1 (Red)
+      const orbitPos1 = new THREE.Vector3(
+        Math.sin(time * 0.8) * scale,
+        Math.cos(time * 0.6) * scale,
+        Math.cos(time * 0.4) * scale
+      );
+      // Light 2 (Blue)
+      const orbitPos2 = new THREE.Vector3(
+        Math.cos(time * 0.4) * scale,
+        Math.sin(time * 0.6) * scale,
+        Math.sin(time * 0.8) * scale
+      );
+      // Light 3 (Green)
+      const orbitPos3 = new THREE.Vector3(
+        Math.sin(time * 0.8) * scale,
+        Math.cos(time * 0.4) * scale,
+        Math.sin(time * 0.6) * scale
+      );
 
-      light2.position.x = Math.cos(time * 0.4) * scale;
-      light2.position.y = Math.sin(time * 0.6) * scale;
-      light2.position.z = Math.sin(time * 0.8) * scale;
+      // Get the scene rotation for counter-rotation
+      const rotationAngle = -scene.rotation.y;
 
-      light3.position.x = Math.sin(time * 0.8) * scale;
-      light3.position.y = Math.cos(time * 0.4) * scale;
-      light3.position.z = Math.sin(time * 0.6) * scale;
+      // 2. Calculate target positions based on active content
+      let targetPos1: THREE.Vector3;
+      let targetPos2: THREE.Vector3;
+      let targetPos3: THREE.Vector3;
 
-      // Orient comet tails based on movement direction and face camera
-      const orientComet = (lightData: typeof light1Data, currentPos: THREE.Vector3, prevPos: THREE.Vector3) => {
-        const cometGroup = lightData.cometGroup;
+      const currentContent = activeContentRef.current;
+
+      // Detect content change
+      if (currentContent !== previousContent) {
+        // Store previous targets
+        prevTargetPos1.copy(currentTargetPos1);
+        prevTargetPos2.copy(currentTargetPos2);
+        prevTargetPos3.copy(currentTargetPos3);
+        previousContent = currentContent;
+        modeTransition = 0; // Reset transition for smooth interpolation
+      }
+
+      if (currentContent === 'projects') {
+        // Projects mode - behind the three cards
+        const screenSpacePos1 = new THREE.Vector3(0.35, 0.05, -0.4); // Right Card - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.35, 0.05, -0.4); // Left Card - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, 0.05, -0.4); // Center Card - Green
         
-        // Face camera
-        cometGroup.lookAt(camera.position);
+        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+      } else if (currentContent === 'about') {
+        // About mode - stars form a triangle around the profile picture
+        const screenSpacePos1 = new THREE.Vector3(0.2, 0.3, -0.35); // Top right - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.2, 0.3, -0.35); // Top left - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, -0.15, -0.35); // Bottom center - Green
         
-        // Calculate velocity direction for tail
-        const velocity = new THREE.Vector3().subVectors(currentPos, prevPos);
-        if (velocity.length() > 0.001) {
-          // Rotate tail to point opposite of movement direction
-          const angle = Math.atan2(velocity.y, velocity.x);
-          cometGroup.rotation.z = angle + Math.PI;
-        }
+        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+      } else if (currentContent === 'contact') {
+        // Contact mode - stars arranged vertically alongside the contact links
+        const screenSpacePos1 = new THREE.Vector3(-0.45, 0.12, -0.35); // Top - Red (Email)
+        const screenSpacePos2 = new THREE.Vector3(-0.45, 0, -0.35); // Middle - Blue (LinkedIn)
+        const screenSpacePos3 = new THREE.Vector3(-0.45, -0.12, -0.35); // Bottom - Green (GitHub)
         
-        prevPos.copy(currentPos);
-      };
-      
+        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+      } else {
+        // Home mode - use orbit positions
+        targetPos1 = orbitPos1;
+        targetPos2 = orbitPos2;
+        targetPos3 = orbitPos3;
+      }
+
+      // Store current targets for next frame
+      currentTargetPos1.copy(targetPos1);
+      currentTargetPos2.copy(targetPos2);
+      currentTargetPos3.copy(targetPos3);
+
+      // 3. Smoothly transition between states
+      // Increase transition speed (0.08 is faster than 0.05)
+      modeTransition += (1 - modeTransition) * 0.08;
+
+      // 4. Apply Final Positions with smooth interpolation
+      // When transitioning, blend from previous target to current target
+      if (modeTransition < 0.99) {
+        light1.position.lerpVectors(prevTargetPos1, currentTargetPos1, modeTransition);
+        light2.position.lerpVectors(prevTargetPos2, currentTargetPos2, modeTransition);
+        light3.position.lerpVectors(prevTargetPos3, currentTargetPos3, modeTransition);
+      } else {
+        // Fully transitioned, use current targets directly
+        light1.position.copy(currentTargetPos1);
+        light2.position.copy(currentTargetPos2);
+        light3.position.copy(currentTargetPos3);
+      }
+
+      // Apply fixed orientation for tails
       orientComet(light1Data, light1.position, prevPositions.light1);
       orientComet(light2Data, light2.position, prevPositions.light2);
       orientComet(light3Data, light3.position, prevPositions.light3);
@@ -409,13 +511,11 @@ export default function Home() {
       // Clamp smoothedIntensity between 0 and 1
       smoothedIntensity = Math.min(1, Math.max(0, smoothedIntensity));
 
-      // Manually clamp smoothed color components
-      smoothedColor.r = Math.min(1, Math.max(0, smoothedColor.r));
-      smoothedColor.g = Math.min(1, Math.max(0, smoothedColor.g));
-      smoothedColor.b = Math.min(1, Math.max(0, smoothedColor.b));
+      // Dim text in non-home modes so it doesn't fight the content
+      const activeIntensity = currentContent !== 'home' ? smoothedIntensity * 0.3 : smoothedIntensity;
 
       // Blend base color with smoothed color based on intensity
-      const finalColor = baseColor.clone().lerp(smoothedColor, smoothedIntensity);
+      const finalColor = baseColor.clone().lerp(smoothedColor, activeIntensity);
 
       // Convert finalColor to RGB
       const r = Math.floor(finalColor.r * 255);
@@ -427,20 +527,15 @@ export default function Home() {
 
       if (nameTitle && nameSubtitle) {
         nameTitle.style.color = rgbColor;
-        nameTitle.style.opacity = '1'; // Keep opacity constant
-        nameTitle.style.textShadow = `0 0 ${30 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.8 * smoothedIntensity})`;
+        nameTitle.style.textShadow = `0 0 ${30 * activeIntensity}px rgba(${r}, ${g}, ${b}, ${0.8 * activeIntensity})`;
         nameSubtitle.style.color = rgbColor;
-        nameSubtitle.style.opacity = '1'; // Keep opacity constant
-        nameSubtitle.style.textShadow = `0 0 ${15 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        nameSubtitle.style.textShadow = `0 0 ${15 * activeIntensity}px rgba(${r}, ${g}, ${b}, ${0.6 * activeIntensity})`;
       }
 
       // Update link styles
       linkItems.forEach((link) => {
         link.style.color = rgbColor;
-        link.style.textShadow = `0 0 ${15 * smoothedIntensity
-          }px rgba(${r}, ${g}, ${b}, ${0.6 * smoothedIntensity})`;
+        link.style.textShadow = `0 0 ${15 * activeIntensity}px rgba(${r}, ${g}, ${b}, ${0.6 * activeIntensity})`;
       });
 
       scene.rotation.y = time * 0.02;
@@ -454,6 +549,7 @@ export default function Home() {
 
     // Cleanup on unmount
     return () => {
+      if (container && renderer.domElement) container.removeChild(renderer.domElement);
       renderer.dispose();
       composer.dispose();
       controls.dispose();
