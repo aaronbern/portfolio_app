@@ -1,0 +1,45 @@
+/* name-title.css - Title and subtitle styles */
+
+.name-title,
+.name-subtitle {
+  font-family: var(--font-display);
+  text-align: center;
+  animation: fadeIn 2s ease-in-out;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  transition: color 0.5s ease, text-shadow 0.5s ease, opacity 0.5s ease;
+  color: var(--color-primary);
+  pointer-events: none;
+  user-select: none;
+}
+
+.name-title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  margin-bottom: 0.5rem;
+  animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
+}
+
+.name-subtitle {
+  font-size: clamp(0.6rem, 2vw, 0.85rem);
+  animation: fadeIn 5s ease-in-out, scaleUp 5s infinite alternate;
+}
+
+.name-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  padding-bottom: 5rem; /* Space for bottom nav */
+  pointer-events: none;
+}
+
+.name-container > * {
+  pointer-events: auto;
+}

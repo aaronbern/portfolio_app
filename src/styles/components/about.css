@@ -1,0 +1,127 @@
+/* about.css - About section styles */
+
+.about-container {
+  user-select: none;
+  width: min(85vw, 550px);
+  max-height: 60vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.about-container:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* Hide scrollbar */
+.about-container::-webkit-scrollbar {
+  width: 0;
+}
+
+.about-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+.profile-picture-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.about-heading {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  transition: color 0.3s ease;
+  font-family: var(--font-display);
+}
+
+.about-heading:hover {
+  color: #d1d5db;
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  color: var(--color-primary);
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  font-size: 0.75rem;
+  font-family: var(--font-display);
+}
+
+.about-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+  max-width: 100%;
+  margin: 0 auto 1rem auto;
+  text-align: left;
+  user-select: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-container {
+    width: 90vw;
+    padding: 1rem;
+  }
+  
+  .about-text {
+    font-size: 0.9rem;
+  }
+  
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-heading {
+    font-size: 1.1rem;
+  }
+  
+  .about-text {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}

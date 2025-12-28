@@ -10,12 +10,36 @@ import { Analytics } from "@vercel/analytics/react";
 import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
 import Image from 'next/image';
-import ContactForm from './contact';
+import { ContactForm } from './contact';
 
 // Import for post-processing effects
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+// Motion blur removed for cleaner particle rendering
+
+// Performance detection for adaptive quality
+const getQualitySettings = () => {
+  if (typeof window === 'undefined') {
+    return { particles: 150000, bloomEnabled: true, pixelRatio: 1 };
+  }
+  
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const isLowPower = navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  if (prefersReducedMotion) {
+    return { particles: 50000, bloomEnabled: false, pixelRatio: 1 };
+  }
+  if (isMobile || isLowPower) {
+    return { particles: 80000, bloomEnabled: false, pixelRatio: 1 };
+  }
+  return { 
+    particles: 150000, 
+    bloomEnabled: true, 
+    pixelRatio: Math.min(window.devicePixelRatio, 2)
+  };
+};
 
 export default function Home() {
   const [showLinks, setShowLinks] = useState({
@@ -56,112 +80,46 @@ export default function Home() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000); // Set a dark background
 
-    // Enhanced shader material for star-like lights
+    // Get adaptive quality settings
+    const quality = getQualitySettings();
+
+    // Simplified star shader material - cleaner, more performant
     const createStarMaterial = (color: number) => {
       return new THREE.ShaderMaterial({
         uniforms: {
           time: { value: 0 },
-          color: { value: new THREE.Color(color) },
-          intensity: { value: 2.0 }
+          color: { value: new THREE.Color(color) }
         },
         vertexShader: `
           varying vec2 vUv;
-          varying vec3 vPosition;
-          
           void main() {
             vUv = uv;
-            vPosition = position;
-            
-            // Make the geometry slightly larger and add some vertex displacement
-            vec3 pos = position;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
           }
         `,
         fragmentShader: `
           uniform float time;
           uniform vec3 color;
-          uniform float intensity;
-          
           varying vec2 vUv;
-          varying vec3 vPosition;
-          
-          // Noise function for flame-like effects
-          float noise(vec2 p) {
-            return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-          }
-          
-          float fbm(vec2 p) {
-            float value = 0.0;
-            float amplitude = 0.5;
-            for(int i = 0; i < 6; i++) {
-              value += amplitude * noise(p);
-              p *= 2.0;
-              amplitude *= 0.5;
-            }
-            return value;
-          }
           
           void main() {
-            vec2 center = vec2(0.5, 0.5);
-            vec2 uv = vUv - center;
-            float dist = length(uv);
+            vec2 center = vUv - 0.5;
+            float dist = length(center);
             
-            // Smooth circular falloff instead of hard edges
-            float circle = 1.0 - smoothstep(0.0, 0.5, dist);
+            // Smooth radial gradient
+            float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+            float core = 1.0 - smoothstep(0.0, 0.15, dist);
             
-            // Create radial gradient for star core
-            float core = 1.0 - smoothstep(0.0, 0.2, dist);
+            // Subtle pulse
+            float pulse = 0.85 + 0.15 * sin(time * 2.5);
             
-            // Add pulsing effect
-            float pulse = 0.8 + 0.2 * sin(time * 3.0);
+            // Soft corona
+            float corona = 1.0 - smoothstep(0.1, 0.45, dist);
             
-            // Create flame-like turbulence
-            vec2 turbulence = uv * 12.0 + time * 0.5;
-            float flames = fbm(turbulence + fbm(turbulence * 1.5));
+            float brightness = (core * pulse + corona * 0.5) * glow;
+            vec3 finalColor = color * (1.0 + brightness * 0.3);
             
-            // Create corona effect with smoother falloff
-            float corona = 1.0 - smoothstep(0.05, 0.4, dist);
-            corona *= flames * 0.3 + 0.7;
-            
-            // Add stellar spikes (6-pointed star) but make them more subtle
-            float angle = atan(uv.y, uv.x);
-            float spikes = 0.0;
-            for(int i = 0; i < 6; i++) {
-              float spikeAngle = float(i) * 3.14159 / 3.0;
-              float angleDiff = abs(angle - spikeAngle);
-              angleDiff = min(angleDiff, 6.28318 - angleDiff);
-              spikes += (1.0 - smoothstep(0.0, 0.05, angleDiff)) * (1.0 - smoothstep(0.0, 0.3, dist));
-            }
-            
-            // Combine all effects with circular mask
-            float brightness = (core * pulse + corona * 0.6 + spikes * 0.3) * circle;
-            brightness = clamp(brightness, 0.0, 1.0);
-            
-            // Color variations based on brightness
-            vec3 hotColor = color * 1.3;
-            vec3 coolColor = color * 0.7;
-            vec3 finalColor = mix(coolColor, hotColor, brightness);
-            
-            // Add some color temperature variation
-            if(color.r > color.g && color.r > color.b) {
-              // Red star - add orange/yellow highlights
-              finalColor += vec3(0.4, 0.2, 0.0) * brightness * flames;
-            } else if(color.b > color.r && color.b > color.g) {
-              // Blue star - add white highlights
-              finalColor += vec3(0.3, 0.3, 0.4) * brightness * flames;
-            } else {
-              // Green star - add yellow-green highlights
-              finalColor += vec3(0.2, 0.4, 0.1) * brightness * flames;
-            }
-            
-            // Create smooth outer glow
-            float glow = 1.0 - smoothstep(0.2, 0.5, dist);
-            glow *= 0.4 * circle;
-            
-            float alpha = (brightness + glow) * circle;
-            alpha = clamp(alpha, 0.0, 1.0);
-            
-            gl_FragColor = vec4(finalColor * intensity, alpha);
+            gl_FragColor = vec4(finalColor * brightness * 1.5, glow);
           }
         `,
         transparent: true,
@@ -170,22 +128,25 @@ export default function Home() {
       });
     };
 
-    // Enhanced lights setup
+    // Enhanced lights setup with comet tails
     const addEnhancedLight = (hexColor: number) => {
-      // Create a circular geometry for the visual effect
+      // Create a group to hold star and tail
+      const cometGroup = new THREE.Group();
+      
+      // Star head
       const starGeometry = new THREE.CircleGeometry(0.04, 32);
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
+      cometGroup.add(starMesh);
       
-      // Make the star always face the camera
-      starMesh.lookAt(camera.position);
+
       
       // Create the actual point light
       const light = new THREE.PointLight(hexColor, 3, 4);
-      light.add(starMesh);
+      light.add(cometGroup);
       
       scene.add(light);
-      return { light, starMaterial };
+      return { light, starMaterial, cometGroup };
     };
 
     // Create the enhanced lights
@@ -197,43 +158,72 @@ export default function Home() {
     const light2 = light2Data.light;
     const light3 = light3Data.light;
 
-    // Points setup
+    // Store previous positions for tail direction
+    const prevPositions = {
+      light1: new THREE.Vector3(),
+      light2: new THREE.Vector3(),
+      light3: new THREE.Vector3()
+    };
+
+    // Random even distribution of particles around origin (like original)
     const points = [];
     const colors = [];
-    for (let i = 0; i < 500000; i++) {
+    const sizes = [];
+    const twinkleOffsets = [];
+    const particleCount = quality.particles;
+    
+    for (let i = 0; i < particleCount; i++) {
+      // Even random distribution in a cube around origin
       const point = new THREE.Vector3()
         .random()
         .subScalar(0.5)
         .multiplyScalar(3);
       points.push(point);
 
-      // Use random colors
+      // Random colors like original
       const color = new THREE.Color(Math.random(), Math.random(), Math.random());
       colors.push(color.r, color.g, color.b);
+      
+      // Uniform small size
+      sizes.push(1.5 + Math.random() * 0.5);
+      
+      // Random twinkle offset for each particle
+      twinkleOffsets.push(Math.random() * Math.PI * 2);
     }
 
     const geometryPoints = new THREE.BufferGeometry().setFromPoints(points);
-    geometryPoints.setAttribute(
-      'color',
-      new THREE.Float32BufferAttribute(colors, 3)
-    );
+    geometryPoints.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometryPoints.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+    geometryPoints.setAttribute('twinkleOffset', new THREE.Float32BufferAttribute(twinkleOffsets, 1));
 
-    // Custom ShaderMaterial to handle point lighting
+    // Enhanced ShaderMaterial - closer to original but with twinkle
     const materialPoints = new THREE.ShaderMaterial({
       uniforms: {
+        time: { value: 0 },
         light1Position: { value: new THREE.Vector3() },
         light1Color: { value: new THREE.Color(0xff6666) },
         light2Position: { value: new THREE.Vector3() },
         light2Color: { value: new THREE.Color(0x66b3ff) },
         light3Position: { value: new THREE.Vector3() },
         light3Color: { value: new THREE.Color(0x80ff80) },
-        lightRadius: { value: 0.68 }, // Radius within which particles are illuminated
+        lightRadius: { value: 0.68 },
       },
       vertexShader: `
+        attribute float size;
+        attribute float twinkleOffset;
+        
+        uniform float time;
+        
         varying vec3 vPosition;
+        varying float vTwinkle;
+        
         void main() {
           vPosition = position;
-          gl_PointSize = 1.5;
+          
+          // Subtle twinkle effect
+          vTwinkle = 0.85 + 0.15 * sin(time * 2.5 + twinkleOffset);
+          
+          gl_PointSize = size * vTwinkle;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
       `,
@@ -247,6 +237,7 @@ export default function Home() {
         uniform float lightRadius;
 
         varying vec3 vPosition;
+        varying float vTwinkle;
 
         void main() {
           float intensity1 = max(0.0, 1.0 - length(light1Position - vPosition) / lightRadius);
@@ -260,7 +251,7 @@ export default function Home() {
             discard;
           }
 
-          gl_FragColor = vec4(color, 1.0);
+          gl_FragColor = vec4(color * vTwinkle, 1.0);
         }
       `,
       transparent: true,
@@ -271,7 +262,7 @@ export default function Home() {
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(quality.pixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 1.0;
@@ -282,18 +273,23 @@ export default function Home() {
     }
     container.appendChild(renderer.domElement);
 
-    // Post-processing for bloom effect
+    // Post-processing for bloom and motion blur effects
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
 
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      0.8, // strength
-      0.1, // radius
-      0.0 // threshold
-    );
-    composer.addPass(bloomPass);
+    // Bloom effect (conditional based on device capability)
+    if (quality.bloomEnabled) {
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        0.5, // strength - subtle glow
+        0.3, // radius
+        0.2 // threshold - only bright things bloom
+      );
+      composer.addPass(bloomPass);
+    }
+
+    // No motion blur - keeps particles crisp
 
     // Controls setup
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -323,15 +319,11 @@ export default function Home() {
     const animate = () => {
       const time = Date.now() * 0.001;
       
-      // Update time uniform for all star materials
+      // Update time uniform for star materials and particles
       light1Data.starMaterial.uniforms.time.value = time;
       light2Data.starMaterial.uniforms.time.value = time;
       light3Data.starMaterial.uniforms.time.value = time;
-
-      // Make stars always face the camera
-      light1.children[0].lookAt(camera.position);
-      light2.children[0].lookAt(camera.position);
-      light3.children[0].lookAt(camera.position);
+      materialPoints.uniforms.time.value = time;
 
       const scale = 0.5;
 
@@ -347,6 +339,28 @@ export default function Home() {
       light3.position.x = Math.sin(time * 0.8) * scale;
       light3.position.y = Math.cos(time * 0.4) * scale;
       light3.position.z = Math.sin(time * 0.6) * scale;
+
+      // Orient comet tails based on movement direction and face camera
+      const orientComet = (lightData: typeof light1Data, currentPos: THREE.Vector3, prevPos: THREE.Vector3) => {
+        const cometGroup = lightData.cometGroup;
+        
+        // Face camera
+        cometGroup.lookAt(camera.position);
+        
+        // Calculate velocity direction for tail
+        const velocity = new THREE.Vector3().subVectors(currentPos, prevPos);
+        if (velocity.length() > 0.001) {
+          // Rotate tail to point opposite of movement direction
+          const angle = Math.atan2(velocity.y, velocity.x);
+          cometGroup.rotation.z = angle + Math.PI;
+        }
+        
+        prevPos.copy(currentPos);
+      };
+      
+      orientComet(light1Data, light1.position, prevPositions.light1);
+      orientComet(light2Data, light2.position, prevPositions.light2);
+      orientComet(light3Data, light3.position, prevPositions.light3);
 
       // Update shader uniforms for light positions
       materialPoints.uniforms.light1Position.value.copy(light1.position);
@@ -449,7 +463,7 @@ export default function Home() {
     <>
       <SEO
         title="AaronBernard.exe"
-        description="CS student focused on AI and full-stack development"
+        description="Site reliability engineer Aaron Bernard's personal website."
       />
       <div id="three-container" className="w-full h-screen"></div>
       <div className="name-container">
@@ -457,7 +471,7 @@ export default function Home() {
         {activeContent === 'home' && (
           <>
             <h1 className="name-title">Aaron Bernard</h1>
-            <p className="name-subtitle">Site Reliability Engineering Intern</p>
+            <p className="name-subtitle">Site Reliability Engineer</p>
           </>
         )}
         {activeContent === 'about' && (
@@ -481,7 +495,7 @@ export default function Home() {
                   <span className="section-number">1.</span> Introduction
                 </h2>
                 <p className="about-text">
-                  Hello, I&apos;m Aaron Bernard — a software engineer passionate about building systems that are both innovative and reliable. I currently work as a Site Reliability Engineering Intern at Trimble, where I help improve system stability, automation, and observability across internal platforms.
+                  Hello, I&apos;m Aaron Bernard. I am a Site Reliability Engineer at Trimble, I am focused on improving reliability through automation, observability, and clear operational practices.
                 </p>
               </section>
 
@@ -491,7 +505,7 @@ export default function Home() {
                   <span className="section-number">2.</span> Background
                 </h2>
                 <p className="about-text">
-                  Previously, I worked at Act-On Software, contributing to projects that integrated AI into production systems and supported internal infrastructure initiatives. I&apos;ve worked with cloud-based monitoring tools, infrastructure-as-code platforms like Terraform, and performance reporting systems to help teams gain visibility into system health and reliability.
+                  I design and operate production observability and monitoring: New Relic synthetic monitors, Terraform-managed monitoring and alerting, Power BI data gateways for operational reporting, and Kubernetes & Azure operations.
                 </p>
               </section>
 
@@ -501,18 +515,18 @@ export default function Home() {
                   <span className="section-number">3.</span> Interests & Goals
                 </h2>
                 <p className="about-text">
-                  I&apos;m especially interested in Site Reliability Engineering — combining software and systems thinking to build fault-tolerant, scalable platforms. I also enjoy AI development, game design, and exploring new ways to create efficient developer experiences. Long-term, I want to continue working on production infrastructure that supports large-scale, real-time applications with a focus on reliability, automation, and thoughtful monitoring.
+                  I prioritize automating repetitive work, improving incident response and runbooks, and helping teams scale reliably with practical tooling and measurable SLIs.
                 </p>
               </section>
             </div>
           </div>
         )}
         {activeContent === 'contact' && (
-          <div id="contact-form" className="about-text">
+          <div id="contact-form" className="contact-content">
             <ul className="contact-list">
               <li>
-                <a href="#" onClick={() => setShowContactForm(true)}>
-                  Email: Aaronber@pdx.edu
+                <a href="#" onClick={(e) => { e.preventDefault(); setShowContactForm(true); }}>
+                  Email: aaronbernard24@gmail.com
                 </a>
               </li>
               <li>
@@ -528,23 +542,24 @@ export default function Home() {
             </ul>
           </div>
         )}
-        {/* Modal for Contact Form */}
-        {showContactForm && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <button className="close-button" onClick={() => setShowContactForm(false)}>
-                X
-              </button>
-              <ContactForm />
-            </div>
-          </div>
-        )}
         {activeContent === 'projects' && (
           <div className="content">
             <ProjectsCarousel />
           </div>
         )}
       </div>
+      {/* Modal for Contact Form - outside name-container for proper z-index */}
+      {showContactForm && (
+        <div className="modal-overlay" onClick={() => setShowContactForm(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setShowContactForm(false)}>
+              ✕
+            </button>
+            <h2 style={{ fontFamily: 'KIMM_Bold, sans-serif', marginBottom: '1rem', textAlign: 'center' }}>Send a Message</h2>
+            <ContactForm />
+          </div>
+        </div>
+      )}
       {/* Static Links Container */}
       <div className="links">
         <button

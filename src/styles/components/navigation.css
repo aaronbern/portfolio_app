@@ -1,0 +1,103 @@
+/* navigation.css - Bottom links and button styles */
+
+.links {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  padding: 1.5rem;
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  z-index: 1000;
+}
+
+.link-item {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link-item::selection {
+  background: transparent;
+}
+
+.link-item::-moz-selection {
+  background: transparent;
+}
+
+.link-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.link-item:hover,
+.link-item:focus,
+.link-item:active {
+  color: var(--color-primary);
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.6),
+    0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+  outline: none;
+}
+
+.link-item.active {
+  transform: scale(1.05);
+}
+
+/* Project Button */
+.project-button {
+  background-color: #1f2937;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.project-button:hover {
+  background-color: var(--color-accent);
+  color: #000000;
+  border-color: var(--color-accent);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.project-button:active {
+  transform: scale(0.95);
+}
+
+.project-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.5);
+}
+
+button {
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover,
+button:focus,
+button:active {
+  outline: none;
+  box-shadow: none;
+}
