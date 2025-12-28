@@ -344,8 +344,7 @@ export default function Home() {
     let modeTransition = 0; // 0 = orbit, 1 = fixed layout
 
     // Track previous target positions for smooth transitions between modes
-    // Changed 'let' to 'const' to satisfy ESLint. 
-    // We are mutating the objects via .copy(), not reassigning the variable.
+    // UPDATED: Used 'const' here to fix linting errors (prefer-const)
     const prevTargetPos1 = new THREE.Vector3();
     const prevTargetPos2 = new THREE.Vector3();
     const prevTargetPos3 = new THREE.Vector3();
