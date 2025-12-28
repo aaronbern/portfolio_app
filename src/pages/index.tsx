@@ -344,12 +344,15 @@ export default function Home() {
     let modeTransition = 0; // 0 = orbit, 1 = fixed layout
 
     // Track previous target positions for smooth transitions between modes
-    let prevTargetPos1 = new THREE.Vector3();
-    let prevTargetPos2 = new THREE.Vector3();
-    let prevTargetPos3 = new THREE.Vector3();
-    let currentTargetPos1 = new THREE.Vector3();
-    let currentTargetPos2 = new THREE.Vector3();
-    let currentTargetPos3 = new THREE.Vector3();
+    // Changed 'let' to 'const' to satisfy ESLint. 
+    // We are mutating the objects via .copy(), not reassigning the variable.
+    const prevTargetPos1 = new THREE.Vector3();
+    const prevTargetPos2 = new THREE.Vector3();
+    const prevTargetPos3 = new THREE.Vector3();
+    const currentTargetPos1 = new THREE.Vector3();
+    const currentTargetPos2 = new THREE.Vector3();
+    const currentTargetPos3 = new THREE.Vector3();
+    
     let previousContent = 'home';
 
     // Animation loop
