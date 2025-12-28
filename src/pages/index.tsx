@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
+import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
 import Image from 'next/image';
 import { ContactForm } from './contact';
@@ -69,7 +70,6 @@ export default function Home() {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Timed reveals of the links
     setTimeout(() => setShowLinks((prev) => ({ ...prev, about: true })), 2000);
@@ -114,23 +114,25 @@ export default function Home() {
             vec2 center = vUv - 0.5;
             float dist = length(center);
             
-            // Smooth radial gradient
+            // 1. Soft outer glow
             float glow = 1.0 - smoothstep(0.0, 0.5, dist);
-            float core = 1.0 - smoothstep(0.0, 0.15, dist);
             
-            // Subtle pulse
-            float pulse = 0.85 + 0.15 * sin(time * 2.5);
+            // 2. Sharp, solid core
+            float core = 1.0 - smoothstep(0.0, 0.12, dist);
             
-            // Soft corona
-            float corona = 1.0 - smoothstep(0.1, 0.45, dist);
+            // 3. Pulse
+            float pulse = 0.9 + 0.1 * sin(time * 3.0);
             
-            float brightness = (core * pulse + corona * 0.5) * glow;
-            vec3 finalColor = color * (1.0 + brightness * 0.3);
+            // 4. THERMAL EFFECT: Mix white into the center (0.85 = 85% white at center)
+            vec3 hotColor = mix(color, vec3(1.0), core * 0.85);
+            
+            // Combine: Core is very bright (bloom target), glow is softer
+            float brightness = (core * 3.0 + glow * 0.5) * pulse;
 
-            // Make the star less see-through by increasing and clamping alpha
-            float alpha = clamp(glow * 1.6, 0.0, 1.0);
+            // Make sure edges fade out completely
+            float alpha = clamp(glow * 2.0, 0.0, 1.0);
 
-            gl_FragColor = vec4(finalColor * brightness * 1.5, alpha);
+            gl_FragColor = vec4(hotColor * brightness, alpha);
           }
         `,
         transparent: true,
@@ -344,8 +346,7 @@ export default function Home() {
     let modeTransition = 0; // 0 = orbit, 1 = fixed layout
 
     // Track previous target positions for smooth transitions between modes
-    // Changed 'let' to 'const' to satisfy ESLint. 
-    // We are mutating the objects via .copy(), not reassigning the variable.
+    // Using 'const' to satisfy linter (objects are mutated, not reassigned)
     const prevTargetPos1 = new THREE.Vector3();
     const prevTargetPos2 = new THREE.Vector3();
     const prevTargetPos3 = new THREE.Vector3();
@@ -687,4 +688,4 @@ export default function Home() {
       <Analytics />
     </>
   );
-} 
+}
