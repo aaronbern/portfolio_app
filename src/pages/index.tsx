@@ -118,8 +118,11 @@ export default function Home() {
             
             float brightness = (core * pulse + corona * 0.5) * glow;
             vec3 finalColor = color * (1.0 + brightness * 0.3);
-            
-            gl_FragColor = vec4(finalColor * brightness * 1.5, glow);
+
+            // Make the star less see-through by increasing and clamping alpha
+            float alpha = clamp(glow * 1.6, 0.0, 1.0);
+
+            gl_FragColor = vec4(finalColor * brightness * 1.5, alpha);
           }
         `,
         transparent: true,
@@ -138,8 +141,6 @@ export default function Home() {
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
       cometGroup.add(starMesh);
-      
-
       
       // Create the actual point light
       const light = new THREE.PointLight(hexColor, 3, 4);
