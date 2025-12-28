@@ -7,7 +7,6 @@ import { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Analytics } from "@vercel/analytics/react";
-import * as React from "react";
 import { ProjectsCarousel } from "../components/ProjectsCarousel"
 import Image from 'next/image';
 import { ContactForm } from './contact';
@@ -70,6 +69,7 @@ export default function Home() {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Timed reveals of the links
     setTimeout(() => setShowLinks((prev) => ({ ...prev, about: true })), 2000);
@@ -344,7 +344,8 @@ export default function Home() {
     let modeTransition = 0; // 0 = orbit, 1 = fixed layout
 
     // Track previous target positions for smooth transitions between modes
-    // UPDATED: Used 'const' here to fix linting errors (prefer-const)
+    // Changed 'let' to 'const' to satisfy ESLint. 
+    // We are mutating the objects via .copy(), not reassigning the variable.
     const prevTargetPos1 = new THREE.Vector3();
     const prevTargetPos2 = new THREE.Vector3();
     const prevTargetPos3 = new THREE.Vector3();
@@ -686,4 +687,4 @@ export default function Home() {
       <Analytics />
     </>
   );
-}
+} 

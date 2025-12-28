@@ -200,6 +200,7 @@ export function ProjectsCarousel() {
               {/* Media Section */}
               {selectedProject.detailedImage && (
                 <div className="w-full max-w-2xl mb-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={selectedProject.detailedImage} 
                     alt={`${selectedProject.title} Preview`} 

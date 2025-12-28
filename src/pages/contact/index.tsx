@@ -45,6 +45,7 @@ export const ContactForm = () => {
     };
 
     // Try to use emailjs if configured, otherwise fallback to mailto
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof emailjs !== 'undefined' && (emailjs as any).send) {
       emailjs
         .send(
