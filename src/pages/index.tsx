@@ -410,9 +410,9 @@ export default function Home() {
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.288, 0.118, -0.4); // Right Card - Red (Lowered/Narrowed)
-        const screenSpacePos2 = new THREE.Vector3(-0.288, 0.118, -0.4); // Left Card - Blue (Lowered/Narrowed)
-        const screenSpacePos3 = new THREE.Vector3(0, 0.118, -0.4); // Center Card - Green (Lowered)
+        const screenSpacePos1 = new THREE.Vector3(0.288, 0.117, -0.4); // Right Card - Red (Lowered/Narrowed)
+        const screenSpacePos2 = new THREE.Vector3(-0.288, 0.117, -0.4); // Left Card - Blue (Lowered/Narrowed)
+        const screenSpacePos3 = new THREE.Vector3(0, 0.117, -0.4); // Center Card - Green (Lowered)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);

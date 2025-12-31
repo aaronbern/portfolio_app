@@ -34,7 +34,7 @@ export const projects: Project[] = [
   {
     id: 3,
     title: 'Vulkan Game Engine',
-    description: 'A Vulkan-powered game engine focused on low-level rendering control and performance.',
+    description: 'A Vulkan-powered game engine focused on control and performance.',
     example: 'Rendering a simple triangle.',
     image: '/engine.jpg',
     videoPath: '/videos/enginevid.mp4',
