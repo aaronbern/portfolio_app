@@ -410,18 +410,18 @@ export default function Home() {
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.32, 0.14, -0.4); // Right Card - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.32, 0.14, -0.4); // Left Card - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, 0.14, -0.4); // Center Card - Green
+        const screenSpacePos1 = new THREE.Vector3(0.34, 0.10, -0.4); // Right Card - Red (Lowered/Widened)
+        const screenSpacePos2 = new THREE.Vector3(-0.34, 0.10, -0.4); // Left Card - Blue (Lowered/Widened)
+        const screenSpacePos3 = new THREE.Vector3(0, 0.10, -0.4); // Center Card - Green (Lowered)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
-        // About mode - stars form a triangle around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.35, 0.25, -0.4); // Top right - Red (Widened)
-        const screenSpacePos2 = new THREE.Vector3(-0.35, 0.25, -0.4); // Top left - Blue (Widened)
-        const screenSpacePos3 = new THREE.Vector3(0, -0.38, -0.4); // Bottom center - Green (Lowered)
+        // About mode - stars form a tight halo around the profile picture
+        const screenSpacePos1 = new THREE.Vector3(0.15, 0.20, -0.4); // Top right - Red (Halo)
+        const screenSpacePos2 = new THREE.Vector3(-0.15, 0.20, -0.4); // Top left - Blue (Halo)
+        const screenSpacePos3 = new THREE.Vector3(0, 0.08, -0.4); // Bottom center - Green (Halo)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
