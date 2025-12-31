@@ -23,20 +23,20 @@ const getQualitySettings = () => {
   if (typeof window === 'undefined') {
     return { particles: 150000, bloomEnabled: true, pixelRatio: 1 };
   }
-  
+
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   const isLowPower = navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
+
   if (prefersReducedMotion) {
     return { particles: 50000, bloomEnabled: false, pixelRatio: 1 };
   }
   if (isMobile || isLowPower) {
     return { particles: 80000, bloomEnabled: false, pixelRatio: 1 };
   }
-  return { 
-    particles: 150000, 
-    bloomEnabled: true, 
+  return {
+    particles: 150000,
+    bloomEnabled: true,
     pixelRatio: Math.min(window.devicePixelRatio, 2)
   };
 };
@@ -145,18 +145,18 @@ export default function Home() {
     const addEnhancedLight = (hexColor: number) => {
       // Create a group to hold star and tail
       const cometGroup = new THREE.Group();
-      
+
       // Star head
       const starGeometry = new THREE.CircleGeometry(0.04, 32);
       const starMaterial = createStarMaterial(hexColor);
       const starMesh = new THREE.Mesh(starGeometry, starMaterial);
       starMesh.renderOrder = 2;
       cometGroup.add(starMesh);
-      
+
       // Create the actual point light
       const light = new THREE.PointLight(hexColor, 3, 4);
       light.add(cometGroup);
-      
+
       scene.add(light);
       return { light, starMaterial, cometGroup };
     };
@@ -186,7 +186,7 @@ export default function Home() {
     const sizes = [];
     const twinkleOffsets = [];
     const particleCount = quality.particles;
-    
+
     for (let i = 0; i < particleCount; i++) {
       // Even random distribution in a cube around origin
       const point = new THREE.Vector3()
@@ -198,10 +198,10 @@ export default function Home() {
       // Random colors like original
       const color = new THREE.Color(Math.random(), Math.random(), Math.random());
       colors.push(color.r, color.g, color.b);
-      
+
       // Uniform small size
       sizes.push(1.5 + Math.random() * 0.5);
-      
+
       // Random twinkle offset for each particle
       twinkleOffsets.push(Math.random() * Math.PI * 2);
     }
@@ -353,13 +353,13 @@ export default function Home() {
     const currentTargetPos1 = new THREE.Vector3();
     const currentTargetPos2 = new THREE.Vector3();
     const currentTargetPos3 = new THREE.Vector3();
-    
+
     let previousContent = 'home';
 
     // Animation loop
     const animate = () => {
       const time = Date.now() * 0.001;
-      
+
       // Update time uniform for star materials and particles
       light1Data.starMaterial.uniforms.time.value = time;
       light2Data.starMaterial.uniforms.time.value = time;
@@ -410,10 +410,10 @@ export default function Home() {
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.35, 0.05, -0.4); // Right Card - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.35, 0.05, -0.4); // Left Card - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, 0.05, -0.4); // Center Card - Green
-        
+        const screenSpacePos1 = new THREE.Vector3(0.32, 0.14, -0.4); // Right Card - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.32, 0.14, -0.4); // Left Card - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, 0.14, -0.4); // Center Card - Green
+
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
@@ -422,7 +422,7 @@ export default function Home() {
         const screenSpacePos1 = new THREE.Vector3(0.2, 0.3, -0.35); // Top right - Red
         const screenSpacePos2 = new THREE.Vector3(-0.2, 0.3, -0.35); // Top left - Blue
         const screenSpacePos3 = new THREE.Vector3(0, -0.15, -0.35); // Bottom center - Green
-        
+
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
@@ -431,7 +431,7 @@ export default function Home() {
         const screenSpacePos1 = new THREE.Vector3(-0.45, 0.12, -0.35); // Top - Red (Email)
         const screenSpacePos2 = new THREE.Vector3(-0.45, 0, -0.35); // Middle - Blue (LinkedIn)
         const screenSpacePos3 = new THREE.Vector3(-0.45, -0.12, -0.35); // Bottom - Green (GitHub)
-        
+
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
