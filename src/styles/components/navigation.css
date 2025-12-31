@@ -48,10 +48,10 @@
 }
 
 .link-item:hover,
-.link-item:focus,
+.link-item:focus-visible,
 .link-item:active {
   color: var(--color-primary);
-  text-shadow: 
+  text-shadow:
     0 0 8px rgba(255, 255, 255, 0.6),
     0 0 12px rgba(255, 255, 255, 0.4);
   transform: scale(1.1);
@@ -59,7 +59,7 @@
 }
 
 .link-item.active {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 /* Project Button */
