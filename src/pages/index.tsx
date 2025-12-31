@@ -410,18 +410,18 @@ export default function Home() {
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.34, 0.10, -0.4); // Right Card - Red (Lowered/Widened)
-        const screenSpacePos2 = new THREE.Vector3(-0.34, 0.10, -0.4); // Left Card - Blue (Lowered/Widened)
-        const screenSpacePos3 = new THREE.Vector3(0, 0.10, -0.4); // Center Card - Green (Lowered)
+        const screenSpacePos1 = new THREE.Vector3(0.28, 0.0, -0.4); // Right Card - Red (Lowered/Narrowed)
+        const screenSpacePos2 = new THREE.Vector3(-0.28, 0.0, -0.4); // Left Card - Blue (Lowered/Narrowed)
+        const screenSpacePos3 = new THREE.Vector3(0, 0.0, -0.4); // Center Card - Green (Lowered)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
-        // About mode - stars form a tight halo around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.15, 0.20, -0.4); // Top right - Red (Halo)
-        const screenSpacePos2 = new THREE.Vector3(-0.15, 0.20, -0.4); // Top left - Blue (Halo)
-        const screenSpacePos3 = new THREE.Vector3(0, 0.08, -0.4); // Bottom center - Green (Halo)
+        // About mode - stars form a standard triangle around the profile picture
+        const screenSpacePos1 = new THREE.Vector3(0.14, 0.16, -0.4); // Right Bottom - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.14, 0.16, -0.4); // Left Bottom - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, 0.28, -0.4); // Top Center - Green
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
