@@ -4,20 +4,20 @@
   user-select: none;
   width: min(85vw, 550px);
   max-height: 60vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
   border-radius: 0.75rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .about-container:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 /* Hide scrollbar */
@@ -104,11 +104,11 @@
     width: 90vw;
     padding: 1rem;
   }
-  
+
   .about-text {
     font-size: 0.9rem;
   }
-  
+
   .profile-picture {
     width: 80px;
     height: 80px;
@@ -119,7 +119,7 @@
   .about-heading {
     font-size: 1.1rem;
   }
-  
+
   .about-text {
     font-size: 0.85rem;
     line-height: 1.4;

@@ -419,9 +419,9 @@ export default function Home() {
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
         // About mode - stars form a triangle around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.2, 0.3, -0.35); // Top right - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.2, 0.3, -0.35); // Top left - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, -0.15, -0.35); // Bottom center - Green
+        const screenSpacePos1 = new THREE.Vector3(0.35, 0.25, -0.4); // Top right - Red (Widened)
+        const screenSpacePos2 = new THREE.Vector3(-0.35, 0.25, -0.4); // Top left - Blue (Widened)
+        const screenSpacePos3 = new THREE.Vector3(0, -0.38, -0.4); // Bottom center - Green (Lowered)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
