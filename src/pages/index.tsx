@@ -422,7 +422,7 @@ export default function Home() {
         const screenSpacePos1 = new THREE.Vector3(0.8, 0.16, -0.4); // Right Bottom - Red
         const screenSpacePos2 = new THREE.Vector3(-0.8, 0.16, -0.4); // Left Bottom - Blue
         const screenSpacePos3 = new THREE.Vector3(0, 0.22, -0.4); // Top Center - Green
-        s
+
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
