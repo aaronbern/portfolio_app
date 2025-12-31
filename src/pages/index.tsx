@@ -410,27 +410,27 @@ export default function Home() {
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.29, 0.12, -0.4); // Right Card - Red (Lowered/Narrowed)
-        const screenSpacePos2 = new THREE.Vector3(-0.29, 0.12, -0.4); // Left Card - Blue (Lowered/Narrowed)
-        const screenSpacePos3 = new THREE.Vector3(0, 0.12, -0.4); // Center Card - Green (Lowered)
+        const screenSpacePos1 = new THREE.Vector3(0.287, 0.119, -0.4); // Right Card - Red (Lowered/Narrowed)
+        const screenSpacePos2 = new THREE.Vector3(-0.287, 0.119, -0.4); // Left Card - Blue (Lowered/Narrowed)
+        const screenSpacePos3 = new THREE.Vector3(0, 0.119, -0.4); // Center Card - Green (Lowered)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
         // About mode - stars form a standard triangle around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.8, 0.16, -0.4); // Right Bottom - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.8, 0.16, -0.4); // Left Bottom - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, 0.22, -0.4); // Top Center - Green
+        const screenSpacePos1 = new THREE.Vector3(0.08, 0.16, -0.4); // Right Bottom - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.08, 0.16, -0.4); // Left Bottom - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, 0.24, -0.4); // Top Center - Green
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'contact') {
         // Contact mode - stars arranged vertically alongside the contact links
-        const screenSpacePos1 = new THREE.Vector3(-0.45, 0.12, -0.35); // Top - Red (Email)
-        const screenSpacePos2 = new THREE.Vector3(-0.45, 0, -0.35); // Middle - Blue (LinkedIn)
-        const screenSpacePos3 = new THREE.Vector3(-0.45, -0.12, -0.35); // Bottom - Green (GitHub)
+        const screenSpacePos1 = new THREE.Vector3(-0.25, 0.09, -0.35); // Top - Red (Email)
+        const screenSpacePos2 = new THREE.Vector3(-0.25, 0, -0.35); // Middle - Blue (LinkedIn)
+        const screenSpacePos3 = new THREE.Vector3(-0.25, -0.09, -0.35); // Bottom - Green (GitHub)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
