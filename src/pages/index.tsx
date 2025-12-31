@@ -419,18 +419,18 @@ export default function Home() {
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
         // About mode - stars form a standard triangle around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.055, 0.16, -0.4); // Right Bottom - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.055, 0.16, -0.4); // Left Bottom - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, 0.245, -0.4); // Top Center - Green
+        const screenSpacePos1 = new THREE.Vector3(0.05, 0.18, -0.4); // Right Bottom - Red
+        const screenSpacePos2 = new THREE.Vector3(-0.05, 0.18, -0.4); // Left Bottom - Blue
+        const screenSpacePos3 = new THREE.Vector3(0, 0.248, -0.4); // Top Center - Green
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'contact') {
         // Contact mode - stars arranged vertically alongside the contact links
-        const screenSpacePos1 = new THREE.Vector3(-0.25, 0.06, -0.35); // Top - Red (Email)
-        const screenSpacePos2 = new THREE.Vector3(-0.25, 0.04, -0.35); // Middle - Blue (LinkedIn)
-        const screenSpacePos3 = new THREE.Vector3(-0.25, -0.02, -0.35); // Bottom - Green (GitHub)
+        const screenSpacePos1 = new THREE.Vector3(-0.18, 0.06, -0.35); // Top - Red (Email)
+        const screenSpacePos2 = new THREE.Vector3(-0.18, 0.02, -0.35); // Middle - Blue (LinkedIn)
+        const screenSpacePos3 = new THREE.Vector3(-0.18, 0, -0.35); // Bottom - Green (GitHub)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
