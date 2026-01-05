@@ -446,9 +446,9 @@ export default function Home() {
         const card2 = cards[0]; // Left Card - Blue (Trajectory)
         const card3 = cards[1]; // Center Card - Green (YapChat)
         
-        const pos1 = screenToWorld(card1, 0, -100, -0.2); // Offset up to icon area
-        const pos2 = screenToWorld(card2, 0, -100, -0.2);
-        const pos3 = screenToWorld(card3, 0, -100, -0.2);
+        const pos1 = screenToWorld(card1, 0, -90, -0.2); // Offset up to icon area
+        const pos2 = screenToWorld(card2, 0, -90, -0.2);
+        const pos3 = screenToWorld(card3, 0, -90, -0.2);
         
         // Fallback to original positions if DOM query fails
         const fallback1 = new THREE.Vector3(0.288, 0.117, -0.4);
@@ -482,9 +482,9 @@ export default function Home() {
         const link2 = contactLinks[1]; // LinkedIn - Blue
         const link3 = contactLinks[2]; // GitHub - Green
         
-        const pos1 = screenToWorld(link1, -170, 0, -0.15); // Offset to the left
-        const pos2 = screenToWorld(link2, -170, 0, -0.15);
-        const pos3 = screenToWorld(link3, -170, 0, -0.15);
+        const pos1 = screenToWorld(link1, -210, 0, -0.15); // Offset to the left
+        const pos2 = screenToWorld(link2, -210, 0, -0.15);
+        const pos3 = screenToWorld(link3, -210, 0, -0.15);
         
         // Fallback positions
         const fallback1 = new THREE.Vector3(-0.18, 0.06, -0.35);
