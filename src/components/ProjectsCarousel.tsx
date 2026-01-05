@@ -98,8 +98,8 @@ export function ProjectsCarousel() {
                     border border-white/10 hover:border-white/30
                     transform-gpu transition-all duration-300 hover:scale-[1.05] hover:z-10
                     backdrop-blur-sm
+                    h-[280px] sm:h-[320px]
                   `}
-                  style={{ height: "320px" }}
                   onClick={() => handleProjectClick(project, index)}
                 >
                   <div className="absolute inset-0 opacity-5">
