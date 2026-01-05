@@ -408,34 +408,48 @@ export default function Home() {
         modeTransition = 0; // Reset transition for smooth interpolation
       }
 
-      // Calculate aspect ratio scaling
-      const aspect = window.innerWidth / window.innerHeight;
-      const baseAspect = 16 / 9; // Reference aspect ratio
-      const aspectScale = aspect / baseAspect;
+      // Calculate viewport-aware positions based on camera FOV
+      const zDistance = 0.4; // Distance from camera
+      const aspect = camera.aspect;
+      const vFov = camera.fov * Math.PI / 180; // Convert to radians
+      
+      // Calculate visible height and width at the given z-distance
+      const visibleHeight = 2 * Math.tan(vFov / 2) * zDistance;
+      const visibleWidth = visibleHeight * aspect;
+      
+      // Helper function to convert normalized coordinates to world position
+      const toWorldPos = (normalizedX: number, normalizedY: number, z: number) => {
+        return new THREE.Vector3(
+          normalizedX * visibleWidth / 2,
+          normalizedY * visibleHeight / 2,
+          -z
+        );
+      };
 
       if (currentContent === 'projects') {
         // Projects mode - behind the three cards
-        const screenSpacePos1 = new THREE.Vector3(0.288 * aspectScale, 0.117, -0.4); // Right Card - Red (Lowered/Narrowed)
-        const screenSpacePos2 = new THREE.Vector3(-0.288 * aspectScale, 0.117, -0.4); // Left Card - Blue (Lowered/Narrowed)
-        const screenSpacePos3 = new THREE.Vector3(0, 0.113, -0.4); // Center Card - Green (Lowered)
+        // Normalized positions work across all aspect ratios
+        const screenSpacePos1 = toWorldPos(0.48, 0.24, zDistance); // Right Card - Red
+        const screenSpacePos2 = toWorldPos(-0.48, 0.24, zDistance); // Left Card - Blue
+        const screenSpacePos3 = toWorldPos(0, 0.235, zDistance); // Center Card - Green
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
         // About mode - stars form a standard triangle around the profile picture
-        const screenSpacePos1 = new THREE.Vector3(0.05 * aspectScale, 0.18, -0.4); // Right Bottom - Red
-        const screenSpacePos2 = new THREE.Vector3(-0.05 * aspectScale, 0.18, -0.4); // Left Bottom - Blue
-        const screenSpacePos3 = new THREE.Vector3(0, 0.252, -0.4); // Top Center - Green
+        const screenSpacePos1 = toWorldPos(0.08, 0.37, zDistance); // Right Bottom - Red
+        const screenSpacePos2 = toWorldPos(-0.08, 0.37, zDistance); // Left Bottom - Blue
+        const screenSpacePos3 = toWorldPos(0, 0.52, zDistance); // Top Center - Green
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'contact') {
         // Contact mode - stars arranged vertically alongside the contact links
-        const screenSpacePos1 = new THREE.Vector3(-0.18 * aspectScale, 0.06, -0.35); // Top - Red (Email)
-        const screenSpacePos2 = new THREE.Vector3(-0.18 * aspectScale, 0.025, -0.35); // Middle - Blue (LinkedIn)
-        const screenSpacePos3 = new THREE.Vector3(-0.18 * aspectScale, -0.01, -0.35); // Bottom - Green (GitHub)
+        const screenSpacePos1 = toWorldPos(-0.3, 0.125, zDistance * 0.875); // Top - Red (Email)
+        const screenSpacePos2 = toWorldPos(-0.3, 0.052, zDistance * 0.875); // Middle - Blue (LinkedIn)
+        const screenSpacePos3 = toWorldPos(-0.3, -0.021, zDistance * 0.875); // Bottom - Green (GitHub)
 
         targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
         targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
