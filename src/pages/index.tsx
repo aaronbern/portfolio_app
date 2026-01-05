@@ -319,7 +319,7 @@ export default function Home() {
     });
 
     // Helper function to convert DOM element position to 3D world position
-    const screenToWorld = (element: Element | null, offsetX: number = 0, offsetY: number = 0, zDepth: number = 0.4): THREE.Vector3 | null => {
+    const screenToWorld = (element: Element | null, offsetX: number = 0, offsetY: number = 0, zDepth: number = -0.2): THREE.Vector3 | null => {
       if (!element) return null;
       const rect = element.getBoundingClientRect();
       // Get center of element with optional offset
@@ -328,12 +328,25 @@ export default function Home() {
       // Convert to normalized device coordinates (-1 to 1)
       const ndcX = (screenX / window.innerWidth) * 2 - 1;
       const ndcY = -(screenY / window.innerHeight) * 2 + 1;
-      // Convert to world position at given depth
-      const vector = new THREE.Vector3(ndcX, ndcY, 0.5);
-      vector.unproject(camera);
-      const dir = vector.sub(camera.position).normalize();
-      const distance = (camera.position.z - zDepth) / dir.z;
-      return camera.position.clone().add(dir.multiplyScalar(-distance));
+      
+      // Create a ray from camera through the screen point
+      const nearPoint = new THREE.Vector3(ndcX, ndcY, 0);
+      const farPoint = new THREE.Vector3(ndcX, ndcY, 1);
+      nearPoint.unproject(camera);
+      farPoint.unproject(camera);
+      
+      // Calculate direction
+      const dir = farPoint.sub(nearPoint).normalize();
+      
+      // Find where ray intersects the target z plane
+      // We want the point where the ray reaches z = zDepth
+      const t = (zDepth - nearPoint.z) / dir.z;
+      
+      return new THREE.Vector3(
+        nearPoint.x + dir.x * t,
+        nearPoint.y + dir.y * t,
+        zDepth
+      );
     };
 
     // Helper function to orient comet tails
@@ -433,9 +446,9 @@ export default function Home() {
         const card2 = cards[0]; // Left Card - Blue (Trajectory)
         const card3 = cards[1]; // Center Card - Green (YapChat)
         
-        const pos1 = screenToWorld(card1, 0, -80, 0.4); // Offset up to icon area
-        const pos2 = screenToWorld(card2, 0, -80, 0.4);
-        const pos3 = screenToWorld(card3, 0, -80, 0.4);
+        const pos1 = screenToWorld(card1, 0, -80, -0.2); // Offset up to icon area
+        const pos2 = screenToWorld(card2, 0, -80, -0.2);
+        const pos3 = screenToWorld(card3, 0, -80, -0.2);
         
         // Fallback to original positions if DOM query fails
         const fallback1 = new THREE.Vector3(0.288, 0.117, -0.4);
@@ -448,7 +461,7 @@ export default function Home() {
       } else if (currentContent === 'about') {
         // About mode - query profile picture position from DOM
         const profilePic = document.querySelector('[data-star-target="profile-picture"]');
-        const profilePos = screenToWorld(profilePic, 0, 0, 0.4);
+        const profilePos = screenToWorld(profilePic, 0, 0, -0.2);
         
         if (profilePos) {
           // Position stars in a triangle around the profile picture
@@ -469,9 +482,9 @@ export default function Home() {
         const link2 = contactLinks[1]; // LinkedIn - Blue
         const link3 = contactLinks[2]; // GitHub - Green
         
-        const pos1 = screenToWorld(link1, -60, 0, 0.35); // Offset to the left
-        const pos2 = screenToWorld(link2, -60, 0, 0.35);
-        const pos3 = screenToWorld(link3, -60, 0, 0.35);
+        const pos1 = screenToWorld(link1, -60, 0, -0.15); // Offset to the left
+        const pos2 = screenToWorld(link2, -60, 0, -0.15);
+        const pos3 = screenToWorld(link3, -60, 0, -0.15);
         
         // Fallback positions
         const fallback1 = new THREE.Vector3(-0.18, 0.06, -0.35);
