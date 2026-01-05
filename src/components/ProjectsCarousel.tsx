@@ -89,6 +89,7 @@ export function ProjectsCarousel() {
               <div
                 key={project.id}
                 className="pl-2 md:pl-4 basis-full sm:basis-4/5 md:basis-1/2 lg:basis-2/5"
+                data-star-target="project-card"
               >
                 <Card
                   className={`

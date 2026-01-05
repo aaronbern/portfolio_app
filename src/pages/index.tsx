@@ -318,6 +318,24 @@ export default function Home() {
       composer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // Helper function to convert DOM element position to 3D world position
+    const screenToWorld = (element: Element | null, offsetX: number = 0, offsetY: number = 0, zDepth: number = 0.4): THREE.Vector3 | null => {
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      // Get center of element with optional offset
+      const screenX = rect.left + rect.width / 2 + offsetX;
+      const screenY = rect.top + rect.height / 2 + offsetY;
+      // Convert to normalized device coordinates (-1 to 1)
+      const ndcX = (screenX / window.innerWidth) * 2 - 1;
+      const ndcY = -(screenY / window.innerHeight) * 2 + 1;
+      // Convert to world position at given depth
+      const vector = new THREE.Vector3(ndcX, ndcY, 0.5);
+      vector.unproject(camera);
+      const dir = vector.sub(camera.position).normalize();
+      const distance = (camera.position.z - zDepth) / dir.z;
+      return camera.position.clone().add(dir.multiplyScalar(-distance));
+    };
+
     // Helper function to orient comet tails
     const orientComet = (lightData: typeof light1Data, currentPos: THREE.Vector3, prevPos: THREE.Vector3) => {
       const cometGroup = lightData.cometGroup;
@@ -408,52 +426,61 @@ export default function Home() {
         modeTransition = 0; // Reset transition for smooth interpolation
       }
 
-      // Calculate viewport-aware positions based on camera FOV
-      const zDistance = 0.4; // Distance from camera
-      const aspect = camera.aspect;
-      const vFov = camera.fov * Math.PI / 180; // Convert to radians
-      
-      // Calculate visible height and width at the given z-distance
-      const visibleHeight = 2 * Math.tan(vFov / 2) * zDistance;
-      const visibleWidth = visibleHeight * aspect;
-      
-      // Helper function to convert normalized coordinates to world position
-      const toWorldPos = (normalizedX: number, normalizedY: number, z: number) => {
-        return new THREE.Vector3(
-          normalizedX * visibleWidth / 2,
-          normalizedY * visibleHeight / 2,
-          -z
-        );
-      };
-
       if (currentContent === 'projects') {
-        // Projects mode - behind the three cards
-        // Normalized positions work across all aspect ratios
-        const screenSpacePos1 = toWorldPos(0.48, 0.24, zDistance); // Right Card - Red
-        const screenSpacePos2 = toWorldPos(-0.48, 0.24, zDistance); // Left Card - Blue
-        const screenSpacePos3 = toWorldPos(0, 0.235, zDistance); // Center Card - Green
-
-        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        // Projects mode - query actual card positions from DOM
+        const cards = document.querySelectorAll('[data-star-target="project-card"]');
+        const card1 = cards[2]; // Right Card - Red (Vulkan)
+        const card2 = cards[0]; // Left Card - Blue (Trajectory)
+        const card3 = cards[1]; // Center Card - Green (YapChat)
+        
+        const pos1 = screenToWorld(card1, 0, -80, 0.4); // Offset up to icon area
+        const pos2 = screenToWorld(card2, 0, -80, 0.4);
+        const pos3 = screenToWorld(card3, 0, -80, 0.4);
+        
+        // Fallback to original positions if DOM query fails
+        const fallback1 = new THREE.Vector3(0.288, 0.117, -0.4);
+        const fallback2 = new THREE.Vector3(-0.288, 0.117, -0.4);
+        const fallback3 = new THREE.Vector3(0, 0.113, -0.4);
+        
+        targetPos1 = (pos1 || fallback1).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos2 = (pos2 || fallback2).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos3 = (pos3 || fallback3).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else if (currentContent === 'about') {
-        // About mode - stars form a standard triangle around the profile picture
-        const screenSpacePos1 = toWorldPos(0.08, 0.37, zDistance); // Right Bottom - Red
-        const screenSpacePos2 = toWorldPos(-0.08, 0.37, zDistance); // Left Bottom - Blue
-        const screenSpacePos3 = toWorldPos(0, 0.52, zDistance); // Top Center - Green
-
-        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        // About mode - query profile picture position from DOM
+        const profilePic = document.querySelector('[data-star-target="profile-picture"]');
+        const profilePos = screenToWorld(profilePic, 0, 0, 0.4);
+        
+        if (profilePos) {
+          // Position stars in a triangle around the profile picture
+          const offset = 0.04; // Offset from center
+          targetPos1 = new THREE.Vector3(profilePos.x + offset, profilePos.y - offset * 0.5, profilePos.z).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+          targetPos2 = new THREE.Vector3(profilePos.x - offset, profilePos.y - offset * 0.5, profilePos.z).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+          targetPos3 = new THREE.Vector3(profilePos.x, profilePos.y + offset, profilePos.z).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        } else {
+          // Fallback
+          targetPos1 = new THREE.Vector3(0.05, 0.18, -0.4).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+          targetPos2 = new THREE.Vector3(-0.05, 0.18, -0.4).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+          targetPos3 = new THREE.Vector3(0, 0.252, -0.4).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        }
       } else if (currentContent === 'contact') {
-        // Contact mode - stars arranged vertically alongside the contact links
-        const screenSpacePos1 = toWorldPos(-0.3, 0.125, zDistance * 0.875); // Top - Red (Email)
-        const screenSpacePos2 = toWorldPos(-0.3, 0.052, zDistance * 0.875); // Middle - Blue (LinkedIn)
-        const screenSpacePos3 = toWorldPos(-0.3, -0.021, zDistance * 0.875); // Bottom - Green (GitHub)
-
-        targetPos1 = screenSpacePos1.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos2 = screenSpacePos2.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
-        targetPos3 = screenSpacePos3.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        // Contact mode - query contact link positions from DOM
+        const contactLinks = document.querySelectorAll('[data-star-target="contact-link"]');
+        const link1 = contactLinks[0]; // Email - Red
+        const link2 = contactLinks[1]; // LinkedIn - Blue
+        const link3 = contactLinks[2]; // GitHub - Green
+        
+        const pos1 = screenToWorld(link1, -60, 0, 0.35); // Offset to the left
+        const pos2 = screenToWorld(link2, -60, 0, 0.35);
+        const pos3 = screenToWorld(link3, -60, 0, 0.35);
+        
+        // Fallback positions
+        const fallback1 = new THREE.Vector3(-0.18, 0.06, -0.35);
+        const fallback2 = new THREE.Vector3(-0.18, 0.025, -0.35);
+        const fallback3 = new THREE.Vector3(-0.18, -0.01, -0.35);
+        
+        targetPos1 = (pos1 || fallback1).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos2 = (pos2 || fallback2).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
+        targetPos3 = (pos3 || fallback3).clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationAngle);
       } else {
         // Home mode - use orbit positions
         targetPos1 = orbitPos1;
@@ -597,7 +624,7 @@ export default function Home() {
         {activeContent === 'about' && (
           <div className="content about-container">
             {/* Minimalist Profile Picture */}
-            <div className="profile-picture-container">
+            <div className="profile-picture-container" data-star-target="profile-picture">
               <Image
                 src="/PFP.jpg" // Ensure this image exists in your public folder
                 alt="Aaron Bernard"
@@ -644,17 +671,17 @@ export default function Home() {
         {activeContent === 'contact' && (
           <div id="contact-form" className="contact-content">
             <ul className="contact-list">
-              <li>
+              <li data-star-target="contact-link">
                 <a href="#" onClick={(e) => { e.preventDefault(); setShowContactForm(true); }}>
                   Email: aaronbernard24@gmail.com
                 </a>
               </li>
-              <li>
+              <li data-star-target="contact-link">
                 <a href="https://www.linkedin.com/in/aaron-bernard-92a511162/" target="_blank" rel="noopener noreferrer">
                   LinkedIn
                 </a>
               </li>
-              <li>
+              <li data-star-target="contact-link">
                 <a href="https://github.com/aaronbern" target="_blank" rel="noopener noreferrer">
                   GitHub
                 </a>
