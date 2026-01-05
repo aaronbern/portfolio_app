@@ -482,9 +482,9 @@ export default function Home() {
         const link2 = contactLinks[1]; // LinkedIn - Blue
         const link3 = contactLinks[2]; // GitHub - Green
         
-        const pos1 = screenToWorld(link1, -140, 0, -0.15); // Offset to the left
-        const pos2 = screenToWorld(link2, -140, 0, -0.15);
-        const pos3 = screenToWorld(link3, -140, 0, -0.15);
+        const pos1 = screenToWorld(link1, -170, 0, -0.15); // Offset to the left
+        const pos2 = screenToWorld(link2, -170, 0, -0.15);
+        const pos3 = screenToWorld(link3, -170, 0, -0.15);
         
         // Fallback positions
         const fallback1 = new THREE.Vector3(-0.18, 0.06, -0.35);
